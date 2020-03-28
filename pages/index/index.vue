@@ -6,7 +6,7 @@
 			<swiper indicator-dots indicator-color="rgba(255,255,255)" indicator-active-color="#8ed0a2" autoplay circular>
 				<block v-for="(item, index) in 4" :key="index">
 					<swiper-item>
-						<image src="/static/images/banner.jpg" mode="aspectFit"></image>
+						<image src="/static/images/banner.jpg" mode="scaleToFill"></image>
 					</swiper-item>
 				</block>
 			</swiper>
@@ -27,19 +27,17 @@
 <script>
 	export default {
 		data() {
-			return {
-
-			}
+			return {};
 		},
 		methods: {
 			// 去图文详情页面
 			goContentDetails() {
 				uni.navigateTo({
-					url: '/pages/contentDetails/contentDetails'
+					url: "/pages/contentDetails/contentDetails"
 				});
 			}
 		}
-	}
+	};
 </script>
 
 <style>
@@ -48,15 +46,23 @@
 	}
 
 	/* 轮播图区域 */
+	.banner {
+		padding: 0 30rpx;
+	}
+
 	.banner swiper {
+		/* width: 700rpx; */
+		/* height: 500rpx; */
 		height: 400rpx;
-		width: 100%;
+		/* width: 100%; */
 	}
 
 	.banner image {
 		width: 100%;
 		height: 100%;
+		border-radius: 10rpx;
 	}
+
 
 	.img-box {
 		margin: 22rpx auto 0;
@@ -64,7 +70,7 @@
 		height: 500rpx;
 		border-radius: 10rpx;
 		/* background-color: green; */
-		box-shadow: 0 9rpx 16rpx 0 rgba(234, 234, 234, .5);
+		box-shadow: 0 9rpx 16rpx 0 rgba(234, 234, 234, 0.5);
 	}
 
 	/* 图文区域 */

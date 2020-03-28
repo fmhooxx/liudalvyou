@@ -98,6 +98,118 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 每个单独的盒子区域 */
 .list-item {
 	width: 100%;
@@ -152,6 +264,16 @@
 	color: #525252;
 }
 /* 性别区域 */
+.gender-box {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-size: 28rpx;
+	color: #525252;
+}
+.gender-box>view {
+	margin-right: 40rpx;
+}
 .gender {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -159,9 +281,6 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
 }
 .gender view {
 	font-size: 28rpx;
@@ -171,6 +290,11 @@
 	border: 1rpx solid #e5e5e5;
 	padding: 8rpx;
 	width: 82%;
+	font-size: 26rpx;
+	color: #525252;
+}
+.gender text {
+	margin: 0 10rpx;
 }
 /* 身份证区域 */
 .card-box {
@@ -207,11 +331,45 @@
 	font-size: 36rpx;
 	background-color: #F0C462;
 	color: #fff;
-	z-index: 1;
+	z-index: 999;
+	border-radius: 0;
+}
+.next::after {
+	border: none;
+	border-radius: 0;
 }
 .shelter {
 	width: 100%;
 	height: 98rpx;
+}
+/* 增加 */
+.add-reduce {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	        justify-content: flex-end;
+}
+.reduce {
+	margin-top: 20rpx;
+}
+.add {
+	margin: 20rpx 30rpx;
+}
+.reduce .reduce-text {
+	color: red;
+	border: 2rpx solid red;
+}
+.add-reduce-text {
+	font-size: 28rpx;
+	color: #4EB4A0;
+	width: 100rpx;
+	height: 50rpx;
+	line-height: 50rpx;
+	border: 2rpx solid #4EB4A0;
+	text-align: center;
+	border-radius: 10rpx;
 }
 /* 预订人信息区域 */
 .reserve {

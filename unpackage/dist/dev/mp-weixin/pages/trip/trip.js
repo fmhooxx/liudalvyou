@@ -170,9 +170,9 @@ var _default =
   },
   methods: {
     // 去图文详情页面
-    goContentDetails: function goContentDetails() {
+    goCalendar: function goCalendar() {
       uni.navigateTo({
-        url: '/pages/contentDetails/contentDetails' });
+        url: '/pages/calendar/calendar' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -210,6 +210,18 @@ var _default =
       uni.navigateTo({
         url: '/pages/orderDetails/orderDetails' });
 
+    },
+    // 去支付页面
+    goPaymentOrder: function goPaymentOrder() {
+      uni.navigateTo({
+        url: '/pages/paymentOrder/paymentOrder' });
+
+    },
+    // 去我的行程
+    goTrip: function goTrip() {
+      uni.navigateTo({
+        url: '/pages/trip/trip' });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

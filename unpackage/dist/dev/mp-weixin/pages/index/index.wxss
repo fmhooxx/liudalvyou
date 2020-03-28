@@ -4,13 +4,19 @@ page {
 }
 
 /* 轮播图区域 */
+.banner {
+	padding: 0 30rpx;
+}
 .banner swiper {
+	/* width: 700rpx; */
+	/* height: 500rpx; */
 	height: 400rpx;
-	width: 100%;
+	/* width: 100%; */
 }
 .banner image {
 	width: 100%;
 	height: 100%;
+	border-radius: 10rpx;
 }
 .img-box {
 	margin: 22rpx auto 0;
@@ -18,7 +24,7 @@ page {
 	height: 500rpx;
 	border-radius: 10rpx;
 	/* background-color: green; */
-	box-shadow: 0 9rpx 16rpx 0 rgba(234, 234, 234, .5);
+	box-shadow: 0 9rpx 16rpx 0 rgba(234, 234, 234, 0.5);
 }
 
 /* 图文区域 */

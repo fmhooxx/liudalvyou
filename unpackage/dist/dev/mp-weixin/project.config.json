@@ -38,15 +38,29 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "填写人数和选择时间",
-					"pathName": "pages/choice/choice",
+					"name": "首页",
+					"pathName": "pages/index/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "填写订单",
-					"pathName": "pages/fillOrder/fillOrder",
+					"name": "我的订单",
+					"pathName": "pages/orderList/orderList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的行程",
+					"pathName": "pages/trip/trip",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/calendar/calendar",
+					"pathName": "pages/calendar/calendar",
 					"scene": null
 				}
 			]

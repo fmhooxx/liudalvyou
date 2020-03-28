@@ -13,7 +13,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="list-right" @click="goContentDetails">
+			<view class="list-right" @click="goCalendar">
 				<view>查看</view>
 				<image src="/static/images/right-arrow.png"></image>
 			</view>
@@ -35,9 +35,9 @@
 		},
 		methods: {
 			// 去图文详情页面
-			goContentDetails() {
+			goCalendar() {
 				uni.navigateTo({
-					url: '/pages/contentDetails/contentDetails'
+					url: '/pages/calendar/calendar'
 				});
 			}
 		}

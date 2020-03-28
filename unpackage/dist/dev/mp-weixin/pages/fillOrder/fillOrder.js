@@ -202,17 +202,111 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       // 成人人数
-      adultNum: null,
+      adultNum: [],
       // 儿童人数
-      childrenNum: null };
+      childrenNum: [],
+      // 性别区域
+      gender: [{
+        id: 1,
+        text: '男',
+        value: '0' },
+
+      {
+        id: 2,
+        text: '女',
+        value: '1' }],
+
+
+      // 成人区域的姓名输入框的输入内容
+      adultArray: [],
+      // 成人区域的身份证输入框的输入内容
+      adultArrayId: [],
+      // 儿童区域的姓名输入框的输入内容
+      childrenArray: [],
+      // 儿童区域的身份证输入框的输入内容
+      childrenArrayId: [] };
 
   },
   methods: {
+    // 成人区域表单提交的内容
+    formSubmit: function formSubmit(e) {
+      // console.log(e.detail.value)
+      console.log(this.adultArray);
+      console.log(this.adultArrayId);
+      console.log(this.childrenArray);
+      console.log(this.childrenArrayId);
+    },
+    // 成人区域的增加
+    adultAdd: function adultAdd() {
+      this.adultNum.push(this.adultNum.length);
+    },
+    // 成人区域的去除
+    adultReduce: function adultReduce(id) {
+      // console.log(id)
+      var result = this.adultNum.findIndex(function (item) {
+        return item.id == id;
+      });
+      console.log(result);
+      this.adultNum.splice(result, 1);
+      console.log(this.adultNum);
+    },
+    // 儿童区域的增加
+    childrenAdd: function childrenAdd() {
+      this.childrenNum.push(this.adultNum.length);
+    },
+    // 儿童区域的去除
+    childrenReduce: function childrenReduce(id) {
+      // console.log(id)
+      // var result = this.adultNum.findIndex(item => {
+      // 	return item.id == id
+      // })
+      this.childrenNum.splice(id, 1);
+    },
+    // 当性别发生变化的时候
+    radioChange: function radioChange(e) {
+      console.log(e.target.value);
+    },
     // 去确认订单页面
     goConfirmationOrder: function goConfirmationOrder() {
       uni.navigateTo({
@@ -222,8 +316,26 @@ var _default =
 
   onLoad: function onLoad(options) {
     if (options.adultNum !== undefined && options.childrenNum !== undefined) {
-      this.adultNum = parseInt(options.adultNum);
-      this.childrenNum = parseInt(options.childrenNum);
+      var adultResult = parseInt(options.adultNum);
+      var childrenResult = parseInt(options.childrenNum);
+      for (var i = 0; i < adultResult; i++) {
+        var arr1 = {
+          unm: adultResult,
+          id: i };
+
+        this.adultNum.push(arr1);
+        // this.adultNum.push(i)
+      }
+      for (var i = 0; i < childrenResult; i++) {
+        var arr2 = {
+          unm: childrenResult,
+          id: i };
+
+        this.childrenNum.push(arr2);
+        // this.childrenNum.push(i)
+        console.log(this.adultNum);
+        console.log(this.childrenNum);
+      }
     } else {
       this.adultNum = 1;
       this.childrenNum = 1;

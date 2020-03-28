@@ -85,20 +85,21 @@
 			"style": {
 				"navigationBarTitleText": "我的行程"
 			}
+		}, {
+			"path": "pages/orderDetails/orderDetails",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		}, {
+			"path": "pages/company/company",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+		}, {
+			"path": "pages/calendar/calendar",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/orderDetails/orderDetails",
-            "style" : {
-							"navigationBarTitleText": "订单详情"
-						}
-        }
-        ,{
-            "path" : "pages/company/company",
-            "style" : {
-							"navigationBarTitleText": "填写订单"
-						}
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "溜达溜达",

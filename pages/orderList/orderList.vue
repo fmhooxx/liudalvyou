@@ -23,8 +23,8 @@
 				</view>
 				<view class="list-right">
 					<view v-if="active == 0 ? true : false" @click="goOrderDetails">查看</view>
-					<view v-if="active == 1 ? true : false">查看</view>
-					<view v-if="active == 2 ? true : false" style="color: #4EB4A0;">支付</view>
+					<view v-if="active == 1 ? true : false" @click="goTrip">查看</view>
+					<view v-if="active == 2 ? true : false" style="color: #4EB4A0;" @click="goPaymentOrder">支付</view>
 					<view v-if="active == 3 ? true : false" class="refund">退款中</view>
 					<image v-if="active == 3 ? false : true" src="/static/images/right-arrow.png"></image>
 				</view>
@@ -75,7 +75,19 @@
 				uni.navigateTo({
 					url: '/pages/orderDetails/orderDetails'
 				});
-			}
+			},
+			// 去支付页面
+			goPaymentOrder() {
+				uni.navigateTo({
+					url: '/pages/paymentOrder/paymentOrder'
+				});
+			},
+			// 去我的行程
+			goTrip() {
+				uni.navigateTo({
+					url: '/pages/trip/trip'
+				});
+			},
 		}
 	}
 </script>

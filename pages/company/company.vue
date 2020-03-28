@@ -5,6 +5,10 @@
 			<view class="reserve-title">预订人信息</view>
 			<view>
 				<view class="reserve-content">
+					<view>公司名</view>
+					<input placeholder="请输入公司名" placeholder-class="placeholder-common" />
+				</view>
+				<view class="reserve-content">
 					<view>姓名</view>
 					<input placeholder="请输入姓名" placeholder-class="placeholder-common" />
 				</view>
@@ -15,7 +19,7 @@
 			</view>
 		</view>
 		<view class="shelter"></view>
-		<view class="next">下一步</view>
+		<view class="next" @click="goConfirmationOrder">下一步</view>
 	</view>
 </template>
 
@@ -27,7 +31,12 @@
 			}
 		},
 		methods: {
-
+			// 去确认订单页面
+			goConfirmationOrder() {
+				uni.navigateTo({
+					url: '/pages/confirmationOrder/confirmationOrder'
+				})
+			}
 		}
 	}
 </script>

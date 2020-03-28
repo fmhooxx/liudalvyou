@@ -163,14 +163,12 @@ var _default =
 {
   data: function data() {
     return {};
-
-
   },
   methods: {
     // 去图文详情页面
     goContentDetails: function goContentDetails() {
       uni.navigateTo({
-        url: '/pages/contentDetails/contentDetails' });
+        url: "/pages/contentDetails/contentDetails" });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -19,7 +19,8 @@
     "pages/footprint/footprint",
     "pages/trip/trip",
     "pages/orderDetails/orderDetails",
-    "pages/company/company"
+    "pages/company/company",
+    "pages/calendar/calendar"
   ],
   "subPackages": [],
   "window": {
