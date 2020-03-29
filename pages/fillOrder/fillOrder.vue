@@ -83,15 +83,18 @@
 					<view>
 						<view class="reserve-content">
 							<view>姓名</view>
-							<input placeholder="请输入姓名" type="text" placeholder-class="placeholder-common" />
+							<input placeholder="请输入姓名" type="text" placeholder-class="placeholder-common"
+								v-model="reserve.reserveUname" />
 						</view>
 						<view class="reserve-content">
 							<view>手机号</view>
-							<input placeholder="请输入手机号" type="number" placeholder-class="placeholder-common" />
+							<input placeholder="请输入手机号" type="number" placeholder-class="placeholder-common"
+								v-model="reserve.reserveTel" />
 						</view>
 						<view class="reserve-content">
 							<view>房间数</view>
-							<input placeholder="请输入需要预定的房间数量" type="number" placeholder-class="placeholder-common" />
+							<input placeholder="请输入需要预定的房间数量" type="number" placeholder-class="placeholder-common"
+								v-model="reserve.reserveNum" />
 						</view>
 					</view>
 				</view>
@@ -130,7 +133,16 @@
 				// 儿童区域的姓名输入框的输入内容
 				childrenArray: [],
 				// 儿童区域的身份证输入框的输入内容
-				childrenArrayId: []
+				childrenArrayId: [],
+				// 预订人信息
+				reserve: {
+					// 姓名
+					reserveUname: '',
+					// 手机号
+					reserveTel: '',
+					// 房间数
+					reserveNum: ''
+				}
 			};
 		},
 		methods: {

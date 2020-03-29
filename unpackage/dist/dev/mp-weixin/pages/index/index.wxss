@@ -8,10 +8,7 @@ page {
 	padding: 0 30rpx;
 }
 .banner swiper {
-	/* width: 700rpx; */
-	/* height: 500rpx; */
 	height: 400rpx;
-	/* width: 100%; */
 }
 .banner image {
 	width: 100%;

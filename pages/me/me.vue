@@ -4,7 +4,8 @@
 		<!-- 头像昵称区域 -->
 		<view class="head">
 			<image src="/static/images/logo.jpg"></image>
-			<view @click="goLogin">登录/注册</view>
+			<view v-if="isUserName" @click="open">登录/注册</view>
+			<view v-else>{{userName}}</view>
 		</view>
 		<view class="list">
 			<view @click="goOrderList">我的订单</view>
@@ -13,20 +14,47 @@
 			<view @click="goSetUp">设置</view>
 		</view>
 		<view class="sign-out" @click="signOut">退出登录</view>
+		<!-- 登录的弹框 -->
+		<uniPopup ref="popup" type="center">
+			<view class="popup">
+				<view class="popup-title">您还未登录</view>
+				<view class="popup-text">登录后可享受完整服务</view>
+				<view class="popup-img">
+					<image src='/static/images/logo1.jpg'></image>
+				</view>
+				<view class="popup-content">
+					<view @click="close">暂不登录</view>
+					<button class="btn" open-type="getUserInfo" @getuserinfo="goLogin">立即登陆</button>
+				</view>
+			</view>
+		</uniPopup>
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components: {
+			uniPopup
+		},
 		data() {
-			return {}
+			return {
+				// 用户昵称
+				userName: ''
+			}
 		},
 		methods: {
-			// 去登录页面
-			goLogin() {
-				uni.navigateTo({
-					url: '/pages/login/login'
-				});
+			// 打开弹窗
+			open() {
+				this.$refs.popup.open()
+				// uni.navigateTo({
+				// 	url: '/pages/login/login'
+				// });
+			},
+
+			// 关闭弹窗
+			close() {
+				this.$refs.popup.close()
 			},
 			// 去我的足迹页面
 			goFootprint() {
@@ -65,8 +93,40 @@
 				uni.navigateTo({
 					url: '/pages/setUp/setUp'
 				});
+			},
+			// 登录
+			goLogin() {
+				uni.login({
+					provider: 'weixin',
+					success: (res) => {
+						console.log(res)
+						this.getUser()
+					}
+				});
+			},
+			// 获取用户信息
+			getUser() {
+				uni.getUserInfo({
+					provider: 'weixin',
+					success: (res) => {
+						console.log(res)
+						if (res.errMsg == 'getUserInfo:ok') {
+							uni.navigateTo({
+								url: '/pages/login/login'
+							});
+						}
+					}
+				});
 			}
-		}
+		},
+		computed: {
+			isUserName() {
+				if (this.userName == '') {
+					return true
+				}
+				return false
+			}
+		},
 	}
 </script>
 
@@ -115,5 +175,82 @@
 		font-size: 28rpx;
 		margin-top: 24rpx;
 		background-color: #fff;
+	}
+
+	/* 登录的弹框 */
+	.popup {
+		/* width: 500rpx;
+		height: 550rpx; */
+		width: 440rpx;
+		height: 465rpx;
+		border-radius: 10rpx;
+		background-color: #fff;
+		padding: 34rpx 33rpx;
+		box-sizing: border-box;
+	}
+
+	.popup view {
+		text-align: center;
+	}
+
+	.popup-img {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 25rpx;
+	}
+
+	.popup-img image {
+		width: 180rpx;
+		height: 180rpx;
+		border-radius: 50%;
+	}
+
+	.popup-title {
+		font-size: 30rpx;
+		color: #3b3b3b;
+	}
+
+	.popup-text {
+		font-size: 26rpx;
+		color: #a0a0a0;
+		margin: 20rpx 0 40rpx 0;
+	}
+
+	.popup-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.btn {
+		padding: 0;
+		line-height: 58rpx;
+		color: #fff;
+		background-color: #4eb4a0;
+		font-size: 30rpx;
+		width: 160rpx;
+		height: 58rpx;
+		line-height: 58rpx;
+		text-align: center;
+		border-radius: 30rpx;
+		border: 1rpx solid #4eb4a0;
+	}
+
+	.btn::after {
+		width: 0;
+		height: 0;
+	}
+
+	.popup-content :nth-child(1) {
+		color: #626262;
+		background-color: #fff;
+		font-size: 30rpx;
+		width: 160rpx;
+		height: 58rpx;
+		line-height: 58rpx;
+		text-align: center;
+		border-radius: 30rpx;
+		border: 1rpx solid #d7d7d7;
 	}
 </style>

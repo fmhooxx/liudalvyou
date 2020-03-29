@@ -9,7 +9,7 @@
 			</view>
 			<view class="list-item" @click="goContentDetails">
 				<image src="/static/images/haidiao.jpg"></image>
-				<view class="title">【<text>捕鱼</text>】跟随渔民感受渔村生活</view>
+				<view class="title">【<text>海钓</text>】享受海边独特风情</view>
 				<view class="content">丰富而古老的她文化和鱼文化孕育出了象山独特的风情。</view>
 			</view>
 		</view>

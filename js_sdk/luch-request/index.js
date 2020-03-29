@@ -1,23 +1,26 @@
 import Request from './request'
 
 const test = new Request()
-test.setConfig((config) => { /* 设置全局配置 */
-  config.baseUrl = 'http://nkjujia.nyakarlek.cn'
+test.setConfig((config) => {
+  /* 设置全局配置 */
+  // config.baseUrl = 'http://nkjujia.nyakarlek.cn'
+  config.baseUrl = 'http://liuda.nyakarlek.cn'
   config.header = {
     // ...config.header,
     // a: 1,
     // b: 2
-		'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
+    'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
   }
   // config.custom = { auth: true }
   return config
 })
 
-test.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
+test.interceptor.request((config, cancel) => {
+  /* 请求之前拦截器 */
   config.header = {
     // ...config.header,
     // a: 3
-		'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
+    'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
   }
   // if (config.custom.auth) {
   //   config.header.token = 'token'
@@ -39,7 +42,8 @@ test.validateStatus = (statusCode) => {
   return statusCode === 200
 }
 
-test.interceptor.response((response) => { /* 请求之后拦截器 */
+test.interceptor.response((response) => {
+  /* 请求之后拦截器 */
   return response
 }, (response) => { // 请求错误做点什么
   return response
@@ -47,13 +51,15 @@ test.interceptor.response((response) => { /* 请求之后拦截器 */
 
 const http = new Request()
 
-http.setConfig((config) => { /* 设置全局配置 */
-  config.baseUrl = 'http://nkjujia.nyakarlek.cn' /* 根域名不同 */
+http.setConfig((config) => {
+  /* 设置全局配置 */
+  // config.baseUrl = 'http://nkjujia.nyakarlek.cn' /* 根域名不同 */
+  config.baseUrl = 'http://liuda.nyakarlek.cn' /* 根域名不同 */
   config.header = {
     // ...config.header,
     // a: 1,
     // b: 2
-		'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
+    'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
   }
   return config
 })
@@ -67,11 +73,12 @@ http.validateStatus = (statusCode) => {
   return statusCode === 200
 }
 
-http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
+http.interceptor.request((config, cancel) => {
+  /* 请求之前拦截器 */
   config.header = {
     // ...config.header,
     // b: 1
-		'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
+    'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"
   }
   /*
   if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行
@@ -81,7 +88,8 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
   return config
 })
 
-http.interceptor.response((response) => { /* 请求之后拦截器 */
+http.interceptor.response((response) => {
+  /* 请求之后拦截器 */
   // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
   //   return Promise.reject(response)
   // }

@@ -144,9 +144,7 @@
 				});
 			}
 		},
-		onLoad(options) {
-			this.id = options.id
-		}
+		onLoad() {}
 	}
 </script>
 

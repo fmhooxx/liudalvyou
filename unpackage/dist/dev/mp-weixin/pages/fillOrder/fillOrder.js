@@ -238,6 +238,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -265,7 +268,16 @@ var _default =
       // 儿童区域的姓名输入框的输入内容
       childrenArray: [],
       // 儿童区域的身份证输入框的输入内容
-      childrenArrayId: [] };
+      childrenArrayId: [],
+      // 预订人信息
+      reserve: {
+        // 姓名
+        reserveUname: '',
+        // 手机号
+        reserveTel: '',
+        // 房间数
+        reserveNum: '' } };
+
 
   },
   methods: {

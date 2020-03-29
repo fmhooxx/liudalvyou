@@ -51,10 +51,7 @@
 	}
 
 	.banner swiper {
-		/* width: 700rpx; */
-		/* height: 500rpx; */
 		height: 400rpx;
-		/* width: 100%; */
 	}
 
 	.banner image {

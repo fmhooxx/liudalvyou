@@ -3,7 +3,8 @@
 	<view>
 		<!-- 日历区域 -->
 		<view>
-			<uni-calendar :insert="true" :lunar="true" :start-date="'startData'" :end-date="'2099-5-20'" @change="change">
+			<uni-calendar :insert="true" :lunar="true" :start-date="'startData'" :end-date="endData" @change="change"
+				:selected="selected">
 			</uni-calendar>
 		</view>
 		<!-- 人数区域 -->
@@ -40,10 +41,14 @@
 			return {
 				// 日历的开始日期
 				startData: '',
+				endData: '2099-12-29',
 				// 成人人数
 				adultNum: null,
 				// 儿童人数
-				childrenNum: null
+				childrenNum: null,
+				selected: [{
+					date: '2020-03-30'
+				}]
 			};
 		},
 		methods: {

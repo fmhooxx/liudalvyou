@@ -5,6 +5,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/login/login",
+			"style": {}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -21,9 +25,6 @@
 			}
 		}, {
 			"path": "pages/contentDetails/contentDetails",
-			"style": {}
-		}, {
-			"path": "pages/login/login",
 			"style": {}
 		}, {
 			"path": "pages/choice/choice",
