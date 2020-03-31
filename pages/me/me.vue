@@ -99,8 +99,18 @@
 				uni.login({
 					provider: 'weixin',
 					success: (res) => {
-						console.log(res)
-						this.getUser()
+						var code = res.code
+						this.$http.post('/api/WeiXinApplet.ashx', {
+							action: "Login",
+							code: code
+						}).then(res => {
+							console.log(res)
+							if (res.statusCode == 200) {
+								uni.setStorageSync('openid', res.data.openid)
+								uni.setStorageSync('session_key', res.data.session_key)
+								this.getUser()
+							}
+						})
 					}
 				});
 			},

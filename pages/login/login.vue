@@ -75,6 +75,16 @@
             })
             .then(res => {
               console.log(res);
+              if (this.code == res.data.Code) {
+                uni.switchTab({
+                  url: '/pages/me/me'
+                });
+              } else {
+                uni.showToast({
+                  title: '输入的验证码有误',
+                  duration: 2000
+                });
+              }
             });
         }
       },
@@ -82,8 +92,41 @@
       open() {
         this.$refs.popup.open();
       },
+      // 获取用户手机号码 先判断用户登录状态是否过期 如果过期 就需要重新获取
       getPhoneNumber(e) {
-        console.log(e);
+        var msg = e.detail.errMsg
+        var encryptedData = e.detail.encryptedData
+        var session_key = uni.getStorageSync('session_key')
+        var iv = e.detail.iv
+        if (msg == 'getPhoneNumber:ok') {
+          // 检查用户登录状态
+          uni.checkSession({
+            success: () => {
+              // 获取手机号码
+              this.deciyption(session_key, encryptedData, iv)
+            },
+            fail: () => {
+              uni.login({
+                provider: 'weixin',
+                success: (res) => {
+                  var code = res.code
+                  this.$http.post('/api/WeiXinApplet.ashx', {
+                    action: "Login",
+                    code: code
+                  }).then(res => {
+                    console.log(res)
+                    if (res.statusCode == 200) {
+                      uni.setStorageSync('openid', res.data.openid)
+                      uni.setStorageSync('session_key', res.data.session_key)
+                      this.deciyption(res.data.session_key, encryptedData, iv);
+                    }
+                  })
+                }
+              });
+            }
+          })
+        }
+        // console.log(e);
         // uni.login({
         // 	provider: 'weixin',
         // 	success: (res) => {
@@ -93,6 +136,24 @@
         // uni.switchTab({
         // 	url: '/pages/me/me'
         // });
+      },
+      // 获取用户手机号码
+      deciyption(session_key, encryptedData, iv) {
+        this.$http.post('/api/WeiXinApplet.ashx', {
+          action: 'GetPhoneNumber',
+          session_key: session_key,
+          encryptedData: encryptedData,
+          iv: iv
+        }).then(res => {
+          console.log(res)
+          console.log(res.data.phoneNumber)
+          uni.setStorageSync('phoneNumber', res.data.phoneNumber)
+          if (res.data.phoneNumber) {
+            uni.switchTab({
+              url: '/pages/me/me'
+            });
+          }
+        })
       },
       // 倒计时效果
       countDown() {

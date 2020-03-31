@@ -8,8 +8,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
-	"appid": "wx4650e563350d1d20",
-	"projectname": "1",
+	"appid": "wx6f14866d3c221bbb",
+	"projectname": "liuda",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -38,8 +38,9 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "填写订单",
-					"pathName": "pages/fillOrder/fillOrder",
+					"name": "登录",
+					"pathName": "pages/login/login",
+					"query": "",
 					"scene": null
 				}
 			]

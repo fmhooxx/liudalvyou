@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.uni-popup.data-v-aaf2fd4c {
+.uni-popup.data-v-0309029a {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -32,7 +32,7 @@
   right: 0;
   z-index: 99;
 }
-.uni-popup__mask.data-v-aaf2fd4c {
+.uni-popup__mask.data-v-0309029a {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -41,40 +41,40 @@
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 0;
 }
-.mask-ani.data-v-aaf2fd4c {
+.mask-ani.data-v-0309029a {
   -webkit-transition-property: opacity;
   transition-property: opacity;
   -webkit-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
-.uni-top-mask.data-v-aaf2fd4c {
+.uni-top-mask.data-v-0309029a {
   opacity: 1;
 }
-.uni-bottom-mask.data-v-aaf2fd4c {
+.uni-bottom-mask.data-v-0309029a {
   opacity: 1;
 }
-.uni-center-mask.data-v-aaf2fd4c {
+.uni-center-mask.data-v-0309029a {
   opacity: 1;
 }
-.uni-popup__wrapper.data-v-aaf2fd4c {
+.uni-popup__wrapper.data-v-0309029a {
   display: block;
   position: absolute;
 }
-.top.data-v-aaf2fd4c {
+.top.data-v-0309029a {
   top: 0;
   left: 0;
   right: 0;
   -webkit-transform: translateY(-500px);
           transform: translateY(-500px);
 }
-.bottom.data-v-aaf2fd4c {
+.bottom.data-v-0309029a {
   bottom: 0;
   left: 0;
   right: 0;
   -webkit-transform: translateY(500px);
           transform: translateY(500px);
 }
-.center.data-v-aaf2fd4c {
+.center.data-v-0309029a {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -96,11 +96,11 @@
           transform: scale(1.2);
   opacity: 0;
 }
-.uni-popup__wrapper-box.data-v-aaf2fd4c {
+.uni-popup__wrapper-box.data-v-0309029a {
   display: block;
   position: relative;
 }
-.content-ani.data-v-aaf2fd4c {
+.content-ani.data-v-0309029a {
   -webkit-transition-property: opacity, -webkit-transform;
   transition-property: opacity, -webkit-transform;
   transition-property: transform, opacity;
@@ -108,15 +108,15 @@
   -webkit-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
-.uni-top-content.data-v-aaf2fd4c {
+.uni-top-content.data-v-0309029a {
   -webkit-transform: translateY(0);
           transform: translateY(0);
 }
-.uni-bottom-content.data-v-aaf2fd4c {
+.uni-bottom-content.data-v-0309029a {
   -webkit-transform: translateY(0);
           transform: translateY(0);
 }
-.uni-center-content.data-v-aaf2fd4c {
+.uni-center-content.data-v-0309029a {
   -webkit-transform: scale(1);
           transform: scale(1);
   opacity: 1;

@@ -25,7 +25,7 @@
 			},
 			// 去订单列表页面
 			goOrderList() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '/pages/orderList/orderList'
 				});
 			}

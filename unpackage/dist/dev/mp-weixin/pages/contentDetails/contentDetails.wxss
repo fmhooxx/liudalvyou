@@ -149,6 +149,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 头部照片区域 */
 .banner {
 	background-color: #fff;
@@ -305,6 +323,7 @@
 	display: -webkit-flex;
 	display: flex;
 	background-color: #fff;
+	border-top: 1rpx solid #eee;
 }
 .location-one {
 	width: 316rpx;
@@ -336,6 +355,12 @@
 	font-size: 40rpx;
 	color: #fff;
 	background-color: #f0c462;
+	padding: 0;
+	border-radius: 0;
+}
+.location-two::after {
+	width: 0;
+	height: 0;
 }
 /* 弹出层区域 */
 .box {

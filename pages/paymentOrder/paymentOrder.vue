@@ -19,7 +19,7 @@
 		methods: {
 			// 去支付结果页面
 			goPaymentResult() {
-				uni.navigateTo({
+				uni.reLaunch({
 					url: '/pages/paymentResult/paymentResult'
 				});
 			}

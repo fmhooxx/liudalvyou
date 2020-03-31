@@ -1,33 +1,33 @@
 {
   "pages": [
     "pages/recommend/recommend",
-    "pages/login/login",
     "pages/index/index",
+    "pages/login/login",
     "pages/me/me",
+    "pages/calendar/calendar",
+    "pages/changePassword/changePassword",
+    "pages/choice/choice",
+    "pages/company/company",
+    "pages/confirmationOrder/confirmationOrder",
     "pages/contact/contact",
     "pages/contentDetails/contentDetails",
-    "pages/choice/choice",
+    "pages/feedback/feedback",
     "pages/fillOrder/fillOrder",
-    "pages/confirmationOrder/confirmationOrder",
+    "pages/footprint/footprint",
+    "pages/nickName/nickName",
+    "pages/orderDetails/orderDetails",
+    "pages/orderList/orderList",
     "pages/paymentOrder/paymentOrder",
     "pages/paymentResult/paymentResult",
-    "pages/orderList/orderList",
     "pages/setUp/setUp",
-    "pages/nickName/nickName",
-    "pages/changePassword/changePassword",
-    "pages/feedback/feedback",
-    "pages/footprint/footprint",
-    "pages/trip/trip",
-    "pages/orderDetails/orderDetails",
-    "pages/company/company",
-    "pages/calendar/calendar"
+    "pages/trip/trip"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "溜达溜达",
     "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#55aa00"
   },
   "tabBar": {
     "color": "#7A7E83",
@@ -61,5 +61,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap70.json"
 }

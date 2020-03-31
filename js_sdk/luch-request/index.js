@@ -3,7 +3,6 @@ import Request from './request'
 const test = new Request()
 test.setConfig((config) => {
   /* 设置全局配置 */
-  // config.baseUrl = 'http://nkjujia.nyakarlek.cn'
   config.baseUrl = 'http://liuda.nyakarlek.cn'
   config.header = {
     // ...config.header,
@@ -53,7 +52,6 @@ const http = new Request()
 
 http.setConfig((config) => {
   /* 设置全局配置 */
-  // config.baseUrl = 'http://nkjujia.nyakarlek.cn' /* 根域名不同 */
   config.baseUrl = 'http://liuda.nyakarlek.cn' /* 根域名不同 */
   config.header = {
     // ...config.header,

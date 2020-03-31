@@ -89,7 +89,7 @@
 				</view>
 				<view>咨询</view>
 			</view>
-			<view class="location-two" @click="open">立即购买</view>
+			<button class="location-two" open-type="getUserInfo" @getuserinfo="open">立即购买</button>
 		</view>
 		<!-- 弹出层区域 -->
 		<uniPopup ref="popup" type="center">
@@ -122,16 +122,34 @@
 		methods: {
 			// 判断是否登录了 登录了下单 未去登录页面
 			open() {
-				console.log(this.id)
-				if (this.id == undefined) {
-					this.$refs.popup.open()
-				} else {
-					// 去选择出行时间/人数页面
-					uni.navigateTo({
-						url: '/pages/choice/choice'
-					});
-				}
+				// uni.login({
+				// 	provider: 'weixin',
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 		this.getUser()
+				// 	}
+				// });
+				// 去选择出行时间 / 人数页面
+				uni.navigateTo({
+					url: '/pages/choice/choice'
+				});
 			},
+			// 获取用户信息
+			getUser() {
+				uni.getUserInfo({
+					provider: 'weixin',
+					success: (res) => {
+						console.log(res)
+						if (res.errMsg == 'getUserInfo:ok') {
+							this.$refs.popup.open()
+						}
+					},
+					fail: err => {
+						console.log(err)
+					}
+				});
+			},
+			// 去登录页面
 			goLogin() {
 				uni.navigateTo({
 					url: '/pages/login/login'
@@ -325,6 +343,7 @@
 		line-height: 98rpx;
 		display: flex;
 		background-color: #fff;
+		border-top: 1rpx solid #eee;
 	}
 
 	.location-one {
@@ -351,6 +370,13 @@
 		font-size: 40rpx;
 		color: #fff;
 		background-color: #f0c462;
+		padding: 0;
+		border-radius: 0;
+	}
+
+	.location-two::after {
+		width: 0;
+		height: 0;
 	}
 
 	/* 弹出层区域 */

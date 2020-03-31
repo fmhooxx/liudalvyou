@@ -4,7 +4,8 @@
 		'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
 		'uni-calendar-item--checked':(calendar.fullDate === weeks.fullDate && !weeks.isDay) ,
 		'uni-calendar-item--multiple': weeks.multiple
-		}" @click="choiceDate(weeks)">
+		}"
+	 @click="choiceDate(weeks)">
 		<view class="uni-calendar-item__weeks-box-item">
 			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
 			<text class="uni-calendar-item__weeks-box-text" :class="{
@@ -123,11 +124,11 @@
 	}
 
 	.uni-calendar-item--isDay-text {
-		color: #F0C462;
+		color: $uni-color-primary;
 	}
 
 	.uni-calendar-item--isDay {
-		background-color: #F0C462;
+		background-color: $uni-color-primary;
 		opacity: 0.8;
 		color: #fff;
 	}
@@ -138,13 +139,13 @@
 	}
 
 	.uni-calendar-item--checked {
-		background-color: #F0C462;
+		background-color: $uni-color-primary;
 		color: #fff;
 		opacity: 0.8;
 	}
 
 	.uni-calendar-item--multiple {
-		background-color: #F0C462;
+		background-color: $uni-color-primary;
 		color: #fff;
 		opacity: 0.8;
 	}
