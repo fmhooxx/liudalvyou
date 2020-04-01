@@ -13,11 +13,11 @@
 			<view class="common people-content">
 				<view class="people-num">
 					<view class="people-class">成人</view>
-					<uniNumberBox :min="0" :max="9999" @change="adultChange"></uniNumberBox>
+					<uniNumberBox value="1" :min="0" :max="9999" @change="adultChange"></uniNumberBox>
 				</view>
 				<view class="people-num children">
 					<view class="people-class">儿童</view>
-					<uniNumberBox :min="0" :max="9999" @change="childrenChange"></uniNumberBox>
+					<uniNumberBox value="0" :min="0" :max="9999" @change="childrenChange"></uniNumberBox>
 				</view>
 			</view>
 			<view class="footer">

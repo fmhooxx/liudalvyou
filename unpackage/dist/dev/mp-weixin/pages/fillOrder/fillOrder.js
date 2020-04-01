@@ -221,44 +221,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
     return {
       // 成人人数
-      adultNum: [],
+      adultNum: null,
       // 儿童人数
-      childrenNum: [],
-      // 性别区域
-      gender: [{
-        id: 1,
-        text: '男',
-        value: '0' },
-
-      {
-        id: 2,
-        text: '女',
-        value: '1' }],
-
-
+      childrenNum: null,
       // 成人区域的姓名输入框的输入内容
       adultArray: [],
       // 成人区域的身份证输入框的输入内容
@@ -281,75 +251,89 @@ var _default =
   methods: {
     // 成人区域表单提交的内容
     formSubmit: function formSubmit(e) {
-      // console.log(e.detail.value)
-      console.log(this.adultArray);
-      console.log(this.adultArrayId);
-      console.log(this.childrenArray);
-      console.log(this.childrenArrayId);
-    },
-    // 成人区域的增加
-    adultAdd: function adultAdd() {
-      this.adultNum.push(this.adultNum.length);
-    },
-    // 成人区域的去除
-    adultReduce: function adultReduce(id) {
-      // console.log(id)
-      var result = this.adultNum.findIndex(function (item) {
-        return item.id == id;
-      });
-      console.log(result);
-      this.adultNum.splice(result, 1);
-      console.log(this.adultNum);
-    },
-    // 儿童区域的增加
-    childrenAdd: function childrenAdd() {
-      this.childrenNum.push(this.adultNum.length);
-    },
-    // 儿童区域的去除
-    childrenReduce: function childrenReduce(id) {
-      // console.log(id)
-      // var result = this.adultNum.findIndex(item => {
-      // 	return item.id == id
-      // })
-      this.childrenNum.splice(id, 1);
-    },
-    // 当性别发生变化的时候
-    radioChange: function radioChange(e) {
-      console.log(e.target.value);
+      // console.log(this.adultArray)
+      // console.log(this.adultArrayId)
+      // console.log(this.childrenArray)
+      // console.log(this.childrenArrayId)
+      // 成人区域
+      var adult1 = [];
+      for (var i = 0; i < this.adultArray.length; i++) {
+        // console.log(this.adultArray[i])
+        // console.log(this.adultArrayId[i])
+        var a = this.adultArray[i];
+        var b = this.adultArrayId[i];
+        var adult2 = {
+          uname: a,
+          IDcard: b };
+
+        adult1.push(adult2);
+      }
+      // 儿童区域
+      var children1 = [];
+      for (var i = 0; i < this.childrenArray.length; i++) {
+        var a = this.childrenArray[i];
+        var b = this.childrenArrayId[i];
+        var children2 = {
+          uname: a,
+          IDcard: b };
+
+        children1.push(children2);
+      }
+      console.log(adult1);
+      console.log(children1);
     },
     // 去确认订单页面
     goConfirmationOrder: function goConfirmationOrder() {
-      uni.navigateTo({
-        url: '/pages/confirmationOrder/confirmationOrder' });
+      if (isNaN(this.adultNum)) {
+        var number = this.childrenNum;
+      } else if (isNaN(this.childrenNum)) {
+        var number = this.adultNum;
+      } else {
+        var number = this.adultNum + this.childrenNum;
+      }
+      var total = this.adultArray.length + this.childrenArray.length;
+      if (total == number && this.reserve.reserveUname !== '' && this.reserve.reserveTel !== '' &&
+      this.reserve.reserveNum) {
+        uni.navigateTo({
+          url: '/pages/confirmationOrder/confirmationOrder' });
 
+      } else {
+        uni.showToast({
+          title: '请将信息填写完整',
+          duration: 2000,
+          icon: 'none' });
+
+      }
     } },
 
   onLoad: function onLoad(options) {
-    if (options.adultNum !== undefined && options.childrenNum !== undefined) {
-      var adultResult = parseInt(options.adultNum);
-      var childrenResult = parseInt(options.childrenNum);
-      for (var i = 0; i < adultResult; i++) {
-        var arr1 = {
-          unm: adultResult,
-          id: i };
-
-        this.adultNum.push(arr1);
-        // this.adultNum.push(i)
-      }
-      for (var i = 0; i < childrenResult; i++) {
-        var arr2 = {
-          unm: childrenResult,
-          id: i };
-
-        this.childrenNum.push(arr2);
-        // this.childrenNum.push(i)
-        console.log(this.adultNum);
-        console.log(this.childrenNum);
-      }
-    } else {
-      this.adultNum = 1;
-      this.childrenNum = 1;
-    }
+    this.adultNum = parseInt(options.adultNum);
+    this.childrenNum = parseInt(options.childrenNum);
+    // if (options.adultNum !== undefined && options.childrenNum !== undefined) {
+    // 	var adultResult = parseInt(options.adultNum)
+    // 	var childrenResult = parseInt(options.childrenNum)
+    // 	for (var i = 0; i < adultResult; i++) {
+    // 		var arr1 = {
+    // 			num: adultResult,
+    // 			id: i
+    // 		}
+    // 		this.adultNum.push(arr1)
+    // 		// this.adultNum.push(i)
+    // 	}
+    // 	for (var i = 0; i < childrenResult; i++) {
+    // 		var arr2 = {
+    // 			num: childrenResult,
+    // 			id: i
+    // 		}
+    // 		this.childrenNum.push(arr2)
+    // 		// this.childrenNum.push(i)
+    // 		console.log(this.adultNum)
+    // 		console.log(this.childrenNum)
+    // 	}
+    // } else {
+    // 	this.adultNum = 1
+    // 	this.childrenNum = 1
+    // }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

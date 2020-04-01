@@ -22,9 +22,9 @@
 							<view>性别</view>
 							<input type="text" placeholder="请输入性别" placeholder-class="placeholder-common" :name="index" />
 						</view> -->
-						<view class="gender-box">
+						<!-- <view class="gender-box">
 							<view>请选择性别</view>
-							<radio-group @change="radioChange">
+							<radio-group @change="radioChane">
 								<label class="gender">
 									<view v-for="(item, index) in gender" :key="index">
 										<radio color="#4EB4A0" :value="item.id" />
@@ -32,22 +32,13 @@
 									</view>
 								</label>
 							</radio-group>
-						</view>
+						</view> -->
 						<!-- 身份证区域 -->
 						<view class="card-box">
 							<view>身份证</view>
 							<input placeholder="请输入身份证号" type="idcard" placeholder-class="placeholder-common"
 								v-model="adultArrayId[index]" />
 						</view>
-						<view class="add-reduce reduce">
-							<view></view>
-							<view class="add-reduce-text reduce-text" @click="adultReduce(item.id)">去除</view>
-						</view>
-					</view>
-					<!-- 增加 -->
-					<view class="add-reduce add">
-						<view></view>
-						<view class="add-reduce-text" @click="adultAdd">增加</view>
 					</view>
 					<!-- 儿童区域 -->
 					<view class="item-common" v-for="(item, index) in childrenNum" :key="index">
@@ -66,15 +57,6 @@
 							<input placeholder="请输入身份证号" type="idcard" placeholder-class="placeholder-common"
 								v-model="childrenArrayId[index]" />
 						</view>
-						<view class="add-reduce reduce">
-							<view></view>
-							<view class="add-reduce-text reduce-text" @click="childrenReduce(item.id)">去除</view>
-						</view>
-					</view>
-					<!-- 增加 -->
-					<view class="add-reduce add">
-						<view></view>
-						<view class="add-reduce-text" @click="childrenAdd">增加</view>
 					</view>
 				</view>
 				<!-- 预订人信息区域 -->
@@ -92,8 +74,8 @@
 								v-model="reserve.reserveTel" />
 						</view>
 						<view class="reserve-content">
-							<view>房间数</view>
-							<input placeholder="请输入需要预定的房间数量" type="number" placeholder-class="placeholder-common"
+							<view>备注</view>
+							<input placeholder="备注内容" type="number" placeholder-class="placeholder-common"
 								v-model="reserve.reserveNum" />
 						</view>
 					</view>
@@ -111,21 +93,9 @@
 		data() {
 			return {
 				// 成人人数
-				adultNum: [],
+				adultNum: null,
 				// 儿童人数
-				childrenNum: [],
-				// 性别区域
-				gender: [{
-						id: 1,
-						text: '男',
-						value: '0'
-					},
-					{
-						id: 2,
-						text: '女',
-						value: '1'
-					}
-				],
+				childrenNum: null,
 				// 成人区域的姓名输入框的输入内容
 				adultArray: [],
 				// 成人区域的身份证输入框的输入内容
@@ -148,75 +118,89 @@
 		methods: {
 			// 成人区域表单提交的内容
 			formSubmit(e) {
-				// console.log(e.detail.value)
-				console.log(this.adultArray)
-				console.log(this.adultArrayId)
-				console.log(this.childrenArray)
-				console.log(this.childrenArrayId)
-			},
-			// 成人区域的增加
-			adultAdd() {
-				this.adultNum.push(this.adultNum.length)
-			},
-			// 成人区域的去除
-			adultReduce(id) {
-				// console.log(id)
-				var result = this.adultNum.findIndex(item => {
-					return item.id == id
-				})
-				console.log(result)
-				this.adultNum.splice(result, 1)
-				console.log(this.adultNum)
-			},
-			// 儿童区域的增加
-			childrenAdd() {
-				this.childrenNum.push(this.adultNum.length)
-			},
-			// 儿童区域的去除
-			childrenReduce(id) {
-				// console.log(id)
-				// var result = this.adultNum.findIndex(item => {
-				// 	return item.id == id
-				// })
-				this.childrenNum.splice(id, 1)
-			},
-			// 当性别发生变化的时候
-			radioChange(e) {
-				console.log(e.target.value)
+				// console.log(this.adultArray)
+				// console.log(this.adultArrayId)
+				// console.log(this.childrenArray)
+				// console.log(this.childrenArrayId)
+				// 成人区域
+				var adult1 = []
+				for (var i = 0; i < this.adultArray.length; i++) {
+					// console.log(this.adultArray[i])
+					// console.log(this.adultArrayId[i])
+					var a = this.adultArray[i]
+					var b = this.adultArrayId[i]
+					var adult2 = {
+						uname: a,
+						IDcard: b
+					}
+					adult1.push(adult2)
+				}
+				// 儿童区域
+				var children1 = []
+				for (var i = 0; i < this.childrenArray.length; i++) {
+					var a = this.childrenArray[i]
+					var b = this.childrenArrayId[i]
+					var children2 = {
+						uname: a,
+						IDcard: b
+					}
+					children1.push(children2)
+				}
+				console.log(adult1)
+				console.log(children1)
 			},
 			// 去确认订单页面
 			goConfirmationOrder() {
-				uni.navigateTo({
-					url: '/pages/confirmationOrder/confirmationOrder'
-				})
+				if (isNaN(this.adultNum)) {
+					var number = this.childrenNum
+				} else if (isNaN(this.childrenNum)) {
+					var number = this.adultNum
+				} else {
+					var number = this.adultNum + this.childrenNum
+				}
+				var total = this.adultArray.length + this.childrenArray.length
+				if (total == number && this.reserve.reserveUname !== '' && this.reserve.reserveTel !== '' &&
+					this.reserve.reserveNum) {
+					uni.navigateTo({
+						url: '/pages/confirmationOrder/confirmationOrder'
+					})
+				} else {
+					uni.showToast({
+						title: '请将信息填写完整',
+						duration: 2000,
+						icon: 'none'
+					});
+				}
 			}
 		},
 		onLoad(options) {
-			if (options.adultNum !== undefined && options.childrenNum !== undefined) {
-				var adultResult = parseInt(options.adultNum)
-				var childrenResult = parseInt(options.childrenNum)
-				for (var i = 0; i < adultResult; i++) {
-					var arr1 = {
-						unm: adultResult,
-						id: i
-					}
-					this.adultNum.push(arr1)
-					// this.adultNum.push(i)
-				}
-				for (var i = 0; i < childrenResult; i++) {
-					var arr2 = {
-						unm: childrenResult,
-						id: i
-					}
-					this.childrenNum.push(arr2)
-					// this.childrenNum.push(i)
-					console.log(this.adultNum)
-					console.log(this.childrenNum)
-				}
-			} else {
-				this.adultNum = 1
-				this.childrenNum = 1
-			}
+			this.adultNum = parseInt(options.adultNum)
+			this.childrenNum = parseInt(options.childrenNum)
+			// if (options.adultNum !== undefined && options.childrenNum !== undefined) {
+			// 	var adultResult = parseInt(options.adultNum)
+			// 	var childrenResult = parseInt(options.childrenNum)
+			// 	for (var i = 0; i < adultResult; i++) {
+			// 		var arr1 = {
+			// 			num: adultResult,
+			// 			id: i
+			// 		}
+			// 		this.adultNum.push(arr1)
+			// 		// this.adultNum.push(i)
+			// 	}
+			// 	for (var i = 0; i < childrenResult; i++) {
+			// 		var arr2 = {
+			// 			num: childrenResult,
+			// 			id: i
+			// 		}
+			// 		this.childrenNum.push(arr2)
+			// 		// this.childrenNum.push(i)
+			// 		console.log(this.adultNum)
+			// 		console.log(this.childrenNum)
+			// 	}
+			// } else {
+			// 	this.adultNum = 1
+			// 	this.childrenNum = 1
+			// }
 		}
 	};
 </script>

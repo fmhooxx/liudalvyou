@@ -259,16 +259,6 @@ __webpack_require__.r(__webpack_exports__);
           } });
 
       }
-      // console.log(e);
-      // uni.login({
-      // 	provider: 'weixin',
-      // 	success: (res) => {
-      // 		console.log(res);
-      // 	}
-      // });
-      // uni.switchTab({
-      // 	url: '/pages/me/me'
-      // });
     },
     // 获取用户手机号码
     deciyption: function deciyption(session_key, encryptedData, iv) {
@@ -276,7 +266,8 @@ __webpack_require__.r(__webpack_exports__);
         action: 'GetPhoneNumber',
         session_key: session_key,
         encryptedData: encryptedData,
-        iv: iv }).
+        iv: iv,
+        UserId: uni.getStorageSync('UserId') }).
       then(function (res) {
         console.log(res);
         console.log(res.data.phoneNumber);

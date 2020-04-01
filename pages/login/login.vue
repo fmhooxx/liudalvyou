@@ -126,16 +126,6 @@
             }
           })
         }
-        // console.log(e);
-        // uni.login({
-        // 	provider: 'weixin',
-        // 	success: (res) => {
-        // 		console.log(res);
-        // 	}
-        // });
-        // uni.switchTab({
-        // 	url: '/pages/me/me'
-        // });
       },
       // 获取用户手机号码
       deciyption(session_key, encryptedData, iv) {
@@ -143,7 +133,8 @@
           action: 'GetPhoneNumber',
           session_key: session_key,
           encryptedData: encryptedData,
-          iv: iv
+          iv: iv,
+          UserId: uni.getStorageSync('UserId')
         }).then(res => {
           console.log(res)
           console.log(res.data.phoneNumber)

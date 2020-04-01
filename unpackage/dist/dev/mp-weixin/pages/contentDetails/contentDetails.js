@@ -240,12 +240,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     uniPopup: uniPopup },
 
   data: function data() {
     return {
+      // openid
+      openid: null,
+      // 手机号码
+      phoneNumber: null,
       // 线路特色富文本的内容
       textVal: '<h1>这是富文本内容</h1>',
       // 暂时的临时数据 后期去掉
@@ -254,33 +259,61 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // 判断是否登录了 登录了下单 未去登录页面
-    open: function open() {
-      // uni.login({
-      // 	provider: 'weixin',
-      // 	success: (res) => {
-      // 		console.log(res)
-      // 		this.getUser()
-      // 	}
-      // });
-      // 去选择出行时间 / 人数页面
-      uni.navigateTo({
-        url: '/pages/choice/choice' });
+    getLogin: function getLogin() {var _this = this;
+      uni.login({
+        provider: 'weixin',
+        success: function success(res) {
+          var code = res.code;
+          _this.$http.post('/api/WeiXinApplet.ashx', {
+            action: "Login",
+            code: code }).
+          then(function (res) {
+            console.log(res);
+            if (res.data.status == 'true') {
+              uni.setStorageSync('openid', res.data.openid);
+              uni.setStorageSync('session_key', res.data.session_key);
+              _this.getUser();
+            } else {
+              uni.showToast({
+                title: '获取信息异常，请稍后重新操作！',
+                duration: 2000,
+                icon: 'none' });
+
+            }
+          });
+        } });
 
     },
     // 获取用户信息
-    getUser: function getUser() {var _this = this;
+    getUser: function getUser() {
       uni.getUserInfo({
         provider: 'weixin',
         success: function success(res) {
           console.log(res);
           if (res.errMsg == 'getUserInfo:ok') {
-            _this.$refs.popup.open();
+            uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
+            uni.setStorageSync('nickName', res.userInfo.nickName);
+            uni.navigateTo({
+              url: '/pages/login/login' });
+
           }
         },
         fail: function fail(err) {
-          console.log(err);
+          console.log('没有授权');
         } });
 
+    },
+    // 打开弹出框
+    open: function open() {
+      // 如果手机号码为空 打开弹框
+      if (this.phoneNumber == '') {
+        this.$refs.popup.open();
+      } else {
+        // 去选择出行时间 / 人数页面
+        uni.navigateTo({
+          url: '/pages/choice/choice' });
+
+      }
     },
     // 去登录页面
     goLogin: function goLogin() {
@@ -293,6 +326,18 @@ __webpack_require__.r(__webpack_exports__);
       uni.makePhoneCall({
         phoneNumber: '17855355076' //仅为示例
       });
+    } },
+
+  computed: {
+    isOpenid: function isOpenid() {
+      this.phoneNumber = uni.getStorageSync('phoneNumber');
+      this.openid = uni.getStorageSync('openid');
+      if (this.openid == '') {
+        console.log('没有 openid');
+        return true;
+      }
+      console.log('有 openid');
+      return false;
     } },
 
   onLoad: function onLoad() {} };exports.default = _default;

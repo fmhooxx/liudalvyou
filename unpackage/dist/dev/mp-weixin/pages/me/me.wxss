@@ -1,22 +1,30 @@
 
 .head {
-	height: 200rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	height: 200rpx;
 	background-color: #fff;
 }
-.head image {
+.head-box {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.head-box image {
 	margin: 0 40rpx;
 	width: 86rpx;
 	height: 86rpx;
 	border-radius: 50%;
 	background-color: #fff;
 }
-.head>view {
+.head-box view {
 	font-size: 28rpx;
 	color: #545454;
 }

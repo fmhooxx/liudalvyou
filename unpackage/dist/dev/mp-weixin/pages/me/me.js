@@ -166,6 +166,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 {
   components: {
     uniPopup: uniPopup },
@@ -173,7 +178,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // 用户昵称
-      userName: '' };
+      nickName: '',
+      // 用户头像
+      avatarUrl: '' };
 
   },
   methods: {
@@ -238,37 +245,65 @@ __webpack_require__.r(__webpack_exports__);
             code: code }).
           then(function (res) {
             console.log(res);
-            if (res.statusCode == 200) {
+            if (res.data.status == 'true') {
               uni.setStorageSync('openid', res.data.openid);
               uni.setStorageSync('session_key', res.data.session_key);
-              _this.getUser();
+              uni.setStorageSync('UserId', res.data.UserId);
+              if (res.data.UserId) {
+                _this.getUser();
+              }
+            } else {
+              uni.showToast({
+                title: '获取信息异常，请稍后重新操作！',
+                duration: 2000,
+                icon: 'none' });
+
             }
           });
         } });
 
     },
     // 获取用户信息
-    getUser: function getUser() {
+    getUser: function getUser() {var _this2 = this;
       uni.getUserInfo({
         provider: 'weixin',
         success: function success(res) {
           console.log(res);
           if (res.errMsg == 'getUserInfo:ok') {
-            uni.navigateTo({
-              url: '/pages/login/login' });
+            uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
+            uni.setStorageSync('nickName', res.userInfo.nickName);
+            _this2.$http.post('/api/WeiXinApplet.ashx', {
+              action: 'UserBindInfo',
+              UserId: uni.getStorageSync('UserId'),
+              nickName: res.userInfo.nickName,
+              gender: res.userInfo.gender,
+              avatarUrl: res.userInfo.avatarUrl }).
+            then(function (res) {
+              console.log(res);
+              if (res.data.status == 'true') {
+                uni.navigateTo({
+                  url: '/pages/login/login' });
 
+              }
+            });
           }
         } });
 
     } },
 
   computed: {
-    isUserName: function isUserName() {
-      if (this.userName == '') {
-        return true;
+    isnickName: function isnickName() {
+      if (this.nickName == '') {
+        return false;
       }
-      return false;
-    } } };exports.default = _default;
+      return true;
+    } },
+
+  onShow: function onShow() {
+    this.$refs.popup.close();
+    this.nickName = uni.getStorageSync('nickName');
+    this.avatarUrl = uni.getStorageSync('avatarUrl');
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

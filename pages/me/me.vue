@@ -3,9 +3,14 @@
 	<view>
 		<!-- 头像昵称区域 -->
 		<view class="head">
-			<image src="/static/images/logo.jpg"></image>
-			<view v-if="isUserName" @click="open">登录/注册</view>
-			<view v-else>{{userName}}</view>
+			<view v-if="isnickName" class="head-box">
+				<image :src="avatarUrl"></image>
+				<view>{{nickName}}</view>
+			</view>
+			<view v-else class="head-box">
+				<image src="/static/images/logo.jpg"></image>
+				<view @click="open">登录/注册</view>
+			</view>
 		</view>
 		<view class="list">
 			<view @click="goOrderList">我的订单</view>
@@ -13,7 +18,7 @@
 			<view @click="goFootprint">我的足迹</view>
 			<view @click="goSetUp">设置</view>
 		</view>
-		<view class="sign-out" @click="signOut">退出登录</view>
+		<view class="sign-out" @click="signOut" v-if="isnickName">退出登录</view>
 		<!-- 登录的弹框 -->
 		<uniPopup ref="popup" type="center">
 			<view class="popup">
@@ -40,7 +45,9 @@
 		data() {
 			return {
 				// 用户昵称
-				userName: ''
+				nickName: '',
+				// 用户头像
+				avatarUrl: ''
 			}
 		},
 		methods: {
@@ -105,10 +112,19 @@
 							code: code
 						}).then(res => {
 							console.log(res)
-							if (res.statusCode == 200) {
+							if (res.data.status == 'true') {
 								uni.setStorageSync('openid', res.data.openid)
 								uni.setStorageSync('session_key', res.data.session_key)
-								this.getUser()
+								uni.setStorageSync('UserId', res.data.UserId)
+								if (res.data.UserId) {
+									this.getUser()
+								}
+							} else {
+								uni.showToast({
+									title: '获取信息异常，请稍后重新操作！',
+									duration: 2000,
+									icon: 'none'
+								});
 							}
 						})
 					}
@@ -121,34 +137,57 @@
 					success: (res) => {
 						console.log(res)
 						if (res.errMsg == 'getUserInfo:ok') {
-							uni.navigateTo({
-								url: '/pages/login/login'
-							});
+							uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+							uni.setStorageSync('nickName', res.userInfo.nickName)
+							this.$http.post('/api/WeiXinApplet.ashx', {
+								action: 'UserBindInfo',
+								UserId: uni.getStorageSync('UserId'),
+								nickName: res.userInfo.nickName,
+								gender: res.userInfo.gender,
+								avatarUrl: res.userInfo.avatarUrl
+							}).then(res => {
+								console.log(res)
+								if (res.data.status == 'true') {
+									uni.navigateTo({
+										url: '/pages/login/login'
+									});
+								}
+							})
 						}
 					}
 				});
 			}
 		},
 		computed: {
-			isUserName() {
-				if (this.userName == '') {
-					return true
+			isnickName() {
+				if (this.nickName == '') {
+					return false
 				}
-				return false
+				return true
 			}
 		},
+		onShow() {
+			this.$refs.popup.close()
+			this.nickName = uni.getStorageSync('nickName')
+			this.avatarUrl = uni.getStorageSync('avatarUrl')
+		}
 	}
 </script>
 
 <style>
 	.head {
-		height: 200rpx;
 		display: flex;
 		align-items: center;
+		height: 200rpx;
 		background-color: #fff;
 	}
 
-	.head image {
+	.head-box {
+		display: flex;
+		align-items: center;
+	}
+
+	.head-box image {
 		margin: 0 40rpx;
 		width: 86rpx;
 		height: 86rpx;
@@ -156,7 +195,7 @@
 		background-color: #fff;
 	}
 
-	.head>view {
+	.head-box view {
 		font-size: 28rpx;
 		color: #545454;
 	}

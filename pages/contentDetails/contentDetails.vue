@@ -89,9 +89,10 @@
 				</view>
 				<view>咨询</view>
 			</view>
-			<button class="location-two" open-type="getUserInfo" @getuserinfo="open">立即购买</button>
+			<button v-if="isOpenid" class="location-two" open-type="getUserInfo" @getuserinfo="getLogin">立即购买没有</button>
+			<button v-else class="location-two" @click="open">立即购买有</button>
 		</view>
-		<!-- 弹出层区域 -->
+		<!-- 弹出框区域 -->
 		<uniPopup ref="popup" type="center">
 			<view class="box">
 				<view class="box-title common">提示</view>
@@ -113,6 +114,10 @@
 		},
 		data() {
 			return {
+				// openid
+				openid: null,
+				// 手机号码
+				phoneNumber: null,
 				// 线路特色富文本的内容
 				textVal: '<h1>这是富文本内容</h1>',
 				// 暂时的临时数据 后期去掉
@@ -121,17 +126,29 @@
 		},
 		methods: {
 			// 判断是否登录了 登录了下单 未去登录页面
-			open() {
-				// uni.login({
-				// 	provider: 'weixin',
-				// 	success: (res) => {
-				// 		console.log(res)
-				// 		this.getUser()
-				// 	}
-				// });
-				// 去选择出行时间 / 人数页面
-				uni.navigateTo({
-					url: '/pages/choice/choice'
+			getLogin() {
+				uni.login({
+					provider: 'weixin',
+					success: (res) => {
+						var code = res.code
+						this.$http.post('/api/WeiXinApplet.ashx', {
+							action: "Login",
+							code: code
+						}).then(res => {
+							console.log(res)
+							if (res.data.status == 'true') {
+								uni.setStorageSync('openid', res.data.openid)
+								uni.setStorageSync('session_key', res.data.session_key)
+								this.getUser()
+							} else {
+								uni.showToast({
+									title: '获取信息异常，请稍后重新操作！',
+									duration: 2000,
+									icon: 'none'
+								});
+							}
+						})
+					}
 				});
 			},
 			// 获取用户信息
@@ -141,13 +158,29 @@
 					success: (res) => {
 						console.log(res)
 						if (res.errMsg == 'getUserInfo:ok') {
-							this.$refs.popup.open()
+							uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+							uni.setStorageSync('nickName', res.userInfo.nickName)
+							uni.navigateTo({
+								url: '/pages/login/login'
+							});
 						}
 					},
 					fail: err => {
-						console.log(err)
+						console.log('没有授权')
 					}
 				});
+			},
+			// 打开弹出框
+			open() {
+				// 如果手机号码为空 打开弹框
+				if (this.phoneNumber == '') {
+					this.$refs.popup.open()
+				} else {
+					// 去选择出行时间 / 人数页面
+					uni.navigateTo({
+						url: '/pages/choice/choice'
+					});
+				}
 			},
 			// 去登录页面
 			goLogin() {
@@ -160,6 +193,18 @@
 				uni.makePhoneCall({
 					phoneNumber: '17855355076' //仅为示例
 				});
+			}
+		},
+		computed: {
+			isOpenid() {
+				this.phoneNumber = uni.getStorageSync('phoneNumber')
+				this.openid = uni.getStorageSync('openid')
+				if (this.openid == '') {
+					console.log('没有 openid')
+					return true
+				}
+				console.log('有 openid')
+				return false
 			}
 		},
 		onLoad() {}
