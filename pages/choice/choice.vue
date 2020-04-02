@@ -9,7 +9,7 @@
 		</view>
 		<!-- 人数区域 -->
 		<view class="people">
-			<view class="common">请选择出行人数</view>
+			<view class="common">请选择出行人数<text class="warning">(带红点的是可选择的时间)</text></view>
 			<view class="common people-content">
 				<view class="people-num">
 					<view class="people-class">成人</view>
@@ -46,15 +46,55 @@
 				adultNum: null,
 				// 儿童人数
 				childrenNum: null,
+				// 选择的日期
+				fulldate: '',
+				// 红点日期
 				selected: [{
-					date: '2020-03-30'
-				}]
+						date: '2020-04-30'
+					},
+					{
+						date: '2020-04-29'
+					},
+					{
+						date: '2020-04-28'
+					},
+					{
+						date: '2020-04-27'
+					},
+					{
+						date: '2020-04-26'
+					},
+					{
+						date: '2020-05-26'
+					}
+				]
 			};
 		},
 		methods: {
 			// 当日期发生改变的时候
 			change(e) {
-				console.log(e);
+				var data = e.fulldate
+				for (var i = 0; i < this.selected.length; i++) {
+					var choice = this.selected[i].date
+					// console.log(choice)
+					if (data == choice) {
+						this.fulldate = choice
+						return
+					}
+				}
+				for (var i = 0; i < this.selected.length; i++) {
+					var choice = this.selected[i].date
+					if (data !== choice) {
+						this.fulldate = ''
+						uni.showToast({
+							title: '请选择带有红点的日期',
+							duration: 2000,
+							icon: 'none',
+							mask: true
+						});
+						return
+					}
+				}
 			},
 			// 成人输入框内容发生变化的时候
 			adultChange(e) {
@@ -67,13 +107,19 @@
 			// 去填写订单信息页面
 			goFillOrder() {
 				var total = this.adultNum + this.childrenNum
-				if (total < 10) {
+				if (total < 10 && this.fulldate) {
 					uni.navigateTo({
 						url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum
 					});
-				} else {
+				} else if (total >= 10 && this.fulldate) {
 					uni.navigateTo({
 						url: '/pages/company/company'
+					});
+				} else {
+					uni.showToast({
+						title: '请选择带有红点的日期',
+						duration: 2000,
+						icon: 'none'
 					});
 				}
 			},
@@ -111,6 +157,10 @@
 		line-height: 98rpx;
 		width: 100%;
 		border-bottom: 1rpx solid #e8e8e8;
+	}
+
+	.warning {
+		color: red;
 	}
 
 	.people-num {

@@ -182,15 +182,55 @@ __webpack_require__.r(__webpack_exports__);
       adultNum: null,
       // 儿童人数
       childrenNum: null,
+      // 选择的日期
+      fulldate: '',
+      // 红点日期
       selected: [{
-        date: '2020-03-30' }] };
+        date: '2020-04-30' },
+
+      {
+        date: '2020-04-29' },
+
+      {
+        date: '2020-04-28' },
+
+      {
+        date: '2020-04-27' },
+
+      {
+        date: '2020-04-26' },
+
+      {
+        date: '2020-05-26' }] };
+
 
 
   },
   methods: {
     // 当日期发生改变的时候
     change: function change(e) {
-      console.log(e);
+      var data = e.fulldate;
+      for (var i = 0; i < this.selected.length; i++) {
+        var choice = this.selected[i].date;
+        // console.log(choice)
+        if (data == choice) {
+          this.fulldate = choice;
+          return;
+        }
+      }
+      for (var i = 0; i < this.selected.length; i++) {
+        var choice = this.selected[i].date;
+        if (data !== choice) {
+          this.fulldate = '';
+          uni.showToast({
+            title: '请选择带有红点的日期',
+            duration: 2000,
+            icon: 'none',
+            mask: true });
+
+          return;
+        }
+      }
     },
     // 成人输入框内容发生变化的时候
     adultChange: function adultChange(e) {
@@ -203,13 +243,19 @@ __webpack_require__.r(__webpack_exports__);
     // 去填写订单信息页面
     goFillOrder: function goFillOrder() {
       var total = this.adultNum + this.childrenNum;
-      if (total < 10) {
+      if (total < 10 && this.fulldate) {
         uni.navigateTo({
           url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum });
 
-      } else {
+      } else if (total >= 10 && this.fulldate) {
         uni.navigateTo({
           url: '/pages/company/company' });
+
+      } else {
+        uni.showToast({
+          title: '请选择带有红点的日期',
+          duration: 2000,
+          icon: 'none' });
 
       }
     },

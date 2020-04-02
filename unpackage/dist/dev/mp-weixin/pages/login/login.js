@@ -188,7 +188,9 @@ __webpack_require__.r(__webpack_exports__);
       // 输入的手机号码
       phone: null,
       // 输入的验证码
-      code: null };
+      code: null,
+      // 收到的短信验证码
+      receivedCode: null };
 
   },
   methods: {
@@ -202,23 +204,53 @@ __webpack_require__.r(__webpack_exports__);
       if (reg.test(this.phone)) {
         this.isLogin = false;
         this.$http.
-        post("/API/VshopProcess.ashx", {
+        post("/api/WeiXinApplet.ashx", {
           action: "GetCode",
           phone: this.phone }).
 
         then(function (res) {
           console.log(res);
-          if (_this.code == res.data.Code) {
-            uni.switchTab({
-              url: '/pages/me/me' });
-
+          if (res.data.status == 'true') {
+            uni.setStorageSync('phoneNumber', _this.phone);
+            _this.receivedCode = res.data.code;
           } else {
             uni.showToast({
-              title: '输入的验证码有误',
-              duration: 2000 });
+              title: '今日已获取最大短信条数限制，请明日再试',
+              duration: 2000,
+              icon: 'none' });
 
           }
         });
+      } else {
+        uni.showToast({
+          title: '请输入正确的手机号码',
+          duration: 2000,
+          icon: 'none' });
+
+      }
+    },
+    // 验证码获取到后 点击登录
+    determine: function determine() {
+      if (this.code == this.receivedCode) {
+        this.$http.post('/api/WeiXinApplet.ashx', {
+          action: 'PhoneLogin',
+          UserId: uni.getStorageSync('UserId'),
+          phone: this.phone,
+          code: this.code }).
+        then(function (res) {
+          console.log(res);
+          if (res.data.status == 'true') {
+            uni.switchTab({
+              url: '/pages/me/me' });
+
+          }
+        });
+      } else {
+        uni.showToast({
+          title: '您输入的验证码不正确',
+          duration: 2000,
+          icon: 'none' });
+
       }
     },
     // 打开遮罩层
@@ -248,10 +280,17 @@ __webpack_require__.r(__webpack_exports__);
                   code: code }).
                 then(function (res) {
                   console.log(res);
-                  if (res.statusCode == 200) {
+                  if (res.data.status == 'true') {
                     uni.setStorageSync('openid', res.data.openid);
                     uni.setStorageSync('session_key', res.data.session_key);
+                    uni.setStorageSync('UserId', res.data.UserId);
                     _this2.deciyption(res.data.session_key, encryptedData, iv);
+                  } else {
+                    uni.showToast({
+                      title: '获取信息异常，请稍后重新操作！',
+                      duration: 2000,
+                      icon: 'none' });
+
                   }
                 });
               } });

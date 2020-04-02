@@ -122,6 +122,7 @@ image {
   color: #fff;
 }
 .num {
+  width: 174rpx;
   height: 48rpx;
   line-height: 48rpx;
   text-align: center;

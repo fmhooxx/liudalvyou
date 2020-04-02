@@ -18,6 +18,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- 电话区域 -->
+		<view style="margin-top: 20rpx;">
+			<view class="common tel" @click="goMakePhoneCall">请联系VIP客服</view>
+		</view>
 		<view class="shelter"></view>
 		<view class="next" @click="goConfirmationOrder">下一步</view>
 	</view>
@@ -36,6 +40,12 @@
 				uni.navigateTo({
 					url: '/pages/confirmationOrder/confirmationOrder'
 				})
+			},
+			// 拨打号码
+			goMakePhoneCall() {
+				uni.makePhoneCall({
+					phoneNumber: '17855355076' //仅为示例
+				});
 			}
 		}
 	}
@@ -72,6 +82,22 @@
 	.reserve-content view {
 		font-size: 26rpx;
 		color: #525252;
+	}
+
+	/* 电话区域 */
+	.common {
+		font-size: 32rpx;
+		color: #737C84;
+		width: 700rpx;
+		height: 98rpx;
+		background-color: #fff;
+		box-shadow: 0rpx 9rpx 16rpx 0rpx rgba(234, 234, 234, 0.5);
+	}
+
+	.tel {
+		line-height: 98rpx;
+		text-align: center;
+		margin: 20rpx auto;
 	}
 
 	.next {

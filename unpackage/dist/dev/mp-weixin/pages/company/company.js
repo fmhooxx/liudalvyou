@@ -156,6 +156,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -169,6 +173,12 @@ var _default =
       uni.navigateTo({
         url: '/pages/confirmationOrder/confirmationOrder' });
 
+    },
+    // 拨打号码
+    goMakePhoneCall: function goMakePhoneCall() {
+      uni.makePhoneCall({
+        phoneNumber: '17855355076' //仅为示例
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

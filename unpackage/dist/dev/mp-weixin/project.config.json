@@ -38,15 +38,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "我的",
-					"pathName": "pages/me/me",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "登录",
-					"pathName": "pages/login/login",
+					"name": "pages/contentDetails/contentDetails",
+					"pathName": "pages/contentDetails/contentDetails",
 					"scene": null
 				}
 			]

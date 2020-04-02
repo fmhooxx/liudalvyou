@@ -100,6 +100,52 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 人数区域 */
 .people {
 	margin-top: 30rpx;
@@ -110,6 +156,9 @@
 	line-height: 98rpx;
 	width: 100%;
 	border-bottom: 1rpx solid #e8e8e8;
+}
+.warning {
+	color: red;
 }
 .people-num {
 	display: -webkit-box;

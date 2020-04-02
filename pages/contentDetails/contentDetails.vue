@@ -28,7 +28,7 @@
 			<view class="introduce-title">行程介绍</view>
 			<view class="introduce-text">此行程为出发地参团</view>
 			<view class="introduce-content">
-				<view>绍兴-宁波</view>
+				<view class="place">绍兴-宁波</view>
 				<view>集合地点: <text>8:10</text></view>
 				<view>集合地点: <text>诸暨市车站门口</text></view>
 				<view>具体行程:</view>
@@ -48,8 +48,9 @@
 				<view>【门票】行程中注明的景点门票</view>
 				<view>【导游】当地中文导游服务</view>
 			</view>
-			<view class="cost-tips">温馨提示:
-				<text>象山的特色客栈房间数量较少，如遇旺季满房或酒店装修等不可抗力因素，线路会升级更换同类型的特色客栈，随之的附加服务（早餐与接送机相关等）也会进行调整。</text>
+			<view class="cost-tips">
+				<view class="cost-contain">温馨提示:</view>
+				<view>象山的特色客栈房间数量较少，如遇旺季满房或酒店装修等不可抗力因素，线路会升级更换同类型的特色客栈，随之的附加服务（早餐与接送机相关等）也会进行调整。</view>
 			</view>
 			<view class="cost-contain">费用不含:</view>
 			<view class="cost-content">
@@ -139,7 +140,10 @@
 							if (res.data.status == 'true') {
 								uni.setStorageSync('openid', res.data.openid)
 								uni.setStorageSync('session_key', res.data.session_key)
-								this.getUser()
+								uni.setStorageSync('UserId', res.data.UserId)
+								if (res.data.UserId) {
+									this.getUser()
+								}
 							} else {
 								uni.showToast({
 									title: '获取信息异常，请稍后重新操作！',
@@ -160,13 +164,21 @@
 						if (res.errMsg == 'getUserInfo:ok') {
 							uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
 							uni.setStorageSync('nickName', res.userInfo.nickName)
-							uni.navigateTo({
-								url: '/pages/login/login'
-							});
+							this.$http.post('/api/WeiXinApplet.ashx', {
+								action: 'UserBindInfo',
+								UserId: uni.getStorageSync('UserId'),
+								nickName: res.userInfo.nickName,
+								gender: res.userInfo.gender,
+								avatarUrl: res.userInfo.avatarUrl
+							}).then(res => {
+								console.log(res)
+								if (res.data.status == 'true') {
+									uni.navigateTo({
+										url: '/pages/login/login'
+									});
+								}
+							})
 						}
-					},
-					fail: err => {
-						console.log('没有授权')
 					}
 				});
 			},
@@ -251,18 +263,17 @@
 		height: 254rpx;
 		margin-bottom: 16rpx;
 		background-color: #fff;
-		box-sizing: border-box;
 		padding: 26rpx 48rpx 24rpx;
 	}
 
 	.order-box view {
-		font-size: 20rpx;
+		font-size: 24rpx;
 		color: #525252;
 		margin: 7rpx 0;
 	}
 
 	.order-box text {
-		font-size: 20rpx;
+		font-size: 24rpx;
 		color: #525252;
 		margin-left: 10rpx;
 	}
@@ -296,18 +307,22 @@
 	}
 
 	.introduce-text {
-		font-size: 18rpx;
+		font-size: 24rpx;
 		color: #373737;
 		text-align: center;
 	}
 
 	.introduce-content {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #797979;
 	}
 
 	.introduce-content view {
 		margin: 8rpx;
+	}
+
+	.place {
+		color: #4EB4A0;
 	}
 
 	/* 费用介绍 */
@@ -318,16 +333,17 @@
 	}
 
 	.cost-title {
+		font-size: 30rpx;
 		text-align: center;
 	}
 
 	.cost-contain {
 		color: #4EB4A0;
-		font-size: 20rpx;
+		font-size: 28rpx;
 	}
 
 	.cost-content {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #797979;
 	}
 
@@ -336,12 +352,12 @@
 	}
 
 	.cost-tips {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #4D4D4D;
 	}
 
 	.cost-tips text {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #797979;
 	}
 
@@ -353,6 +369,7 @@
 	}
 
 	.notice-title {
+		font-size: 30rpx;
 		text-align: center;
 	}
 

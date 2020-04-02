@@ -30,9 +30,9 @@
             <input type="number" placeholder="请输入验证码" v-model="code" />
           </view>
           <view class="box-code" v-if="isLogin" @click="getCode">获取验证码</view>
-          <view v-else class="num">{{ num }}秒重新获取</view>
+          <view class="num" v-else>{{ num }}秒重新获取</view>
         </view>
-        <button class="btn">登录</button>
+        <button class="btn" @click="determine">登录</button>
       </view>
     </uniPopup>
   </view>
@@ -55,7 +55,9 @@
         // 输入的手机号码
         phone: null,
         // 输入的验证码
-        code: null
+        code: null,
+        // 收到的短信验证码
+        receivedCode: null
       };
     },
     methods: {
@@ -69,23 +71,53 @@
         if (reg.test(this.phone)) {
           this.isLogin = false;
           this.$http
-            .post("/API/VshopProcess.ashx", {
+            .post("/api/WeiXinApplet.ashx", {
               action: "GetCode",
               phone: this.phone
             })
             .then(res => {
               console.log(res);
-              if (this.code == res.data.Code) {
-                uni.switchTab({
-                  url: '/pages/me/me'
-                });
+              if (res.data.status == 'true') {
+                uni.setStorageSync('phoneNumber', this.phone)
+                this.receivedCode = res.data.code
               } else {
                 uni.showToast({
-                  title: '输入的验证码有误',
-                  duration: 2000
+                  title: '今日已获取最大短信条数限制，请明日再试',
+                  duration: 2000,
+                  icon: 'none'
                 });
               }
             });
+        } else {
+          uni.showToast({
+            title: '请输入正确的手机号码',
+            duration: 2000,
+            icon: 'none'
+          });
+        }
+      },
+      // 验证码获取到后 点击登录
+      determine() {
+        if (this.code == this.receivedCode) {
+          this.$http.post('/api/WeiXinApplet.ashx', {
+            action: 'PhoneLogin',
+            UserId: uni.getStorageSync('UserId'),
+            phone: this.phone,
+            code: this.code
+          }).then(res => {
+            console.log(res)
+            if (res.data.status == 'true') {
+              uni.switchTab({
+                url: '/pages/me/me'
+              });
+            }
+          })
+        } else {
+          uni.showToast({
+            title: '您输入的验证码不正确',
+            duration: 2000,
+            icon: 'none'
+          });
         }
       },
       // 打开遮罩层
@@ -115,10 +147,17 @@
                     code: code
                   }).then(res => {
                     console.log(res)
-                    if (res.statusCode == 200) {
+                    if (res.data.status == 'true') {
                       uni.setStorageSync('openid', res.data.openid)
                       uni.setStorageSync('session_key', res.data.session_key)
+                      uni.setStorageSync('UserId', res.data.UserId)
                       this.deciyption(res.data.session_key, encryptedData, iv);
+                    } else {
+                      uni.showToast({
+                        title: '获取信息异常，请稍后重新操作！',
+                        duration: 2000,
+                        icon: 'none'
+                      });
                     }
                   })
                 }
@@ -286,6 +325,7 @@
   }
 
   .num {
+    width: 174rpx;
     height: 48rpx;
     line-height: 48rpx;
     text-align: center;

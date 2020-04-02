@@ -212,6 +212,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* 头部照片区域 */
 .banner {
 	background-color: #fff;
@@ -246,16 +258,15 @@
 	height: 254rpx;
 	margin-bottom: 16rpx;
 	background-color: #fff;
-	box-sizing: border-box;
 	padding: 26rpx 48rpx 24rpx;
 }
 .order-box view {
-	font-size: 20rpx;
+	font-size: 24rpx;
 	color: #525252;
 	margin: 7rpx 0;
 }
 .order-box text {
-	font-size: 20rpx;
+	font-size: 24rpx;
 	color: #525252;
 	margin-left: 10rpx;
 }
@@ -284,16 +295,19 @@
 	margin-bottom: 10rpx;
 }
 .introduce-text {
-	font-size: 18rpx;
+	font-size: 24rpx;
 	color: #373737;
 	text-align: center;
 }
 .introduce-content {
-	font-size: 20rpx;
+	font-size: 28rpx;
 	color: #797979;
 }
 .introduce-content view {
 	margin: 8rpx;
+}
+.place {
+	color: #4EB4A0;
 }
 /* 费用介绍 */
 .cost {
@@ -302,25 +316,26 @@
 	margin-bottom: 16rpx;
 }
 .cost-title {
+	font-size: 30rpx;
 	text-align: center;
 }
 .cost-contain {
 	color: #4EB4A0;
-	font-size: 20rpx;
+	font-size: 28rpx;
 }
 .cost-content {
-	font-size: 20rpx;
+	font-size: 28rpx;
 	color: #797979;
 }
 .cost-content view {
 	margin: 10rpx 0;
 }
 .cost-tips {
-	font-size: 20rpx;
+	font-size: 28rpx;
 	color: #4D4D4D;
 }
 .cost-tips text {
-	font-size: 20rpx;
+	font-size: 28rpx;
 	color: #797979;
 }
 /* 购买须知区域 */
@@ -330,6 +345,7 @@
 	margin-bottom: 16rpx;
 }
 .notice-title {
+	font-size: 30rpx;
 	text-align: center;
 }
 .guarantee {

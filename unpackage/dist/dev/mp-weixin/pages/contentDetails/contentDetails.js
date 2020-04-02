@@ -241,6 +241,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     uniPopup: uniPopup },
@@ -272,7 +273,10 @@ __webpack_require__.r(__webpack_exports__);
             if (res.data.status == 'true') {
               uni.setStorageSync('openid', res.data.openid);
               uni.setStorageSync('session_key', res.data.session_key);
-              _this.getUser();
+              uni.setStorageSync('UserId', res.data.UserId);
+              if (res.data.UserId) {
+                _this.getUser();
+              }
             } else {
               uni.showToast({
                 title: '获取信息异常，请稍后重新操作！',
@@ -285,7 +289,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 获取用户信息
-    getUser: function getUser() {
+    getUser: function getUser() {var _this2 = this;
       uni.getUserInfo({
         provider: 'weixin',
         success: function success(res) {
@@ -293,13 +297,21 @@ __webpack_require__.r(__webpack_exports__);
           if (res.errMsg == 'getUserInfo:ok') {
             uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
             uni.setStorageSync('nickName', res.userInfo.nickName);
-            uni.navigateTo({
-              url: '/pages/login/login' });
+            _this2.$http.post('/api/WeiXinApplet.ashx', {
+              action: 'UserBindInfo',
+              UserId: uni.getStorageSync('UserId'),
+              nickName: res.userInfo.nickName,
+              gender: res.userInfo.gender,
+              avatarUrl: res.userInfo.avatarUrl }).
+            then(function (res) {
+              console.log(res);
+              if (res.data.status == 'true') {
+                uni.navigateTo({
+                  url: '/pages/login/login' });
 
+              }
+            });
           }
-        },
-        fail: function fail(err) {
-          console.log('没有授权');
         } });
 
     },
