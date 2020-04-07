@@ -57,7 +57,9 @@
         // 输入的验证码
         code: null,
         // 收到的短信验证码
-        receivedCode: null
+        receivedCode: null,
+        // 传递过来的 页面详情的 id
+        ProductId: ''
       };
     },
     methods: {
@@ -107,9 +109,15 @@
           }).then(res => {
             console.log(res)
             if (res.data.status == 'true') {
-              uni.switchTab({
-                url: '/pages/me/me'
-              });
+              if (this.ProductId == undefined) {
+                uni.switchTab({
+                  url: '/pages/me/me'
+                });
+              } else {
+                uni.reLaunch({
+                  url: '/pages/contentDetails/contentDetails?ProductId=' + this.ProductId
+                })
+              }
             }
           })
         } else {
@@ -176,12 +184,18 @@
           UserId: uni.getStorageSync('UserId')
         }).then(res => {
           console.log(res)
-          console.log(res.data.phoneNumber)
-          uni.setStorageSync('phoneNumber', res.data.phoneNumber)
-          if (res.data.phoneNumber) {
-            uni.switchTab({
-              url: '/pages/me/me'
-            });
+          if (res.data.status == 'true') {
+            uni.setStorageSync('phoneNumber', res.data.phoneNumber)
+            console.log(this.ProductId)
+          if (this.ProductId == undefined) {
+              uni.switchTab({
+                url: '/pages/me/me'
+              });
+            } else {
+              uni.reLaunch({
+                url: '/pages/contentDetails/contentDetails?ProductId=' + this.ProductId
+              })
+            }        
           }
         })
       },
@@ -203,6 +217,10 @@
           }
         }, 1000);
       }
+    },
+    onLoad(options) {
+      this.ProductId = options.ProductId
+      // console.log(this.ProductId)
     }
   };
 </script>

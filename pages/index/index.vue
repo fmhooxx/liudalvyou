@@ -12,12 +12,12 @@
 			</swiper>
 		</view>
 		<!-- 图文区域 -->
-		<view class="content" @click="goContentDetails">
-			<view class="img-box">
-				<image class="content-img" src="/static/images/introduce.jpg"></image>
+		<view class="content">
+			<view class="img-box" @click="goContentDetails(item.ProductId)" v-for="(item, index) in list" :key="index">
+				<image class="content-img" :src="item.ImageUrl1"></image>
 				<view class="content-content">
-					<view class="content-title">东方不老岛、海山仙子国</view>
-					<view class="content-footer">丰富而古老的她文化和渔文化孕育出了象山独特的风情</view>
+					<view class="content-title">{{item.ProductName}}</view>
+					<view class="content-footer">{{item.ShortDescription}}</view>
 				</view>
 			</view>
 		</view>
@@ -27,15 +27,50 @@
 <script>
 	export default {
 		data() {
-			return {};
+			return {
+				// 首页数据
+				list: []
+			};
 		},
 		methods: {
+			GetProductListByPage() {
+				this.$http.post('/api/WeiXinApplet.ashx', {
+					action: "GetProductListByPage",
+					keywords: '',
+					productCode: '',
+					// 类别 1 代表旅游 2 代表捕鱼 4 代表海钓 
+					categoryIds: '1',
+					brandId: '',
+					typeId: '',
+					tagId: '',
+					pageIndex: '',
+					pageSize: '',
+					sortBy: '',
+					sortOrder: '',
+				}).then(res => {
+					console.log(res)
+					if (res.data.status == true) {
+						this.list = res.data.Data.Data
+						console.log(this.list)
+					} else {
+						uni.showToast({
+							title: '网络错误, 请稍后重试',
+							duration: 2000,
+							mask: true
+						});
+					}
+				})
+			},
 			// 去图文详情页面
-			goContentDetails() {
+			goContentDetails(id) {
 				uni.navigateTo({
-					url: "/pages/contentDetails/contentDetails"
+					url: "/pages/contentDetails/contentDetails?ProductId=" + id
 				});
 			}
+		},
+		onLoad() {
+			// 根据类别获取页面数据
+			this.GetProductListByPage()
 		}
 	};
 </script>

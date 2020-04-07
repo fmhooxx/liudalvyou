@@ -242,6 +242,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 {
   components: {
     uniPopup: uniPopup },
@@ -254,8 +262,12 @@ __webpack_require__.r(__webpack_exports__);
       phoneNumber: null,
       // 线路特色富文本的内容
       textVal: '<h1>这是富文本内容</h1>',
-      // 暂时的临时数据 后期去掉
-      id: '' };
+      // 传递过来的 页面详情的 id
+      ProductId: '',
+      // 图文详情
+      details: '',
+      // 行程介绍
+      tripIntroduce: '' };
 
   },
   methods: {
@@ -307,7 +319,7 @@ __webpack_require__.r(__webpack_exports__);
               console.log(res);
               if (res.data.status == 'true') {
                 uni.navigateTo({
-                  url: '/pages/login/login' });
+                  url: '/pages/login/login?ProductId=' + _this2.ProductId });
 
               }
             });
@@ -323,15 +335,39 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // 去选择出行时间 / 人数页面
         uni.navigateTo({
-          url: '/pages/choice/choice' });
+          url: '/pages/choice/choice?productId=' + this.ProductId });
 
       }
     },
     // 去登录页面
     goLogin: function goLogin() {
       uni.navigateTo({
-        url: '/pages/login/login' });
+        url: '/pages/login/login?ProductId=' + this.ProductId });
 
+    },
+    // 获取详情内容
+    GetProductByID: function GetProductByID() {var _this3 = this;
+      this.$http.post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductByID',
+        productId: this.ProductId }).
+      then(function (res) {
+        if (res.data.status == true) {
+          _this3.details = res.data.Data;
+        }
+      });
+    },
+    // 获取行程介绍的内容
+    GetProductTripByProductID: function GetProductTripByProductID() {var _this4 = this;
+      this.$http.post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductTripByProductID',
+        productId: this.ProductId }).
+      then(function (res) {
+        console.log(res);
+        if (res.data.status == true) {
+          _this4.tripIntroduce = res.data.Data.Data;
+          console.log(_this4.tripIntroduce);
+        }
+      });
     },
     // 拨打号码
     goMakePhoneCall: function goMakePhoneCall() {
@@ -345,14 +381,20 @@ __webpack_require__.r(__webpack_exports__);
       this.phoneNumber = uni.getStorageSync('phoneNumber');
       this.openid = uni.getStorageSync('openid');
       if (this.openid == '') {
-        console.log('没有 openid');
         return true;
       }
-      console.log('有 openid');
       return false;
     } },
 
-  onLoad: function onLoad() {} };exports.default = _default;
+  onLoad: function onLoad(options) {
+    this.ProductId = options.ProductId;
+    if (this.ProductId != undefined) {
+      // 获取详情内容
+      this.GetProductByID();
+      // 获取行程介绍的内容
+      this.GetProductTripByProductID();
+    }
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

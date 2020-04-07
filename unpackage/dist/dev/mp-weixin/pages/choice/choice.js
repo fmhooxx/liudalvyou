@@ -94,8 +94,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
-  "uni-calendar": () =>
-    Promise.all(/*! import() | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then(__webpack_require__.bind(null, /*! @/components/uni-calendar/uni-calendar.vue */ 195))
+  "uni-calendar": function() {
+    return Promise.all(/*! import() | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then(__webpack_require__.bind(null, /*! @/components/uni-calendar/uni-calendar.vue */ 195))
+  }
 }
 var render = function() {
   var _vm = this
@@ -184,24 +185,18 @@ __webpack_require__.r(__webpack_exports__);
       childrenNum: null,
       // 选择的日期
       fulldate: '',
+      // 页面传递过来的 id 值
+      ProductId: '',
       // 红点日期
-      selected: [{
-        date: '2020-04-30' },
-
+      selected: [
       {
-        date: '2020-04-29' },
-
+        date: '2019-5-21' },
       {
-        date: '2020-04-28' },
-
+        date: '2019-5-22' },
       {
-        date: '2020-04-27' },
-
+        date: '2019-5-24' },
       {
-        date: '2020-04-26' },
-
-      {
-        date: '2020-05-26' }] };
+        date: '2019-5-25' }] };
 
 
 
@@ -273,10 +268,36 @@ __webpack_require__.r(__webpack_exports__);
       var timer = year + '-' + month + '-' + day;
       this.startData = timer;
       return timer;
+    },
+    // 获取出发时间
+    GetProductOpenDateByProductID: function GetProductOpenDateByProductID() {var _this = this;
+      this.$http.post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductOpenDateByProductID',
+        productId: this.ProductId }).
+      then(function (res) {
+        // console.log(res)
+        if (res.data.status == true) {
+          var result = [];
+          for (var i = 0; i < res.data.Data.Data.length; i++) {
+            var str = {
+              date: res.data.Data.Data[i].OpenDate };
+
+            result.push(str);
+          }
+          _this.selected = result;
+        }
+      });
     } },
 
   onShow: function onShow() {
     this.getTime();
+  },
+  onLoad: function onLoad(options) {
+    this.ProductId = options.productId;
+    if (this.ProductId != undefined) {
+      // 获取出发时间
+      this.GetProductOpenDateByProductID();
+    }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

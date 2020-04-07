@@ -144,24 +144,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
-    return {};
-
+    return {
+      list: [] };
 
   },
   methods: {
-    goContentDetails: function goContentDetails() {
-      uni.navigateTo({
-        url: '/pages/contentDetails/contentDetails' });
+    GetProductListByPage: function GetProductListByPage() {var _this = this;
+      this.$http.post('/api/WeiXinApplet.ashx', {
+        action: "GetProductListByPage",
+        keywords: '',
+        productCode: '',
+        // 类别 1 代表旅游 2 代表捕鱼 4 代表海钓 
+        categoryIds: '2,4',
+        brandId: '',
+        typeId: '',
+        tagId: '',
+        pageIndex: '',
+        pageSize: '',
+        sortBy: '',
+        sortOrder: '' }).
+      then(function (res) {
+        console.log(res);
+        if (res.data.status == true) {
+          _this.list = res.data.Data.Data;
+        } else {
+          uni.showToast({
+            title: '网络错误, 请稍后重试',
+            duration: 2000,
+            mask: true });
 
-    } } };exports.default = _default;
+        }
+      });
+    },
+    goContentDetails: function goContentDetails(id) {
+      uni.navigateTo({
+        url: '/pages/contentDetails/contentDetails?ProductId=' + id });
+
+    } },
+
+  onLoad: function onLoad() {
+    // 根据类别获取页面数据
+    this.GetProductListByPage();
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

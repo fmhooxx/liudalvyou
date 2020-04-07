@@ -190,7 +190,9 @@ __webpack_require__.r(__webpack_exports__);
       // 输入的验证码
       code: null,
       // 收到的短信验证码
-      receivedCode: null };
+      receivedCode: null,
+      // 传递过来的 页面详情的 id
+      ProductId: '' };
 
   },
   methods: {
@@ -230,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 验证码获取到后 点击登录
-    determine: function determine() {
+    determine: function determine() {var _this2 = this;
       if (this.code == this.receivedCode) {
         this.$http.post('/api/WeiXinApplet.ashx', {
           action: 'PhoneLogin',
@@ -240,9 +242,15 @@ __webpack_require__.r(__webpack_exports__);
         then(function (res) {
           console.log(res);
           if (res.data.status == 'true') {
-            uni.switchTab({
-              url: '/pages/me/me' });
+            if (_this2.ProductId == undefined) {
+              uni.switchTab({
+                url: '/pages/me/me' });
 
+            } else {
+              uni.reLaunch({
+                url: '/pages/contentDetails/contentDetails?ProductId=' + _this2.ProductId });
+
+            }
           }
         });
       } else {
@@ -258,7 +266,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.popup.open();
     },
     // 获取用户手机号码 先判断用户登录状态是否过期 如果过期 就需要重新获取
-    getPhoneNumber: function getPhoneNumber(e) {var _this2 = this;
+    getPhoneNumber: function getPhoneNumber(e) {var _this3 = this;
       var msg = e.detail.errMsg;
       var encryptedData = e.detail.encryptedData;
       var session_key = uni.getStorageSync('session_key');
@@ -268,14 +276,14 @@ __webpack_require__.r(__webpack_exports__);
         uni.checkSession({
           success: function success() {
             // 获取手机号码
-            _this2.deciyption(session_key, encryptedData, iv);
+            _this3.deciyption(session_key, encryptedData, iv);
           },
           fail: function fail() {
             uni.login({
               provider: 'weixin',
               success: function success(res) {
                 var code = res.code;
-                _this2.$http.post('/api/WeiXinApplet.ashx', {
+                _this3.$http.post('/api/WeiXinApplet.ashx', {
                   action: "Login",
                   code: code }).
                 then(function (res) {
@@ -284,7 +292,7 @@ __webpack_require__.r(__webpack_exports__);
                     uni.setStorageSync('openid', res.data.openid);
                     uni.setStorageSync('session_key', res.data.session_key);
                     uni.setStorageSync('UserId', res.data.UserId);
-                    _this2.deciyption(res.data.session_key, encryptedData, iv);
+                    _this3.deciyption(res.data.session_key, encryptedData, iv);
                   } else {
                     uni.showToast({
                       title: '获取信息异常，请稍后重新操作！',
@@ -300,7 +308,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 获取用户手机号码
-    deciyption: function deciyption(session_key, encryptedData, iv) {
+    deciyption: function deciyption(session_key, encryptedData, iv) {var _this4 = this;
       this.$http.post('/api/WeiXinApplet.ashx', {
         action: 'GetPhoneNumber',
         session_key: session_key,
@@ -309,17 +317,23 @@ __webpack_require__.r(__webpack_exports__);
         UserId: uni.getStorageSync('UserId') }).
       then(function (res) {
         console.log(res);
-        console.log(res.data.phoneNumber);
-        uni.setStorageSync('phoneNumber', res.data.phoneNumber);
-        if (res.data.phoneNumber) {
-          uni.switchTab({
-            url: '/pages/me/me' });
+        if (res.data.status == 'true') {
+          uni.setStorageSync('phoneNumber', res.data.phoneNumber);
+          console.log(_this4.ProductId);
+          if (_this4.ProductId == undefined) {
+            uni.switchTab({
+              url: '/pages/me/me' });
 
+          } else {
+            uni.reLaunch({
+              url: '/pages/contentDetails/contentDetails?ProductId=' + _this4.ProductId });
+
+          }
         }
       });
     },
     // 倒计时效果
-    countDown: function countDown() {var _this3 = this;
+    countDown: function countDown() {var _this5 = this;
       // 获取倒计时的初始值
       var time = this.num;
       // 为定时器命名
@@ -327,15 +341,20 @@ __webpack_require__.r(__webpack_exports__);
         // 每隔一秒 num 就减一 实现同步
         time--;
         // 然后把 num 存进 data, 让用户知道时间在倒记着
-        _this3.num = time;
+        _this5.num = time;
         if (time == 0) {
-          clearInterval(_this3.timer);
+          clearInterval(_this5.timer);
           // 当时间为 0 的时候 隐藏定时器的内容 显示发送的内容 并且为定时器重新赋值
-          _this3.isLogin = true;
-          _this3.num = 60;
+          _this5.isLogin = true;
+          _this5.num = 60;
         }
       }, 1000);
-    } } };exports.default = _default;
+    } },
+
+  onLoad: function onLoad(options) {
+    this.ProductId = options.ProductId;
+    // console.log(this.ProductId)
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

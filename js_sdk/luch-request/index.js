@@ -72,6 +72,10 @@ http.validateStatus = (statusCode) => {
 }
 
 http.interceptor.request((config, cancel) => {
+  uni.showLoading({
+    title: '加载中',
+    mask: true
+  });
   /* 请求之前拦截器 */
   config.header = {
     // ...config.header,
@@ -87,6 +91,7 @@ http.interceptor.request((config, cancel) => {
 })
 
 http.interceptor.response((response) => {
+  uni.hideLoading();
   /* 请求之后拦截器 */
   // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
   //   return Promise.reject(response)

@@ -215,15 +215,22 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 确定退出
-    signOut: function signOut() {
+    signOut: function signOut() {var _this = this;
       uni.showModal({
         content: '是否退出登录',
         confirmColor: '#59b9a6',
         success: function success(res) {
           if (res.confirm) {
-            console.log('用户点击确定');
+            uni.clearStorageSync();
+            uni.showToast({
+              title: '退出成功',
+              duration: 2000,
+              icon: 'none',
+              mask: true });
+
+            _this.nickName = '';
+            console.log(_this.nickName);
           } else if (res.cancel) {
-            console.log('用户点击取消');
           }
         } });
 
@@ -235,12 +242,12 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 登录
-    goLogin: function goLogin() {var _this = this;
+    goLogin: function goLogin() {var _this2 = this;
       uni.login({
         provider: 'weixin',
         success: function success(res) {
           var code = res.code;
-          _this.$http.post('/api/WeiXinApplet.ashx', {
+          _this2.$http.post('/api/WeiXinApplet.ashx', {
             action: "Login",
             code: code }).
           then(function (res) {
@@ -250,7 +257,7 @@ __webpack_require__.r(__webpack_exports__);
               uni.setStorageSync('session_key', res.data.session_key);
               uni.setStorageSync('UserId', res.data.UserId);
               if (res.data.UserId) {
-                _this.getUser();
+                _this2.getUser();
               }
             } else {
               uni.showToast({
@@ -264,7 +271,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 获取用户信息
-    getUser: function getUser() {var _this2 = this;
+    getUser: function getUser() {var _this3 = this;
       uni.getUserInfo({
         provider: 'weixin',
         success: function success(res) {
@@ -272,7 +279,7 @@ __webpack_require__.r(__webpack_exports__);
           if (res.errMsg == 'getUserInfo:ok') {
             uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
             uni.setStorageSync('nickName', res.userInfo.nickName);
-            _this2.$http.post('/api/WeiXinApplet.ashx', {
+            _this3.$http.post('/api/WeiXinApplet.ashx', {
               action: 'UserBindInfo',
               UserId: uni.getStorageSync('UserId'),
               nickName: res.userInfo.nickName,

@@ -221,6 +221,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -240,11 +268,11 @@ var _default =
       // 预订人信息
       reserve: {
         // 姓名
-        reserveUname: '',
+        reserveUname: "",
         // 手机号
-        reserveTel: '',
-        // 房间数
-        reserveNum: '' } };
+        reserveTel: "",
+        // 备注
+        reserveRemarks: "" } };
 
 
   },
@@ -292,16 +320,19 @@ var _default =
         var number = this.adultNum + this.childrenNum;
       }
       var total = this.adultArray.length + this.childrenArray.length;
-      if (total == number && this.reserve.reserveUname !== '' && this.reserve.reserveTel !== '' &&
-      this.reserve.reserveNum) {
+      if (
+      total == number &&
+      this.reserve.reserveUname !== "" &&
+      this.reserve.reserveTel !== "")
+      {
         uni.navigateTo({
-          url: '/pages/confirmationOrder/confirmationOrder' });
+          url: "/pages/confirmationOrder/confirmationOrder" });
 
       } else {
         uni.showToast({
-          title: '请将信息填写完整',
+          title: "请将信息填写完整",
           duration: 2000,
-          icon: 'none' });
+          icon: "none" });
 
       }
     } },

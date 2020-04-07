@@ -88,9 +88,16 @@
 					confirmColor: '#59b9a6',
 					success: (res) => {
 						if (res.confirm) {
-							console.log('用户点击确定');
-						} else if (res.cancel) {
-							console.log('用户点击取消');
+							uni.clearStorageSync()
+							uni.showToast({
+									title: '退出成功',
+									duration: 2000,
+									icon: 'none',
+									mask: true
+								});
+								this.nickName = ''
+								console.log(this.nickName)
+							} else if (res.cancel) {
 						}
 					}
 				})

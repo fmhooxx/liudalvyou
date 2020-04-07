@@ -2,33 +2,59 @@
 	<!-- 推荐页面 -->
 	<view>
 		<view class="list">
-			<view class="list-item" @click="goContentDetails">
-				<image src="/static/images/banner.jpg"></image>
-				<view class="title">【<text>捕鱼</text>】跟随渔民感受渔村生活</view>
-				<view class="content">丰富而古老的她文化和鱼文化孕育出了象山独特的风情。</view>
-			</view>
-			<view class="list-item" @click="goContentDetails">
-				<image src="/static/images/haidiao.jpg"></image>
-				<view class="title">【<text>海钓</text>】享受海边独特风情</view>
-				<view class="content">丰富而古老的她文化和鱼文化孕育出了象山独特的风情。</view>
+			<view class="list-item" @click="goContentDetails(item.ProductId)" v-for="(item, index) in list" :key="index">
+				<image :src="item.ImageUrl1" mode="scaleToFill"></image>
+				<view class="title">{{item.ProductName}}</view>
+				<view class="content">{{item.ShortDescription}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default {
+	export default {	
 		data() {
 			return {
-
+				list: []
 			}
 		},
 		methods: {
-			goContentDetails() {
+			GetProductListByPage() {
+				this.$http.post('/api/WeiXinApplet.ashx', {
+					action: "GetProductListByPage",
+					keywords: '',
+					productCode: '',
+					// 类别 1 代表旅游 2 代表捕鱼 4 代表海钓 
+					categoryIds: '2,4',
+					brandId: '',
+					typeId: '',
+					tagId: '',
+					pageIndex: '',
+					pageSize: '',
+					sortBy: '',
+					sortOrder: '',
+				}).then(res => {
+					console.log(res)
+					if (res.data.status == true) {
+						this.list = res.data.Data.Data
+					} else {
+						uni.showToast({
+							title: '网络错误, 请稍后重试',
+							duration: 2000,
+							mask: true
+						});
+					}
+				})
+			},
+			goContentDetails(id) {
 				uni.navigateTo({
-					url: '/pages/contentDetails/contentDetails'
+					url: '/pages/contentDetails/contentDetails?ProductId=' + id
 				});
 			}
+		},
+		onLoad() {
+			// 根据类别获取页面数据
+			this.GetProductListByPage()
 		}
 	}
 </script>

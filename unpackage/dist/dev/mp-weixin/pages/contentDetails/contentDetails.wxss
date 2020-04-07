@@ -224,6 +224,48 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 头部照片区域 */
 .banner {
 	background-color: #fff;
@@ -302,6 +344,7 @@
 .introduce-content {
 	font-size: 28rpx;
 	color: #797979;
+	margin-bottom: 40rpx;
 }
 .introduce-content view {
 	margin: 8rpx;

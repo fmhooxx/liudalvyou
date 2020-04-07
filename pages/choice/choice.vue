@@ -48,25 +48,19 @@
 				childrenNum: null,
 				// 选择的日期
 				fulldate: '',
+				// 页面传递过来的 id 值
+				ProductId: '',
 				// 红点日期
-				selected: [{
-						date: '2020-04-30'
-					},
-					{
-						date: '2020-04-29'
-					},
-					{
-						date: '2020-04-28'
-					},
-					{
-						date: '2020-04-27'
-					},
-					{
-						date: '2020-04-26'
-					},
-					{
-						date: '2020-05-26'
-					}
+				selected: [
+				{
+					date: '2019-5-21'
+				}, {
+					date: '2019-5-22'
+				}, {
+					date: '2019-5-24'
+				}, {
+					date: '2019-5-25'
+				}
 				]
 			};
 		},
@@ -137,10 +131,36 @@
 				var timer = year + '-' + month + '-' + day
 				this.startData = timer
 				return timer;
+			},
+			// 获取出发时间
+			GetProductOpenDateByProductID() {
+				this.$http.post('/api/WeiXinApplet.ashx', {
+					action: 'GetProductOpenDateByProductID',
+					productId: this.ProductId
+				}).then(res => {
+					// console.log(res)
+					if (res.data.status == true) {
+						var result = []
+						for (var i =  0; i < res.data.Data.Data.length; i ++ ) {
+							var str = {
+								date: res.data.Data.Data[i].OpenDate
+							}
+							result.push(str)
+						}
+						this.selected = result
+					}
+				})
 			}
 		},
 		onShow() {
 			this.getTime()
+		},
+		onLoad(options) {
+			this.ProductId = options.productId
+			if (this.ProductId != undefined) {
+				// 获取出发时间
+				this.GetProductOpenDateByProductID()	
+			}
 		}
 	};
 </script>
