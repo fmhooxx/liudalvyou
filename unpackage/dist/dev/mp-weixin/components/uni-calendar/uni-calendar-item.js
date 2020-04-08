@@ -156,6 +156,24 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default2 =
 {
   props: {
@@ -184,7 +202,7 @@ var _default2 =
 
   methods: {
     choiceDate: function choiceDate(weeks) {
-      this.$emit('change', weeks);
+      this.$emit("change", weeks);
     } } };exports.default = _default2;
 
 /***/ }),

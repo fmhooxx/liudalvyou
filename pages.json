@@ -98,12 +98,24 @@
                 "navigationBarTitleText": "我的行程"
             }
         }
+        ,{
+            "path" : "pages/refund/refund",
+            "style" : {
+							"navigationBarTitleText": "退款中"
+						}
+        }
+        ,{
+            "path" : "pages/refundDetails/refundDetails",
+            "style" : {
+							"navigationBarTitleText": "退款详情"
+						}
+        }
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "溜达溜达",
         "navigationBarBackgroundColor": "#fff",
-        "backgroundColor": "#55aa00"
+        "backgroundColor": "#ffffff"
     },
     "tabBar": {
         "color": "#7A7E83",

@@ -78,14 +78,14 @@
   background-color: #dd524d;
 }
 .uni-calendar-item--disable.data-v-0b2a1b54 {
-  background-color: rgba(249, 249, 249, 0.3);
+  background-color: #f3f3f3;
   color: #c0c0c0;
 }
 .uni-calendar-item--isDay-text.data-v-0b2a1b54 {
-  color: #007aff;
+  color: #f3d081;
 }
 .uni-calendar-item--isDay.data-v-0b2a1b54 {
-  background-color: #007aff;
+  background-color: #f0c462;
   opacity: 0.8;
   color: #fff;
 }
@@ -94,7 +94,7 @@
   opacity: 0.8;
 }
 .uni-calendar-item--checked.data-v-0b2a1b54 {
-  background-color: #007aff;
+  background-color: #f0c462;
   color: #fff;
   opacity: 0.8;
 }

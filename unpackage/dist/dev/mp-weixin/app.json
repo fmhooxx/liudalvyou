@@ -20,14 +20,16 @@
     "pages/paymentOrder/paymentOrder",
     "pages/paymentResult/paymentResult",
     "pages/setUp/setUp",
-    "pages/trip/trip"
+    "pages/trip/trip",
+    "pages/refund/refund",
+    "pages/refundDetails/refundDetails"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "溜达溜达",
     "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#55aa00"
+    "backgroundColor": "#ffffff"
   },
   "tabBar": {
     "color": "#7A7E83",
@@ -61,6 +63,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap27.json"
+  "usingComponents": {}
 }

@@ -173,7 +173,7 @@
 				return true
 			}
 		},
-		onShow() {
+		onLoad() {
 			this.$refs.popup.close()
 			this.nickName = uni.getStorageSync('nickName')
 			this.avatarUrl = uni.getStorageSync('avatarUrl')

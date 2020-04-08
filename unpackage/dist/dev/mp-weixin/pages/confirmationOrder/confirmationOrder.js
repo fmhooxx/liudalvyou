@@ -191,19 +191,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       // 当前的时间、日期
-      time: null };
+      time: null,
+      // 支付凭证
+      voucherNumber: "",
+      // 订单 id
+      orderId: '' };
 
   },
   methods: {
     // 去支付订单页面
     goPaymentOrder: function goPaymentOrder() {
       uni.navigateTo({
-        url: '/pages/paymentOrder/paymentOrder' });
+        url: "/pages/paymentOrder/paymentOrder" });
 
     },
     // 获取当前的日期
@@ -213,17 +229,33 @@ var _default =
       month = date.getMonth() + 1,
       day = date.getDate(),
       hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours(),
-      minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(),
-      second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      minute =
+      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(),
+      second =
+      date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       month >= 1 && month <= 9 ? month = "0" + month : "";
       day >= 0 && day <= 9 ? day = "0" + day : "";
-      var timer = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+      var timer =
+      year +
+      "-" +
+      month +
+      "-" +
+      day +
+      " " +
+      hour +
+      ":" +
+      minute +
+      ":" +
+      second;
       this.time = timer;
 
       return timer;
     } },
 
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
+    this.voucherNumber = options.voucherNumber;
+    this.orderId = options.orderId;
+    console.log(this.orderId);
     this.getTime();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

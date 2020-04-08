@@ -169,6 +169,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     uniCalendar: uniCalendar,
@@ -188,17 +200,9 @@ __webpack_require__.r(__webpack_exports__);
       // 页面传递过来的 id 值
       ProductId: '',
       // 红点日期
-      selected: [
-      {
-        date: '2019-5-21' },
-      {
-        date: '2019-5-22' },
-      {
-        date: '2019-5-24' },
-      {
-        date: '2019-5-25' }] };
-
-
+      selected: '',
+      // 支付金额
+      MaxShowPrice: '' };
 
   },
   methods: {
@@ -240,7 +244,7 @@ __webpack_require__.r(__webpack_exports__);
       var total = this.adultNum + this.childrenNum;
       if (total < 10 && this.fulldate) {
         uni.navigateTo({
-          url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum });
+          url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum + '&ProductId=' + this.ProductId + '&fulldate=' + this.fulldate + '&MaxShowPrice=' + this.MaxShowPrice });
 
       } else if (total >= 10 && this.fulldate) {
         uni.navigateTo({
@@ -293,11 +297,13 @@ __webpack_require__.r(__webpack_exports__);
     this.getTime();
   },
   onLoad: function onLoad(options) {
+    console.log(options);
     this.ProductId = options.productId;
     if (this.ProductId != undefined) {
       // 获取出发时间
       this.GetProductOpenDateByProductID();
     }
+    this.MaxShowPrice = options.MaxShowPrice;
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

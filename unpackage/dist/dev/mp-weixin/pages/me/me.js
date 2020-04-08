@@ -306,7 +306,7 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     } },
 
-  onShow: function onShow() {
+  onLoad: function onLoad() {
     this.$refs.popup.close();
     this.nickName = uni.getStorageSync('nickName');
     this.avatarUrl = uni.getStorageSync('avatarUrl');

@@ -250,6 +250,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     uniPopup: uniPopup },
@@ -335,7 +346,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // 去选择出行时间 / 人数页面
         uni.navigateTo({
-          url: '/pages/choice/choice?productId=' + this.ProductId });
+          url: '/pages/choice/choice?productId=' + this.ProductId + '&MaxShowPrice=' + this.MaxShowPrice });
 
       }
     },
@@ -351,8 +362,12 @@ __webpack_require__.r(__webpack_exports__);
         action: 'GetProductByID',
         productId: this.ProductId }).
       then(function (res) {
+        console.log(res.data.Data);
         if (res.data.status == true) {
           _this3.details = res.data.Data;
+          _this3.MaxShowPrice = res.data.Data.MaxShowPrice;
+          // 线路特色
+          // this.textVal = res.data.Data.Description
         }
       });
     },
@@ -371,9 +386,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 拨打号码
     goMakePhoneCall: function goMakePhoneCall() {
-      uni.makePhoneCall({
-        phoneNumber: '17855355076' //仅为示例
-      });
+      uni.switchTab({
+        url: '/pages/contact/contact' });
+
     } },
 
   computed: {

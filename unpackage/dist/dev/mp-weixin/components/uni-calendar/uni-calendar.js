@@ -174,7 +174,49 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 200));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -235,44 +277,23 @@ var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 200));fu
 //
 var uniCalendarItem = function uniCalendarItem() {__webpack_require__.e(/*! require.ensure | components/uni-calendar/uni-calendar-item */ "components/uni-calendar/uni-calendar-item").then((function () {return resolve(__webpack_require__(/*! ./uni-calendar-item.vue */ 218));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default2 = { components: { uniCalendarItem: uniCalendarItem }, props: { /**
                                                                                                                                                                                                                                                                      * 当前日期
-                                                                                                                                                                                                                                                                     */date: { type: String, default: '' }, /**
+                                                                                                                                                                                                                                                                     */date: { type: String, default: "" }, /**
                                                                                                                                                                                                                                                                                                              * 打点日期
                                                                                                                                                                                                                                                                                                              */selected: { type: Array, default: function _default() {return [];} }, /**
                                                                                                                                                                                                                                                                                                                                                                                       * 是否开启阴历日期
                                                                                                                                                                                                                                                                                                                                                                                       */lunar: { type: Boolean, default: false }, /**
                                                                                                                                                                                                                                                                                                                                                                                                                                    * 开始时间
-                                                                                                                                                                                                                                                                                                                                                                                                                                   */startDate: { type: String, default: '' }, /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                   */startDate: { type: String, default: "" }, /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * 结束时间
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */endDate: { type: String, default: '' }, /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */endDate: { type: String, default: "" }, /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * 范围
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */range: { type: Boolean, default: false }, /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * 插入
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         */insert: { type: Boolean, default: true }, /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * 是否显示月份背景
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */showMonth: { type: Boolean, default: true } }, data: function data() {return { show: false, weeks: [], calendar: {}, nowDate: '', aniMaskShow: false };}, watch: {
-    selected: function selected(newVal) {
-      this.cale.setSelectInfo(this.nowDate.fullDate, newVal);
-      this.weeks = this.cale.weeks;
-    } },
-
-  created: function created() {
-    // 获取日历方法实例
-    this.cale = new _util.default({
-      date: this.date,
-      selected: this.selected,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      range: this.range });
-
-    this.init(this.cale.date.fullDate);
-  },
-  methods: {
-    // 取消穿透
-    clean: function clean() {},
-    init: function init(date) {
-      this.weeks = this.cale.weeks;
-      this.nowDate = this.calendar = this.cale.getInfo(date);
-    },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */showMonth: { type: Boolean, default: true } }, data: function data() {return { show: false, weeks: [], calendar: {}, nowDate: "", aniMaskShow: false };}, watch: { selected: function selected(newVal) {this.cale.setSelectInfo(this.nowDate.fullDate, newVal);this.weeks = this.cale.weeks;} }, created: function created() {// 获取日历方法实例
+    this.cale = new _util.default({ date: this.date, selected: this.selected, startDate: this.startDate, endDate: this.endDate, range: this.range });this.init(this.cale.date.fullDate);}, methods: { // 取消穿透
+    clean: function clean() {}, init: function init(date) {this.weeks = this.cale.weeks;this.nowDate = this.calendar = this.cale.getInfo(date);},
     open: function open() {var _this = this;
       this.show = true;
       this.$nextTick(function () {
@@ -290,31 +311,21 @@ var uniCalendarItem = function uniCalendarItem() {__webpack_require__.e(/*! requ
       });
     },
     confirm: function confirm() {
-      this.setEmit('confirm');
+      this.setEmit("confirm");
       this.close();
     },
     change: function change() {
       if (!this.insert) return;
-      this.setEmit('change');
+      this.setEmit("change");
     },
     monthSwitch: function monthSwitch() {var _this$nowDate =
-
-
-
       this.nowDate,year = _this$nowDate.year,month = _this$nowDate.month;
-      this.$emit('monthSwitch', {
+      this.$emit("monthSwitch", {
         year: year,
         month: Number(month) });
 
     },
     setEmit: function setEmit(name) {var _this$calendar =
-
-
-
-
-
-
-
       this.calendar,year = _this$calendar.year,month = _this$calendar.month,date = _this$calendar.date,fullDate = _this$calendar.fullDate,lunar = _this$calendar.lunar,extraInfo = _this$calendar.extraInfo;
       this.$emit(name, {
         range: this.cale.multipleStatus,
@@ -341,13 +352,14 @@ var uniCalendarItem = function uniCalendarItem() {__webpack_require__.e(/*! requ
       this.change();
     },
     pre: function pre() {
-      var preDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate;
+      var preDate = this.cale.getDate(this.nowDate.fullDate, -1, "month").
+      fullDate;
       this.setDate(preDate);
       this.monthSwitch();
-
     },
     next: function next() {
-      var nextDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate;
+      var nextDate = this.cale.getDate(this.nowDate.fullDate, +1, "month").
+      fullDate;
       this.setDate(nextDate);
       this.monthSwitch();
     },

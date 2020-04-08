@@ -237,6 +237,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 每个单独的盒子区域 */
 .list-item {
   width: 100%;
@@ -356,14 +377,40 @@
   text-align: center;
   width: 100%;
   font-size: 36rpx;
-  background-color: #f0c462;
-  color: #fff;
+  background-color: #fff;
+  /* background-color: #f0c462; */
+  /* color: #fff; */
+  color: #525252;
   z-index: 999;
   border-radius: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-top: 1rpx solid #eee;
+  padding: 0;
+}
+.next > view {
+  width: 50%;
 }
 .next::after {
   border: none;
   border-radius: 0;
+}
+.next-price {
+  font-size: 36rpx;
+  color: red;
+  border-right: 1rpx solid #eee;
+}
+.next-text {
+  background-color: #f0c462;
+  color: #fff;
+  font-size: 36rpx;
 }
 .shelter {
   width: 100%;

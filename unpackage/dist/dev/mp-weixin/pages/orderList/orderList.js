@@ -170,6 +170,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -219,6 +232,12 @@ var _default =
     goTrip: function goTrip() {
       uni.navigateTo({
         url: '/pages/trip/trip' });
+
+    },
+    // 去退款页面
+    refund: function refund() {
+      uni.navigateTo({
+        url: '/pages/refund/refund' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

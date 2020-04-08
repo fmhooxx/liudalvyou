@@ -244,11 +244,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
@@ -272,43 +267,58 @@ var _default =
         // 手机号
         reserveTel: "",
         // 备注
-        reserveRemarks: "" } };
+        reserveRemarks: "" },
 
+      // 传递过来的商品的 id
+      ProductId: "",
+      // 传递过来的 日期
+      fulldate: "",
+      // 支付凭证
+      voucherNumber: "",
+      // 订单 id
+      orderId: '',
+      // 用户的 openid
+      openid: '',
+      // 支付金额
+      MaxShowPrice: '' };
 
   },
   methods: {
-    // 成人区域表单提交的内容
-    formSubmit: function formSubmit(e) {
-      // console.log(this.adultArray)
-      // console.log(this.adultArrayId)
-      // console.log(this.childrenArray)
-      // console.log(this.childrenArrayId)
-      // 成人区域
-      var adult1 = [];
-      for (var i = 0; i < this.adultArray.length; i++) {
-        // console.log(this.adultArray[i])
-        // console.log(this.adultArrayId[i])
-        var a = this.adultArray[i];
-        var b = this.adultArrayId[i];
-        var adult2 = {
-          uname: a,
-          IDcard: b };
+    // 提交表单
+    formSubmit: function formSubmit(e) {var _this = this;
+      // console.log(adultArrayStr);
+      // console.log(adultArrayIdStr);
+      // console.log(childrenArrayStr);
+      // console.log(childrenArrayIdStr);
+      // 成人姓名
+      var adultArrayStr = this.adultArray.join(",");
+      // 成人身份证
+      var adultArrayIdStr = this.adultArrayId.join(",");
+      // 儿童姓名
+      var childrenArrayStr = this.childrenArray.join(",");
+      // 儿童身份证
+      var childrenArrayIdStr = this.childrenArrayId.join(",");
+      var unames = adultArrayStr + "," + childrenArrayStr;
+      var Ids = adultArrayIdStr + "," + childrenArrayIdStr;
+      this.$http.
+      post("/api/WeiXinApplet.ashx", {
+        action: "SubmmitOrder",
+        productId: this.ProductId,
+        openDate: this.fulldate,
+        UserNames: unames,
+        IDCards: Ids,
+        Contact: this.reserve.reserveUname,
+        ContactPhone: this.reserve.reserveTel,
+        Remark: this.reserve.reserveRemarks }).
 
-        adult1.push(adult2);
-      }
-      // 儿童区域
-      var children1 = [];
-      for (var i = 0; i < this.childrenArray.length; i++) {
-        var a = this.childrenArray[i];
-        var b = this.childrenArrayId[i];
-        var children2 = {
-          uname: a,
-          IDcard: b };
-
-        children1.push(children2);
-      }
-      console.log(adult1);
-      console.log(children1);
+      then(function (res) {
+        // console.log(res)
+        if (res.data.status == "true") {
+          _this.voucherNumber = res.data.voucherNumber;
+          // 调用支付接口
+          // this.payment()
+        }
+      });
     },
     // 去确认订单页面
     goConfirmationOrder: function goConfirmationOrder() {
@@ -325,9 +335,7 @@ var _default =
       this.reserve.reserveUname !== "" &&
       this.reserve.reserveTel !== "")
       {
-        uni.navigateTo({
-          url: "/pages/confirmationOrder/confirmationOrder" });
-
+        this.formSubmit();
       } else {
         uni.showToast({
           title: "请将信息填写完整",
@@ -335,36 +343,49 @@ var _default =
           icon: "none" });
 
       }
+    },
+    payment: function payment() {
+      this.$http.post('/api/WeiXinPay.ashx', {
+        action: 'Pay',
+        voucherNumber: this.voucherNumber,
+        OpenId: this.openid }).
+      then(function (res) {
+        console.log(res);
+        var total_fee = res.data.total_fee;
+        uni.requestPayment({
+          provider: 'wxpay',
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: 'prepay_id=' + res.data.prepay_id,
+          signType: 'MD5',
+          paySign: res.data.paySign,
+          success: function success(res) {
+            console.log(res);
+            if (res.errMsg == 'requestPayment:ok') {
+              uni.reLaunch({
+                url: '/pages/paymentResult/paymentResult' });
+
+            } else {
+              console.log('支付失败');
+            }
+          },
+          fail: function fail(err) {
+            uni.reLaunch({
+              url: '/pages/orderList/orderList' });
+
+          } });
+
+      });
     } },
 
   onLoad: function onLoad(options) {
     this.adultNum = parseInt(options.adultNum);
     this.childrenNum = parseInt(options.childrenNum);
-    // if (options.adultNum !== undefined && options.childrenNum !== undefined) {
-    // 	var adultResult = parseInt(options.adultNum)
-    // 	var childrenResult = parseInt(options.childrenNum)
-    // 	for (var i = 0; i < adultResult; i++) {
-    // 		var arr1 = {
-    // 			num: adultResult,
-    // 			id: i
-    // 		}
-    // 		this.adultNum.push(arr1)
-    // 		// this.adultNum.push(i)
-    // 	}
-    // 	for (var i = 0; i < childrenResult; i++) {
-    // 		var arr2 = {
-    // 			num: childrenResult,
-    // 			id: i
-    // 		}
-    // 		this.childrenNum.push(arr2)
-    // 		// this.childrenNum.push(i)
-    // 		console.log(this.adultNum)
-    // 		console.log(this.childrenNum)
-    // 	}
-    // } else {
-    // 	this.adultNum = 1
-    // 	this.childrenNum = 1
-    // }
+    this.ProductId = options.ProductId;
+    this.fulldate = options.fulldate;
+    this.openid = uni.getStorageSync('openid');
+    console.log(options);
+    this.MaxShowPrice = options.MaxShowPrice;
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

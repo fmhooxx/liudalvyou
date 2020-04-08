@@ -91,8 +91,17 @@ http.interceptor.request((config, cancel) => {
 })
 
 http.interceptor.response((response) => {
-  uni.hideLoading();
   /* 请求之后拦截器 */
+  if (response.statusCode == 200) { // 服务端返回的状态码不等于200，则reject()
+    uni.hideLoading();
+  } else {
+    uni.showToast({
+      title: '网络出错,请;联系管理员',
+      duration: 2000,
+      icon: 'none',
+      mask: true
+    });
+  }
   // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
   //   return Promise.reject(response)
   // }
