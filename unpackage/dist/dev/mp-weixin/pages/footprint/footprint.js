@@ -131,7 +131,10 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
 //
 //
 //
@@ -159,11 +162,47 @@ var _default =
 {
   data: function data() {
     return {
-      // 控制有内容和没有内容页面之间的切换显示
-      flag: true };
+      tabsList: [] };
 
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    // 获取订单数据
+    GetProductOrderListByPage: function GetProductOrderListByPage() {var _this = this;
+      this.$http.
+      post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductOrderListByPage',
+        OrderStatus: 2,
+        userID: uni.getStorageSync('UserId') }).
+
+      then(function (res) {
+        console.log(res);
+        if (res.data.status == true) {
+          res.data.Data.Data.forEach(function (item, index) {
+            item.OpenDate = item.OpenDate.split(' ')[0];
+          });
+          _this.tabsList = res.data.Data.Data;
+        }
+      });
+    },
+    // 去图文详情页面
+    goCalendar: function goCalendar() {
+      uni.navigateTo({
+        url: '/pages/calendar/calendar' });
+
+    } },
+
+  onLoad: function onLoad() {
+    // 获取订单数据
+    this.GetProductOrderListByPage();
+  },
+  computed: {
+    isFlag: function isFlag() {
+      if (this.tabsList.length == 0) {
+        return true;
+      }
+      return false;
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

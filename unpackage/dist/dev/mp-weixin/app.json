@@ -22,7 +22,12 @@
     "pages/setUp/setUp",
     "pages/trip/trip",
     "pages/refund/refund",
-    "pages/refundDetails/refundDetails"
+    "pages/refundDetails/refundDetails",
+    "pages/agreement/agreement",
+    "pages/agreementService/agreementService",
+    "pages/agreementPrivacy/agreementPrivacy",
+    "pages/agreementKnowledge/agreementKnowledge",
+    "pages/agreementRight/agreementRight"
   ],
   "subPackages": [],
   "window": {
@@ -63,5 +68,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap20.json"
 }

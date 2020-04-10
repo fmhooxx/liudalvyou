@@ -131,7 +131,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 188));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 236));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -292,7 +292,6 @@ __webpack_require__.r(__webpack_exports__);
             action: "Login",
             code: code }).
           then(function (res) {
-            console.log(res);
             if (res.data.status == 'true') {
               uni.setStorageSync('openid', res.data.openid);
               uni.setStorageSync('session_key', res.data.session_key);
@@ -316,7 +315,6 @@ __webpack_require__.r(__webpack_exports__);
       uni.getUserInfo({
         provider: 'weixin',
         success: function success(res) {
-          console.log(res);
           if (res.errMsg == 'getUserInfo:ok') {
             uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
             uni.setStorageSync('nickName', res.userInfo.nickName);
@@ -327,7 +325,6 @@ __webpack_require__.r(__webpack_exports__);
               gender: res.userInfo.gender,
               avatarUrl: res.userInfo.avatarUrl }).
             then(function (res) {
-              console.log(res);
               if (res.data.status == 'true') {
                 uni.navigateTo({
                   url: '/pages/login/login?ProductId=' + _this2.ProductId });
@@ -362,10 +359,12 @@ __webpack_require__.r(__webpack_exports__);
         action: 'GetProductByID',
         productId: this.ProductId }).
       then(function (res) {
-        console.log(res.data.Data);
+        // console.log(res)
         if (res.data.status == true) {
           _this3.details = res.data.Data;
           _this3.MaxShowPrice = res.data.Data.MaxShowPrice;
+          _this3.textVal = res.data.Data.Description;
+          console.log(_this3.textVal);
           // 线路特色
           // this.textVal = res.data.Data.Description
         }
@@ -377,10 +376,9 @@ __webpack_require__.r(__webpack_exports__);
         action: 'GetProductTripByProductID',
         productId: this.ProductId }).
       then(function (res) {
-        console.log(res);
+        // console.log(res)
         if (res.data.status == true) {
           _this4.tripIntroduce = res.data.Data.Data;
-          console.log(_this4.tripIntroduce);
         }
       });
     },
@@ -403,12 +401,12 @@ __webpack_require__.r(__webpack_exports__);
 
   onLoad: function onLoad(options) {
     this.ProductId = options.ProductId;
-    if (this.ProductId != undefined) {
-      // 获取详情内容
-      this.GetProductByID();
-      // 获取行程介绍的内容
-      this.GetProductTripByProductID();
-    }
+    // if (this.ProductId != undefined) {
+    // 获取详情内容
+    this.GetProductByID();
+    // 获取行程介绍的内容
+    this.GetProductTripByProductID();
+    // }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -27,11 +27,12 @@ export default class Request {
     // #endif
   }
 
-  static posUrl (url) { /* 判断url是否为绝对路径 */
+  static posUrl(url) {
+    /* 判断url是否为绝对路径 */
     return /(http|https):\/\/([\w.]+\/?)\S*/.test(url)
   }
 
-  static mergeUrl (url, baseUrl, params) {
+  static mergeUrl(url, baseUrl, params) {
     let mergeUrl = Request.posUrl(url) ? url : `${baseUrl}${url}`
     if (Object.keys(params).length !== 0) {
       const paramsH = Request.addQueryString(params)
@@ -40,7 +41,7 @@ export default class Request {
     return mergeUrl
   }
 
-  static addQueryString (params) {
+  static addQueryString(params) {
     let paramsData = ''
     Object.keys(params).forEach(function (key) {
       paramsData += key + '=' + encodeURIComponent(params[key]) + '&'
@@ -76,15 +77,15 @@ export default class Request {
     }
   }
 
-  requestBeforeFun (config) {
+  requestBeforeFun(config) {
     return config
   }
 
-  requestComFun (response) {
+  requestComFun(response) {
     return response
   }
 
-  requestComFail (response) {
+  requestComFail(response) {
     return response
   }
 
@@ -93,7 +94,7 @@ export default class Request {
    * @param { Number } statusCode - 请求响应体statusCode（只读）
    * @return { Boolean } 如果为true,则 resolve, 否则 reject
    */
-  validateStatus (statusCode) {
+  validateStatus(statusCode) {
     return statusCode === 200
   }
 
@@ -101,7 +102,7 @@ export default class Request {
    * @Function
    * @param {Request~setConfigCallback} f - 设置全局默认配置
    */
-  setConfig (f) {
+  setConfig(f) {
     this.config = f(this.config)
   }
 
@@ -116,7 +117,7 @@ export default class Request {
    * @prop {Object} [options.method = config.method] - 请求方法
    * @returns {Promise<unknown>}
    */
-  async request (options = {}) {
+  async request(options = {}) {
     options.baseUrl = this.config.baseUrl
     options.dataType = options.dataType || this.config.dataType
     // #ifndef MP-ALIPAY || APP-PLUS
@@ -130,7 +131,10 @@ export default class Request {
     options.params = options.params || {}
     options.header = options.header || this.config.header
     options.method = options.method || this.config.method
-    options.custom = { ...this.config.custom, ...(options.custom || {}) }
+    options.custom = {
+      ...this.config.custom,
+      ...(options.custom || {})
+    }
     // #ifdef APP-PLUS
     options.sslVerify = options.sslVerify === undefined ? this.config.sslVerify : options.sslVerify
     // #endif
@@ -146,8 +150,12 @@ export default class Request {
         next = false
       }
 
-      const handleRe = { ...this.requestBeforeFun(options, cancel) }
-      const _config = { ...handleRe }
+      const handleRe = {
+        ...this.requestBeforeFun(options, cancel)
+      }
+      const _config = {
+        ...handleRe
+      }
       if (!next) return
       const requestTask = uni.request({
         url: Request.mergeUrl(_config.url, _config.baseUrl, _config.params),
@@ -181,7 +189,7 @@ export default class Request {
     })
   }
 
-  get (url, options = {}) {
+  get(url, options = {}) {
     return this.request({
       url,
       method: 'GET',
@@ -189,7 +197,7 @@ export default class Request {
     })
   }
 
-  post (url, data, options = {}) {
+  post(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -199,7 +207,7 @@ export default class Request {
   }
 
   // #ifndef MP-ALIPAY
-  put (url, data, options = {}) {
+  put(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -211,7 +219,7 @@ export default class Request {
   // #endif
 
   // #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-BAIDU
-  delete (url, data, options = {}) {
+  delete(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -223,7 +231,7 @@ export default class Request {
   // #endif
 
   // #ifdef APP-PLUS || H5 || MP-WEIXIN
-  connect (url, data, options = {}) {
+  connect(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -235,7 +243,7 @@ export default class Request {
   // #endif
 
   // #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-BAIDU
-  head (url, data, options = {}) {
+  head(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -247,7 +255,7 @@ export default class Request {
   // #endif
 
   // #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-BAIDU
-  options (url, data, options = {}) {
+  options(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -259,7 +267,7 @@ export default class Request {
   // #endif
 
   // #ifdef APP-PLUS || H5 || MP-WEIXIN
-  trace (url, data, options = {}) {
+  trace(url, data, options = {}) {
     return this.request({
       url,
       data,
@@ -270,7 +278,7 @@ export default class Request {
 
   // #endif
 
-  upload (url, {
+  upload(url, {
     // #ifdef APP-PLUS
     files,
     // #endif
@@ -287,7 +295,9 @@ export default class Request {
   }) {
     return new Promise((resolve, reject) => {
       let next = true
-      const globalHeader = { ...this.config.header }
+      const globalHeader = {
+        ...this.config.header
+      }
       delete globalHeader['content-type']
       delete globalHeader['Content-Type']
       const pubConfig = {
@@ -302,7 +312,10 @@ export default class Request {
         header: header || globalHeader,
         formData,
         params,
-        custom: { ...this.config.custom, ...custom },
+        custom: {
+          ...this.config.custom,
+          ...custom
+        },
         getTask: getTask || this.config.getTask
       }
       // #ifdef APP-PLUS
@@ -319,7 +332,9 @@ export default class Request {
         next = false
       }
 
-      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) }
+      const handleRe = {
+        ...this.requestBeforeFun(pubConfig, cancel)
+      }
       const _config = {
         url: Request.mergeUrl(handleRe.url, handleRe.baseUrl, handleRe.params),
         // #ifdef MP-ALIPAY
@@ -356,7 +371,7 @@ export default class Request {
     })
   }
 
-  download (url, options = {}) {
+  download(url, options = {}) {
     return new Promise((resolve, reject) => {
       let next = true
       const pubConfig = {
@@ -365,7 +380,10 @@ export default class Request {
         method: 'DOWNLOAD',
         header: options.header || this.config.header,
         params: options.params || {},
-        custom: { ...this.config.custom, ...(options.custom || {}) },
+        custom: {
+          ...this.config.custom,
+          ...(options.custom || {})
+        },
         getTask: options.getTask || this.config.getTask
       }
       const cancel = (t = 'handle cancel', config = pubConfig) => {
@@ -377,7 +395,9 @@ export default class Request {
         next = false
       }
 
-      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) }
+      const handleRe = {
+        ...this.requestBeforeFun(pubConfig, cancel)
+      }
       if (!next) return
       const requestTask = uni.downloadFile({
         url: Request.mergeUrl(handleRe.url, handleRe.baseUrl, handleRe.params),

@@ -176,14 +176,15 @@ export default {
           IDCards: Ids,
           Contact: this.reserve.reserveUname,
           ContactPhone: this.reserve.reserveTel,
-          Remark: this.reserve.reserveRemarks
+          Remark: this.reserve.reserveRemarks,
+          userID: uni.getStorageSync('UserId')
         })
         .then(res => {
           // console.log(res)
           if (res.data.status == "true") {
             this.voucherNumber = res.data.voucherNumber;
             // 调用支付接口
-            // this.payment()
+            this.payment()
           }
         });
     },
@@ -217,8 +218,6 @@ export default {
         voucherNumber: this.voucherNumber,
         OpenId: this.openid
       }).then(res => {
-        console.log(res)
-        var total_fee = res.data.total_fee
         uni.requestPayment({
           provider: 'wxpay',
           timeStamp: res.data.timeStamp,
@@ -238,7 +237,7 @@ export default {
           },
           fail: (err) => {
             uni.reLaunch({
-              url: '/pages/orderList/orderList'
+              url: '/pages/orderList/orderList?active=' + 0
             })
           }
         });

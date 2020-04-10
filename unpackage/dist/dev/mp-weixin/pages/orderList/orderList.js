@@ -131,7 +131,95 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -188,9 +276,10 @@ var _default =
   data: function data() {
     return {
       // tab 栏数据
-      tabsList: [{
+      tabs: [
+      {
         text: '已完成',
-        id: 0 },
+        id: 2 },
 
       {
         text: '待出行',
@@ -198,7 +287,11 @@ var _default =
 
       {
         text: '待支付',
-        id: 2 },
+        id: 0 },
+
+      {
+        text: '已过期',
+        id: 4 },
 
       {
         text: '退款单',
@@ -206,26 +299,41 @@ var _default =
 
 
       // 默认选中项
-      active: 0,
+      active: 2,
       // 控制有内容和没有内容页面之间的切换显示
-      flag: true };
+      // tab 栏下面的数据
+      flag: true,
+      tabsList: [],
+      page: {
+        // 当前页
+        pageIndex: 1,
+        // 当前页面显示的条数
+        pageSize: 6 } };
+
 
   },
   methods: {
     // 点击 tab 栏时 触发
     tabsChange: function tabsChange(id) {
       this.active = id;
+      this.page.pageSize = 6;
+      this.page.pageIndex = 1;
+      this.tabsList = [];
+      this.GetProductOrderListByPage();
     },
     // 去订单详情页面
-    goOrderDetails: function goOrderDetails() {
+    goOrderDetails: function goOrderDetails(OrderID) {
+      console.log(OrderID);
       uni.navigateTo({
-        url: '/pages/orderDetails/orderDetails' });
+        url: '/pages/orderDetails/orderDetails?OrderID=' + OrderID });
 
     },
     // 去支付页面
-    goPaymentOrder: function goPaymentOrder() {
+    goPaymentOrder: function goPaymentOrder(PayVoucherNumber) {
       uni.navigateTo({
-        url: '/pages/paymentOrder/paymentOrder' });
+        url:
+        '/pages/paymentOrder/paymentOrder?PayVoucherNumber=' +
+        PayVoucherNumber });
 
     },
     // 去我的行程
@@ -239,7 +347,59 @@ var _default =
       uni.navigateTo({
         url: '/pages/refund/refund' });
 
-    } } };exports.default = _default;
+    },
+    // 获取订单数据
+    GetProductOrderListByPage: function GetProductOrderListByPage() {var _this = this;
+      this.$http.
+      post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductOrderListByPage',
+        OrderStatus: this.active,
+        userID: uni.getStorageSync('UserId'),
+        pageIndex: this.page.pageIndex,
+        pageSize: this.page.pageSize }).
+
+      then(function (res) {
+        if (res.data.status == true) {var _this$tabsList;
+          res.data.Data.Data.forEach(function (item, index) {
+            item.OpenDate = item.OpenDate.split(' ')[0];
+          });
+          (_this$tabsList = _this.tabsList).push.apply(_this$tabsList, _toConsumableArray(res.data.Data.Data));
+        }
+        if (res.data.Data.Data.length == 0) {
+          _this.flag = false;
+        }
+      });
+    },
+    onReachBottom: function onReachBottom(e) {
+      this.page.pageIndex += 1;
+      // this.page.pageSize += 4
+      if (this.flag) {
+        this.GetProductOrderListByPage();
+      } else {
+        uni.showToast(_defineProperty({
+          title: '我是有底线的',
+          duration: 2000,
+          icon: 'none' }, "duration",
+        2000));
+
+      }
+    } },
+
+  computed: {
+    isFlag: function isFlag() {
+      if (this.tabsList.length == 0) {
+        return true;
+      }
+      return false;
+    } },
+
+  onLoad: function onLoad(options) {
+    if (options.active != undefined) {
+      this.active = options.active;
+    }
+    // 获取订单数据
+    this.GetProductOrderListByPage();
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

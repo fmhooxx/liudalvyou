@@ -157,12 +157,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       // 首页数据
-      list: [] };
+      list: [],
+      swiperImg: [
+      '../../static/images/index-1.jfif',
+      '../../static/images/index-2.jfif',
+      '../../static/images/index-3.jfif',
+      '../../static/images/index-4.jfif',
+      '../../static/images/index-5.jfif',
+      '../../static/images/index-6.jfif'] };
+
 
   },
   methods: {

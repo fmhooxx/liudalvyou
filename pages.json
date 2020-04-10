@@ -97,18 +97,41 @@
             "style": {
                 "navigationBarTitleText": "我的行程"
             }
-        }
-        ,{
-            "path" : "pages/refund/refund",
-            "style" : {
-							"navigationBarTitleText": "退款中"
-						}
-        }
-        ,{
-            "path" : "pages/refundDetails/refundDetails",
-            "style" : {
-							"navigationBarTitleText": "退款详情"
-						}
+        }, {
+            "path": "pages/refund/refund",
+            "style": {
+                "navigationBarTitleText": "退款中"
+            }
+        }, {
+            "path": "pages/refundDetails/refundDetails",
+            "style": {
+                "navigationBarTitleText": "退款详情"
+            }
+        }, {
+            "path": "pages/agreement/agreement",
+            "style": {
+                "navigationBarTitleText": "协议以及声明"
+            }
+        }, {
+            "path": "pages/agreementService/agreementService",
+            "style": {
+                "navigationBarTitleText": "服务协议"
+            }
+        }, {
+            "path": "pages/agreementPrivacy/agreementPrivacy",
+            "style": {
+                "navigationBarTitleText": "隐私政策"
+            }
+        }, {
+            "path": "pages/agreementKnowledge/agreementKnowledge",
+            "style": {
+                "navigationBarTitleText": "知识产权声明"
+            }
+        }, {
+            "path": "pages/agreementRight/agreementRight",
+            "style": {
+                "navigationBarTitleText": "权利声明"
+            }
         }
     ],
     "globalStyle": {

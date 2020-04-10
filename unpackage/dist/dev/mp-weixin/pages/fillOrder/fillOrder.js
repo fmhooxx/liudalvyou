@@ -309,14 +309,15 @@ var _default =
         IDCards: Ids,
         Contact: this.reserve.reserveUname,
         ContactPhone: this.reserve.reserveTel,
-        Remark: this.reserve.reserveRemarks }).
+        Remark: this.reserve.reserveRemarks,
+        userID: uni.getStorageSync('UserId') }).
 
       then(function (res) {
         // console.log(res)
         if (res.data.status == "true") {
           _this.voucherNumber = res.data.voucherNumber;
           // 调用支付接口
-          // this.payment()
+          _this.payment();
         }
       });
     },
@@ -350,8 +351,6 @@ var _default =
         voucherNumber: this.voucherNumber,
         OpenId: this.openid }).
       then(function (res) {
-        console.log(res);
-        var total_fee = res.data.total_fee;
         uni.requestPayment({
           provider: 'wxpay',
           timeStamp: res.data.timeStamp,
@@ -371,7 +370,7 @@ var _default =
           },
           fail: function fail(err) {
             uni.reLaunch({
-              url: '/pages/orderList/orderList' });
+              url: '/pages/orderList/orderList?active=' + 0 });
 
           } });
 

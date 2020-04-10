@@ -142,20 +142,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
-    return {};
-
+    return {
+      // 支付凭证
+      PayVoucherNumber: '' };
 
   },
   methods: {
     // 去支付结果页面
     goPaymentResult: function goPaymentResult() {
-      uni.reLaunch({
-        url: '/pages/paymentResult/paymentResult' });
+      this.$http.post('/api/WeiXinPay.ashx', {
+        action: 'Pay',
+        voucherNumber: this.PayVoucherNumber,
+        OpenId: uni.getStorageSync('openid') }).
+      then(function (res) {
+        uni.requestPayment({
+          provider: 'wxpay',
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: 'prepay_id=' + res.data.prepay_id,
+          signType: 'MD5',
+          paySign: res.data.paySign,
+          success: function success(res) {
+            console.log(res);
+            if (res.errMsg == 'requestPayment:ok') {
+              uni.reLaunch({
+                url: '/pages/paymentResult/paymentResult' });
 
-    } } };exports.default = _default;
+            } else {
+              console.log('支付失败');
+            }
+          },
+          fail: function fail(err) {
+            uni.reLaunch({
+              url: '/pages/orderList/orderList?active=' + 0 });
+
+          } });
+
+      });
+      // uni.reLaunch({
+      //   url: '/pages/paymentResult/paymentResult'
+      // });
+    } },
+
+  onLoad: function onLoad(options) {
+    console.log(options);
+    this.PayVoucherNumber = options.PayVoucherNumber;
+    console.log(this.PayVoucherNumber);
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

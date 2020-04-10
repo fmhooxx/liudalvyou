@@ -131,7 +131,10 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
 //
 //
 //
@@ -196,9 +199,54 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 var _default =
 {
   data: function data() {
-    return {};
+    return {
+      // 订单详情
+      orderDetails: '',
+      // 订单 id
+      OrderID: '',
+      // 游客信息
+      tourist: '' };
+
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    GetProductOrderListByPage: function GetProductOrderListByPage() {var _this = this;
+      this.$http.
+      post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductOrderListByPage',
+        OrderID: this.OrderID,
+        userID: uni.getStorageSync('UserId') }).
+
+      then(function (res) {
+        // console.log(res)
+        if (res.data.status == true) {
+          _this.orderDetails = res.data.Data.Data[0];
+          console.log(_this.orderDetails);
+        }
+      });
+    },
+    GetProductOrderUserList: function GetProductOrderUserList() {var _this2 = this;
+      this.$http.post('/api/WeiXinApplet.ashx', {
+        action: 'GetProductOrderUserList',
+        userID: uni.getStorageSync('UserId'),
+        OrderID: this.OrderID }).
+      then(function (res) {
+        if (res.data.status == true) {
+          _this2.tourist = res.data.Data;
+          console.log(_this2.tourist);
+        }
+      });
+    } },
+
+  onLoad: function onLoad(options) {
+    this.OrderID = options.OrderID;
+    if (this.options == undefined) {
+      // 获取详情内容
+      this.GetProductOrderListByPage();
+      // 获取游客信息
+      this.GetProductOrderUserList();
+    }
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

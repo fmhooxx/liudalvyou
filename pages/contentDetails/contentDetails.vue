@@ -159,7 +159,6 @@ export default {
             action: "Login",
             code: code
           }).then(res => {
-            console.log(res)
             if (res.data.status == 'true') {
               uni.setStorageSync('openid', res.data.openid)
               uni.setStorageSync('session_key', res.data.session_key)
@@ -183,7 +182,6 @@ export default {
       uni.getUserInfo({
         provider: 'weixin',
         success: (res) => {
-          console.log(res)
           if (res.errMsg == 'getUserInfo:ok') {
             uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
             uni.setStorageSync('nickName', res.userInfo.nickName)
@@ -194,7 +192,6 @@ export default {
               gender: res.userInfo.gender,
               avatarUrl: res.userInfo.avatarUrl
             }).then(res => {
-              console.log(res)
               if (res.data.status == 'true') {
                 uni.navigateTo({
                   url: '/pages/login/login?ProductId=' + this.ProductId
@@ -229,10 +226,12 @@ export default {
         action: 'GetProductByID',
         productId: this.ProductId
       }).then(res => {
-        console.log(res.data.Data)
+        // console.log(res)
         if (res.data.status == true) {
           this.details = res.data.Data
           this.MaxShowPrice = res.data.Data.MaxShowPrice
+          this.textVal = res.data.Data.Description
+          console.log(this.textVal)
           // 线路特色
           // this.textVal = res.data.Data.Description
         }
@@ -244,10 +243,9 @@ export default {
         action: 'GetProductTripByProductID',
         productId: this.ProductId
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.status == true) {
           this.tripIntroduce = res.data.Data.Data
-          console.log(this.tripIntroduce)
         }
       })
     },
@@ -270,12 +268,12 @@ export default {
   },
   onLoad (options) {
     this.ProductId = options.ProductId
-    if (this.ProductId != undefined) {
-      // 获取详情内容
-      this.GetProductByID()
-      // 获取行程介绍的内容
-      this.GetProductTripByProductID()
-    }
+    // if (this.ProductId != undefined) {
+    // 获取详情内容
+    this.GetProductByID()
+    // 获取行程介绍的内容
+    this.GetProductTripByProductID()
+    // }
   }
 }
 </script>
