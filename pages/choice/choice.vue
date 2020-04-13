@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { GetOrderAmount } from '../api/agreement'
 import uniCalendar from "@/components/uni-calendar/uni-calendar.vue";
 import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue";
 export default {
@@ -55,9 +56,9 @@ export default {
       startData: '',
       endData: '2099-12-29',
       // 成人人数
-      adultNum: null,
+      adultNum: 0,
       // 儿童人数
-      childrenNum: null,
+      childrenNum: 0,
       // 选择的日期
       fulldate: '',
       // 页面传递过来的 id 值
@@ -104,11 +105,28 @@ export default {
     },
     // 去填写订单信息页面
     goFillOrder () {
+      this.choiceTimeNum()
+    },
+    // 选择出行时间和人数
+    choiceTimeNum () {
       var total = this.adultNum + this.childrenNum
       if (total < 10 && this.fulldate) {
-        uni.navigateTo({
-          url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum + '&ProductId=' + this.ProductId + '&fulldate=' + this.fulldate + '&MaxShowPrice=' + this.MaxShowPrice
-        });
+        var result = {
+          action: 'GetOrderAmount',
+          userID: uni.getStorageSync('UserId'),
+          maxUserCount: this.adultNum,
+          minUserCount: this.childrenNum,
+          productID: this.ProductId,
+        }
+        GetOrderAmount(result).then(res => {
+          console.log(res)
+          var amountTotal = res.data.amountTotal
+          if (res.data.status == 'true') {
+            uni.navigateTo({
+              url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum + '&ProductId=' + this.ProductId + '&fulldate=' + this.fulldate + '&amountTotal=' + amountTotal
+            });
+          }
+        })
       } else if (total >= 10 && this.fulldate) {
         uni.navigateTo({
           url: '/pages/company/company'
@@ -160,7 +178,6 @@ export default {
     this.getTime()
   },
   onLoad (options) {
-    console.log(options)
     this.ProductId = options.productId
     if (this.ProductId != undefined) {
       // 获取出发时间

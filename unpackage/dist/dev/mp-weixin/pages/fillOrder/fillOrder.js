@@ -279,8 +279,8 @@ var _default =
       orderId: '',
       // 用户的 openid
       openid: '',
-      // 支付金额
-      MaxShowPrice: '' };
+      // 订单总额
+      amountTotal: '' };
 
   },
   methods: {
@@ -310,7 +310,9 @@ var _default =
         Contact: this.reserve.reserveUname,
         ContactPhone: this.reserve.reserveTel,
         Remark: this.reserve.reserveRemarks,
-        userID: uni.getStorageSync('UserId') }).
+        userID: uni.getStorageSync('UserId'),
+        minUserCount: this.childrenNum,
+        maxUserCount: this.adultNum }).
 
       then(function (res) {
         // console.log(res)
@@ -323,10 +325,13 @@ var _default =
     },
     // 去确认订单页面
     goConfirmationOrder: function goConfirmationOrder() {
-      if (isNaN(this.adultNum)) {
-        var number = this.childrenNum;
-      } else if (isNaN(this.childrenNum)) {
+      // for (var i = 0; i < this.adultArrayId.length; i++) {
+      //   console.log(this.adultArrayId[i].length)
+      // }
+      if (this.adultNum != 0) {
         var number = this.adultNum;
+      } else if (this.childrenNum != 0) {
+        var number = this.childrenNum;
       } else {
         var number = this.adultNum + this.childrenNum;
       }
@@ -334,9 +339,15 @@ var _default =
       if (
       total == number &&
       this.reserve.reserveUname !== "" &&
-      this.reserve.reserveTel !== "")
+      this.reserve.reserveTel.length == 11)
       {
         this.formSubmit();
+      } else if (this.reserve.reserveTel.length != 11) {
+        uni.showToast({
+          title: "请输入十一位的手机号码",
+          duration: 2000,
+          icon: "none" });
+
       } else {
         uni.showToast({
           title: "请将信息填写完整",
@@ -369,8 +380,18 @@ var _default =
             }
           },
           fail: function fail(err) {
-            uni.reLaunch({
-              url: '/pages/orderList/orderList?active=' + 0 });
+            uni.showToast({
+              title: '支付失败',
+              duration: 2000,
+              icon: 'none',
+              mask: true,
+              success: function success() {
+                setTimeout(function () {
+                  uni.reLaunch({
+                    url: '/pages/orderList/orderList?active=' + 0 });
+
+                }, 1500);
+              } });
 
           } });
 
@@ -380,11 +401,12 @@ var _default =
   onLoad: function onLoad(options) {
     this.adultNum = parseInt(options.adultNum);
     this.childrenNum = parseInt(options.childrenNum);
+    console.log(this.adultNum);
+    console.log(this.childrenNum);
     this.ProductId = options.ProductId;
     this.fulldate = options.fulldate;
     this.openid = uni.getStorageSync('openid');
-    console.log(options);
-    this.MaxShowPrice = options.MaxShowPrice;
+    this.amountTotal = options.amountTotal;
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -95,7 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   "uni-calendar": function() {
-    return Promise.all(/*! import() | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then(__webpack_require__.bind(null, /*! @/components/uni-calendar/uni-calendar.vue */ 248))
+    return Promise.all(/*! import() | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then(__webpack_require__.bind(null, /*! @/components/uni-calendar/uni-calendar.vue */ 259))
   }
 }
 var render = function() {
@@ -135,7 +135,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniCalendar = function uniCalendar() {Promise.all(/*! require.ensure | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-calendar/uni-calendar.vue */ 248));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniNumberBox = function uniNumberBox() {__webpack_require__.e(/*! require.ensure | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then((function () {return resolve(__webpack_require__(/*! @/components/uni-number-box/uni-number-box.vue */ 257));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -179,58 +179,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-{
-  components: {
-    uniCalendar: uniCalendar,
-    uniNumberBox: uniNumberBox },
-
-  data: function data() {
-    return {
-      // 日历的开始日期
-      startData: '',
-      endData: '2099-12-29',
-      // 成人人数
-      adultNum: null,
-      // 儿童人数
-      childrenNum: null,
-      // 选择的日期
-      fulldate: '',
-      // 页面传递过来的 id 值
-      ProductId: '',
-      // 红点日期
-      selected: '',
-      // 支付金额
-      MaxShowPrice: '' };
-
-  },
-  methods: {
-    // 当日期发生改变的时候
-    change: function change(e) {
-      var data = e.fulldate;
-      for (var i = 0; i < this.selected.length; i++) {
-        var choice = this.selected[i].date;
-        // console.log(choice)
-        if (data == choice) {
-          this.fulldate = choice;
-          return;
-        }
-      }
-      for (var i = 0; i < this.selected.length; i++) {
-        var choice = this.selected[i].date;
-        if (data !== choice) {
-          this.fulldate = '';
-          uni.showToast({
-            title: '请选择带有红点的日期',
-            duration: 2000,
-            icon: 'none',
-            mask: true });
-
-          return;
-        }
-      }
-    },
+var _agreement = __webpack_require__(/*! ../api/agreement */ 130); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var uniCalendar = function uniCalendar() {Promise.all(/*! require.ensure | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-calendar/uni-calendar.vue */ 259));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniNumberBox = function uniNumberBox() {__webpack_require__.e(/*! require.ensure | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then((function () {return resolve(__webpack_require__(/*! @/components/uni-number-box/uni-number-box.vue */ 268));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniCalendar: uniCalendar, uniNumberBox: uniNumberBox }, data: function data() {return { // 日历的开始日期
+      startData: '', endData: '2099-12-29', // 成人人数
+      adultNum: 0, // 儿童人数
+      childrenNum: 0, // 选择的日期
+      fulldate: '', // 页面传递过来的 id 值
+      ProductId: '', // 红点日期
+      selected: '', // 支付金额
+      MaxShowPrice: '' };}, methods: { // 当日期发生改变的时候
+    change: function change(e) {var data = e.fulldate;for (var i = 0; i < this.selected.length; i++) {var choice = this.selected[i].date; // console.log(choice)
+        if (data == choice) {this.fulldate = choice;return;}}for (var i = 0; i < this.selected.length; i++) {var choice = this.selected[i].date;if (data !== choice) {this.fulldate = '';uni.showToast({ title: '请选择带有红点的日期', duration: 2000, icon: 'none', mask: true });return;}}},
     // 成人输入框内容发生变化的时候
     adultChange: function adultChange(e) {
       this.adultNum = parseInt(e);
@@ -241,11 +242,28 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 去填写订单信息页面
     goFillOrder: function goFillOrder() {
+      this.choiceTimeNum();
+    },
+    // 选择出行时间和人数
+    choiceTimeNum: function choiceTimeNum() {var _this = this;
       var total = this.adultNum + this.childrenNum;
       if (total < 10 && this.fulldate) {
-        uni.navigateTo({
-          url: '/pages/fillOrder/fillOrder?adultNum=' + this.adultNum + '&childrenNum=' + this.childrenNum + '&ProductId=' + this.ProductId + '&fulldate=' + this.fulldate + '&MaxShowPrice=' + this.MaxShowPrice });
+        var result = {
+          action: 'GetOrderAmount',
+          userID: uni.getStorageSync('UserId'),
+          maxUserCount: this.adultNum,
+          minUserCount: this.childrenNum,
+          productID: this.ProductId };
 
+        (0, _agreement.GetOrderAmount)(result).then(function (res) {
+          console.log(res);
+          var amountTotal = res.data.amountTotal;
+          if (res.data.status == 'true') {
+            uni.navigateTo({
+              url: '/pages/fillOrder/fillOrder?adultNum=' + _this.adultNum + '&childrenNum=' + _this.childrenNum + '&ProductId=' + _this.ProductId + '&fulldate=' + _this.fulldate + '&amountTotal=' + amountTotal });
+
+          }
+        });
       } else if (total >= 10 && this.fulldate) {
         uni.navigateTo({
           url: '/pages/company/company' });
@@ -274,7 +292,7 @@ __webpack_require__.r(__webpack_exports__);
       return timer;
     },
     // 获取出发时间
-    GetProductOpenDateByProductID: function GetProductOpenDateByProductID() {var _this = this;
+    GetProductOpenDateByProductID: function GetProductOpenDateByProductID() {var _this2 = this;
       this.$http.post('/api/WeiXinApplet.ashx', {
         action: 'GetProductOpenDateByProductID',
         productId: this.ProductId }).
@@ -288,7 +306,7 @@ __webpack_require__.r(__webpack_exports__);
 
             result.push(str);
           }
-          _this.selected = result;
+          _this2.selected = result;
         }
       });
     } },
@@ -297,7 +315,6 @@ __webpack_require__.r(__webpack_exports__);
     this.getTime();
   },
   onLoad: function onLoad(options) {
-    console.log(options);
     this.ProductId = options.productId;
     if (this.ProductId != undefined) {
       // 获取出发时间

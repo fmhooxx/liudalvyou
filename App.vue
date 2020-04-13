@@ -1,12 +1,12 @@
 <script>
 export default {
-  onLaunch: function (options) {
-    console.log(options.query.openid)
-    if (options.query.openid) {
-      uni.setStorageSync('ReferralUserId', options.query.openid)
-    } else {
-      uni.setStorageSync('ReferralUserId', 0)
-    }
+  onLaunch (options) {
+    // console.log(options)
+    // if (options.query.UserId) {
+    //   uni.setStorageSync('ReferralUserId', options.query.UserId)
+    // } else {
+    //   uni.setStorageSync('ReferralUserId', 0)
+    // }
     // console.log('App Launch')
   },
   onShow: function () {

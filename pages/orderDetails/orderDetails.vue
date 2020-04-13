@@ -57,7 +57,7 @@
       </view>
       <view class="order-content order-footer">
         <text>合计</text>
-        <text class="common-text">¥498</text>
+        <text class="common-text">¥{{orderDetails.Amount}}</text>
       </view>
     </view>
   </view>

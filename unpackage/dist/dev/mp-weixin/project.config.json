@@ -4,7 +4,10 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
@@ -38,15 +41,30 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/agreementRight/agreementRight",
-					"pathName": "pages/agreementRight/agreementRight",
+					"name": "我的订单",
+					"pathName": "pages/orderList/orderList",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "协议以及声明",
-					"pathName": "pages/agreement/agreement",
+					"name": "公司订单",
+					"pathName": "pages/company/company",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "登录",
+					"pathName": "pages/login/login",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "推荐",
+					"pathName": "pages/recommendList/recommendList",
+					"query": "",
 					"scene": null
 				}
 			]

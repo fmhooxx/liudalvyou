@@ -26,7 +26,7 @@
                 <view class="content-text">
                   <!-- <view>10人团</view> -->
                   <view>{{ item.OpenDate }} 出发</view>
-                  <view class="price">¥{{ item.MinShowPrice }}</view>
+                  <view class="price">¥{{ item.Amount }}</view>
                 </view>
               </view>
             </view>
@@ -48,12 +48,12 @@
                 <view class="content-text">
                   <!-- <view>10人团</view> -->
                   <view>{{ item.OpenDate }} 出发</view>
-                  <view class="price">¥{{ item.MinShowPrice }}</view>
+                  <view class="price">¥{{ item.Amount }}</view>
                 </view>
               </view>
             </view>
             <view class="list-right">
-              <view @click="refund">退款</view>
+              <view @click="refund(item.OrderID, item.RefundRulesGroupID)">退款</view>
               <image src="/static/images/right-arrow.png"></image>
             </view>
           </view>
@@ -70,13 +70,13 @@
                 <view class="content-text">
                   <!-- <view>10人团</view> -->
                   <view>{{ item.OpenDate }} 出发</view>
-                  <view class="price">¥{{ item.MaxShowPrice }}</view>
+                  <view class="price">¥{{ item.Amount }}</view>
                 </view>
               </view>
             </view>
             <view class="list-right">
               <view style="color: #4eb4a0;"
-                    @click="goPaymentOrder(item.PayVoucherNumber)">支付</view>
+                    @click="goPaymentOrder(item.PayVoucherNumber,item.Amount)">支付</view>
               <image src="/static/images/right-arrow.png"></image>
             </view>
           </view>
@@ -93,7 +93,7 @@
                 <view class="content-text">
                   <!-- <view>10人团</view> -->
                   <view>{{ item.OpenDate }} 出发</view>
-                  <view class="price">¥{{ item.MinShowPrice }}</view>
+                  <view class="price">¥{{ item.Amount }}</view>
                 </view>
               </view>
             </view>
@@ -114,12 +114,19 @@
                 <view class="content-text">
                   <!-- <view>10人团</view> -->
                   <view>{{ item.OpenDate }} 出发</view>
-                  <view class="price">¥{{ item.MinShowPrice }}</view>
+                  <view class="price">¥{{ item.RefundAmount }}</view>
                 </view>
               </view>
             </view>
             <view class="list-right">
-              <view class="refund">退款中</view>
+              <view class="refund"
+                    v-if="item.RefundStatus == 0">未退款</view>
+              <view class="refund"
+                    v-if="item.RefundStatus == 1">退款中</view>
+              <view class="refund"
+                    v-if="item.RefundStatus == 3">退款成功</view>
+              <view class="refund"
+                    v-if="item.RefundStatus == 4">拒绝退款</view>
             </view>
           </view>
         </view>
@@ -177,6 +184,8 @@ export default {
         // 当前页面显示的条数
         pageSize: 6,
       },
+      // 总的数据条数
+      total: ''
     }
   },
   methods: {
@@ -196,11 +205,11 @@ export default {
       })
     },
     // 去支付页面
-    goPaymentOrder (PayVoucherNumber) {
+    goPaymentOrder (PayVoucherNumber, Amount) {
       uni.navigateTo({
         url:
           '/pages/paymentOrder/paymentOrder?PayVoucherNumber=' +
-          PayVoucherNumber,
+          PayVoucherNumber + '&Amount=' + Amount
       })
     },
     // 去我的行程
@@ -210,9 +219,9 @@ export default {
       })
     },
     // 去退款页面
-    refund () {
+    refund (OrderID, RefundRulesGroupID) {
       uni.navigateTo({
-        url: '/pages/refund/refund',
+        url: '/pages/refund/refund?OrderID=' + OrderID + '&RefundRulesGroupID=' + RefundRulesGroupID,
       })
     },
     // 获取订单数据
@@ -226,17 +235,21 @@ export default {
           pageSize: this.page.pageSize,
         })
         .then((res) => {
+          this.total = res.data.Data.TotalRecords
           if (res.data.status == true) {
             res.data.Data.Data.forEach((item, index) => {
               item.OpenDate = item.OpenDate.split(' ')[0]
             })
             this.tabsList.push(...res.data.Data.Data)
+            var result = this.tabsList.length
+            this.flag = true
           }
-          if (res.data.Data.Data.length == 0) {
+          if (this.total == result) {
             this.flag = false
           }
         })
     },
+    // 上拉加载更多
     onReachBottom (e) {
       this.page.pageIndex += 1
       // this.page.pageSize += 4

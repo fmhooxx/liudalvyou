@@ -1555,6 +1555,60 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
+/***/ 130:
+/*!****************************************************************************!*\
+  !*** C:/Users/XDK/Documents/HBuilderProjects/liuda/pages/api/agreement.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.GetReferralUserResultsByPage = exports.GetRefundRules = exports.GetRefundOrderAmount = exports.GetOrderAmount = exports.RefundOrder = exports.getOrderReservationsDetails = exports.GetProductOrderUserList = exports.GetOrderDetails = exports.GetProductOrderListByPage = exports.GetSysContentByID = void 0;var _index = __webpack_require__(/*! ../../js_sdk/luch-request/index */ 15);
+
+
+// 获取用户协议相关内容
+var GetSysContentByID = function GetSysContentByID(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取订单的数据
+exports.GetSysContentByID = GetSysContentByID;var GetProductOrderListByPage = function GetProductOrderListByPage(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取订单详情的接口
+exports.GetProductOrderListByPage = GetProductOrderListByPage;var GetOrderDetails = function GetOrderDetails(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取游客信息
+exports.GetOrderDetails = GetOrderDetails;var GetProductOrderUserList = function GetProductOrderUserList(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取订单预订人详情内容
+exports.GetProductOrderUserList = GetProductOrderUserList;var getOrderReservationsDetails = function getOrderReservationsDetails(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 退款接口
+exports.getOrderReservationsDetails = getOrderReservationsDetails;var RefundOrder = function RefundOrder(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取订单总额
+exports.RefundOrder = RefundOrder;var GetOrderAmount = function GetOrderAmount(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取退款金额
+exports.GetOrderAmount = GetOrderAmount;var GetRefundOrderAmount = function GetRefundOrderAmount(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取退款规则
+exports.GetRefundOrderAmount = GetRefundOrderAmount;var GetRefundRules = function GetRefundRules(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};
+// 获取推荐列表
+exports.GetRefundRules = GetRefundRules;var GetReferralUserResultsByPage = function GetReferralUserResultsByPage(params) {
+  return _index.http.post('/api/WeiXinApplet.ashx', params);
+};exports.GetReferralUserResultsByPage = GetReferralUserResultsByPage;
+
+/***/ }),
+
 /***/ 14:
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -1790,7 +1844,7 @@ http.interceptor.response(function (response) {
     uni.hideLoading();
   } else {
     uni.showToast({
-      title: '网络出错,请;联系管理员',
+      title: '网络出错;请联系管理员',
       duration: 2000,
       icon: 'none',
       mask: true });
@@ -9090,7 +9144,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 253:
+/***/ 264:
 /*!*************************************************************************************!*\
   !*** C:/Users/XDK/Documents/HBuilderProjects/liuda/components/uni-calendar/util.js ***!
   \*************************************************************************************/
@@ -9098,7 +9152,7 @@ internalMixin(Vue);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _calendar = _interopRequireDefault(__webpack_require__(/*! ./calendar.js */ 254));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _calendar = _interopRequireDefault(__webpack_require__(/*! ./calendar.js */ 265));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
 
 Calendar = /*#__PURE__*/function () {
   function Calendar()
@@ -9428,7 +9482,7 @@ Calendar;exports.default = _default;
 
 /***/ }),
 
-/***/ 254:
+/***/ 265:
 /*!*****************************************************************************************!*\
   !*** C:/Users/XDK/Documents/HBuilderProjects/liuda/components/uni-calendar/calendar.js ***!
   \*****************************************************************************************/
@@ -10013,24 +10067,6 @@ try {
 
 module.exports = g;
 
-
-/***/ }),
-
-/***/ 319:
-/*!****************************************************************************!*\
-  !*** C:/Users/XDK/Documents/HBuilderProjects/liuda/pages/api/agreement.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.GetSysContentByID = void 0;var _index = __webpack_require__(/*! ../../js_sdk/luch-request/index */ 15);
-
-
-// 获取用户协议相关内容
-var GetSysContentByID = function GetSysContentByID(params) {
-  return _index.http.post('/api/WeiXinApplet.ashx', params);
-};exports.GetSysContentByID = GetSysContentByID;
 
 /***/ }),
 
@@ -10951,7 +10987,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/recommend/recommend": {}, "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/login/login": {}, "pages/me/me": { "navigationBarTitleText": "个人中心" }, "pages/calendar/calendar": {}, "pages/changePassword/changePassword": { "navigationBarTitleText": "修改密码" }, "pages/choice/choice": { "navigationBarTitleText": "选择出行时间/人数" }, "pages/company/company": { "navigationBarTitleText": "填写订单" }, "pages/confirmationOrder/confirmationOrder": { "navigationBarTitleText": "确认订单" }, "pages/contact/contact": { "navigationBarTitleText": "客服" }, "pages/contentDetails/contentDetails": {}, "pages/feedback/feedback": { "navigationBarTitleText": "意见反馈" }, "pages/fillOrder/fillOrder": { "navigationBarTitleText": "填写订单" }, "pages/footprint/footprint": { "navigationBarTitleText": "我的足迹" }, "pages/nickName/nickName": { "navigationBarTitleText": "用户昵称" }, "pages/orderDetails/orderDetails": { "navigationBarTitleText": "订单详情" }, "pages/orderList/orderList": { "navigationBarTitleText": "我的订单" }, "pages/paymentOrder/paymentOrder": { "navigationBarTitleText": "支付订单" }, "pages/paymentResult/paymentResult": { "navigationBarTitleText": "支付结果" }, "pages/setUp/setUp": { "navigationBarTitleText": "设置" }, "pages/trip/trip": { "navigationBarTitleText": "我的行程" }, "pages/refund/refund": { "navigationBarTitleText": "退款中" }, "pages/refundDetails/refundDetails": { "navigationBarTitleText": "退款详情" }, "pages/agreement/agreement": { "navigationBarTitleText": "协议以及声明" }, "pages/agreementService/agreementService": { "navigationBarTitleText": "服务协议" }, "pages/agreementPrivacy/agreementPrivacy": { "navigationBarTitleText": "隐私政策" }, "pages/agreementKnowledge/agreementKnowledge": { "navigationBarTitleText": "知识产权声明" }, "pages/agreementRight/agreementRight": { "navigationBarTitleText": "权利声明" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "溜达溜达", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#ffffff" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/recommend/recommend": {}, "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/login/login": {}, "pages/me/me": { "navigationBarTitleText": "个人中心" }, "pages/calendar/calendar": {}, "pages/changePassword/changePassword": { "navigationBarTitleText": "修改密码" }, "pages/choice/choice": { "navigationBarTitleText": "选择出行时间/人数" }, "pages/company/company": { "navigationBarTitleText": "填写订单" }, "pages/confirmationOrder/confirmationOrder": { "navigationBarTitleText": "确认订单" }, "pages/contact/contact": { "navigationBarTitleText": "客服" }, "pages/contentDetails/contentDetails": {}, "pages/feedback/feedback": { "navigationBarTitleText": "意见反馈" }, "pages/fillOrder/fillOrder": { "navigationBarTitleText": "填写订单" }, "pages/footprint/footprint": { "navigationBarTitleText": "我的足迹" }, "pages/nickName/nickName": { "navigationBarTitleText": "用户昵称" }, "pages/orderDetails/orderDetails": { "navigationBarTitleText": "订单详情" }, "pages/orderList/orderList": { "navigationBarTitleText": "我的订单" }, "pages/paymentOrder/paymentOrder": { "navigationBarTitleText": "支付订单" }, "pages/paymentResult/paymentResult": { "navigationBarTitleText": "支付结果" }, "pages/setUp/setUp": { "navigationBarTitleText": "设置" }, "pages/trip/trip": { "navigationBarTitleText": "我的行程" }, "pages/refund/refund": { "navigationBarTitleText": "退款中" }, "pages/refundDetails/refundDetails": { "navigationBarTitleText": "退款详情" }, "pages/agreement/agreement": { "navigationBarTitleText": "协议以及声明" }, "pages/agreementService/agreementService": { "navigationBarTitleText": "服务协议" }, "pages/agreementPrivacy/agreementPrivacy": { "navigationBarTitleText": "隐私政策" }, "pages/agreementKnowledge/agreementKnowledge": { "navigationBarTitleText": "知识产权声明" }, "pages/agreementRight/agreementRight": { "navigationBarTitleText": "权利声明" }, "pages/recommendList/recommendList": { "navigationBarTitleText": "推荐" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "溜达溜达", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#ffffff" } };exports.default = _default;
 
 /***/ }),
 

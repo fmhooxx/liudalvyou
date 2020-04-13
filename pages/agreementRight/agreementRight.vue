@@ -1,41 +1,41 @@
 <template>
   <!-- 权利声明页面 -->
-  <view>
-    <shareButton></shareButton>
+  <view class="box">
+    <rich-text :nodes=content
+               style="font-size: 30rpx;"></rich-text>
   </view>
 </template>
 
 <script>
-import shareButton from '../../components/shareButton/shareButton'
 import { GetSysContentByID } from '../api/agreement'
 export default {
-  components: {
-    shareButton,
-  },
-  data() {
+  data () {
     return {
       content: '',
     }
   },
   methods: {
-    getAgreement() {
+    getAgreement () {
       var result = {
         action: 'GetSysContentByID',
         ID: 1,
       }
       GetSysContentByID(result).then((res) => {
         console.log(res)
-        if (res.data.status == true) {
-          this.content = res.data.Data
-        }
+        this.content = res.data.Data.Contents
       })
     },
   },
-  onLoad() {
+  onLoad () {
     // 获取权利声明页面
     this.getAgreement()
   },
 }
 </script>
 
-<style></style>
+<style>
+.box {
+  padding: 30rpx;
+  background-color: #fff;
+}
+</style>

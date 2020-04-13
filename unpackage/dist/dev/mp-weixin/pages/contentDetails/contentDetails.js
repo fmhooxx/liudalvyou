@@ -131,7 +131,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 236));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -261,139 +261,180 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-{
-  components: {
-    uniPopup: uniPopup },
 
-  data: function data() {
-    return {
-      // openid
-      openid: null,
-      // 手机号码
-      phoneNumber: null,
-      // 线路特色富文本的内容
-      textVal: '<h1>这是富文本内容</h1>',
-      // 传递过来的 页面详情的 id
-      ProductId: '',
-      // 图文详情
-      details: '',
-      // 行程介绍
-      tripIntroduce: '' };
 
-  },
-  methods: {
-    // 判断是否登录了 登录了下单 未去登录页面
-    getLogin: function getLogin() {var _this = this;
-      uni.login({
-        provider: 'weixin',
-        success: function success(res) {
-          var code = res.code;
-          _this.$http.post('/api/WeiXinApplet.ashx', {
-            action: "Login",
-            code: code }).
-          then(function (res) {
-            if (res.data.status == 'true') {
-              uni.setStorageSync('openid', res.data.openid);
-              uni.setStorageSync('session_key', res.data.session_key);
-              uni.setStorageSync('UserId', res.data.UserId);
-              if (res.data.UserId) {
-                _this.getUser();
-              }
-            } else {
-              uni.showToast({
-                title: '获取信息异常，请稍后重新操作！',
-                duration: 2000,
-                icon: 'none' });
-
-            }
-          });
-        } });
-
-    },
-    // 获取用户信息
-    getUser: function getUser() {var _this2 = this;
-      uni.getUserInfo({
-        provider: 'weixin',
-        success: function success(res) {
-          if (res.errMsg == 'getUserInfo:ok') {
-            uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
-            uni.setStorageSync('nickName', res.userInfo.nickName);
-            _this2.$http.post('/api/WeiXinApplet.ashx', {
-              action: 'UserBindInfo',
-              UserId: uni.getStorageSync('UserId'),
-              nickName: res.userInfo.nickName,
-              gender: res.userInfo.gender,
-              avatarUrl: res.userInfo.avatarUrl }).
-            then(function (res) {
-              if (res.data.status == 'true') {
-                uni.navigateTo({
-                  url: '/pages/login/login?ProductId=' + _this2.ProductId });
-
-              }
-            });
-          }
-        } });
-
-    },
-    // 打开弹出框
-    open: function open() {
-      // 如果手机号码为空 打开弹框
-      if (this.phoneNumber == '') {
-        this.$refs.popup.open();
-      } else {
-        // 去选择出行时间 / 人数页面
-        uni.navigateTo({
-          url: '/pages/choice/choice?productId=' + this.ProductId + '&MaxShowPrice=' + this.MaxShowPrice });
-
-      }
-    },
-    // 去登录页面
-    goLogin: function goLogin() {
-      uni.navigateTo({
-        url: '/pages/login/login?ProductId=' + this.ProductId });
-
-    },
-    // 获取详情内容
-    GetProductByID: function GetProductByID() {var _this3 = this;
-      this.$http.post('/api/WeiXinApplet.ashx', {
-        action: 'GetProductByID',
-        productId: this.ProductId }).
-      then(function (res) {
-        // console.log(res)
-        if (res.data.status == true) {
-          _this3.details = res.data.Data;
-          _this3.MaxShowPrice = res.data.Data.MaxShowPrice;
-          _this3.textVal = res.data.Data.Description;
-          console.log(_this3.textVal);
-          // 线路特色
-          // this.textVal = res.data.Data.Description
-        }
-      });
-    },
-    // 获取行程介绍的内容
-    GetProductTripByProductID: function GetProductTripByProductID() {var _this4 = this;
-      this.$http.post('/api/WeiXinApplet.ashx', {
-        action: 'GetProductTripByProductID',
-        productId: this.ProductId }).
-      then(function (res) {
-        // console.log(res)
-        if (res.data.status == true) {
-          _this4.tripIntroduce = res.data.Data.Data;
-        }
-      });
-    },
-    // 拨打号码
-    goMakePhoneCall: function goMakePhoneCall() {
-      uni.switchTab({
-        url: '/pages/contact/contact' });
-
-    } },
-
-  computed: {
-    isOpenid: function isOpenid() {
-      this.phoneNumber = uni.getStorageSync('phoneNumber');
+
+
+
+
+
+
+var _agreement = __webpack_require__(/*! ../api/agreement */ 130); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 245));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniPopup: uniPopup }, data: function data() {return { // openid
+      openid: null, // 手机号码
+      phoneNumber: null, // 线路特色富文本的内容
+      textVal: '<h1>这是富文本内容</h1>', // 传递过来的 页面详情的 id
+      ProductId: '', // 图文详情
+      details: '', // 行程介绍
+      tripIntroduce: '', // 退订规则
+      refundRule: '' };}, methods: { // 判断是否登录了 登录了下单 未去登录页面
+    getLogin: function getLogin() {var _this = this;uni.login({ provider: 'weixin', success: function success(res) {var code = res.code;_this.$http.post('/api/WeiXinApplet.ashx', { action: "Login", code: code, ReferralUserId: uni.getStorageSync('ReferralUserId') }).then(function (res) {if (res.data.status == 'true') {uni.setStorageSync('openid', res.data.openid);uni.setStorageSync('session_key', res.data.session_key);uni.setStorageSync('UserId', res.data.UserId);if (res.data.UserId) {_this.getUser();}} else {uni.showToast({ title: '获取信息异常，请稍后重新操作！', duration: 2000, icon: 'none' });}});} });}, // 获取用户信息
+    getUser: function getUser() {var _this2 = this;uni.getUserInfo({ provider: 'weixin', success: function success(res) {if (res.errMsg == 'getUserInfo:ok') {uni.setStorageSync('avatarUrl', res.userInfo.avatarUrl);uni.setStorageSync('nickName', res.userInfo.nickName);_this2.$http.post('/api/WeiXinApplet.ashx', { action: 'UserBindInfo', UserId: uni.getStorageSync('UserId'), nickName: res.userInfo.nickName, gender: res.userInfo.gender, avatarUrl: res.userInfo.avatarUrl }).then(function (res) {if (res.data.status == 'true') {uni.navigateTo({ url: '/pages/login/login?ProductId=' + _this2.ProductId });}});}} });}, // 打开弹出框
+    open: function open() {// 如果手机号码为空 打开弹框
+      if (this.phoneNumber == '') {this.$refs.popup.open();} else {// 去选择出行时间 / 人数页面
+        uni.navigateTo({ url: '/pages/choice/choice?productId=' + this.ProductId + '&MaxShowPrice=' + this.MaxShowPrice });}}, // 去登录页面
+    goLogin: function goLogin() {uni.navigateTo({ url: '/pages/login/login?ProductId=' + this.ProductId });}, // 获取详情内容
+    GetProductByID: function GetProductByID() {var _this3 = this;this.$http.post('/api/WeiXinApplet.ashx', { action: 'GetProductByID', productId: this.ProductId }).then(function (res) {console.log(res);if (res.data.status == true) {_this3.details = res.data.Data;_this3.MaxShowPrice = res.data.Data.MaxShowPrice; // 线路特色
+          _this3.textVal = res.data.Data.Description; // 获取退款规则
+          var refundRulesGroupID = res.data.Data.RefundRulesGroupID;var result = { action: 'GetRefundRules', RefundRulesGroupID: refundRulesGroupID };(0, _agreement.GetRefundRules)(result).then(function (res) {_this3.refundRule = res.data.Data;});}});}, // 获取行程介绍的内容
+    GetProductTripByProductID: function GetProductTripByProductID() {var _this4 = this;this.$http.post('/api/WeiXinApplet.ashx', { action: 'GetProductTripByProductID', productId: this.ProductId }).then(function (res) {console.log(res);if (res.data.status == true) {_this4.tripIntroduce = res.data.Data.Data;}});}, // 拨打号码
+    goMakePhoneCall: function goMakePhoneCall() {uni.switchTab({ url: '/pages/contact/contact' });} }, // 分享
+  onShareAppMessage: function onShareAppMessage(res) {var UserId = uni.getStorageSync('UserId');if (res.from === 'button') {// 来自页面内分享按钮
+      return { title: this.details.ProductName, path: '/pages/contentDetails/contentDetails?UserId=' + UserId + '&ProductId=' + this.ProductId };} else {return { title: this.details.ProductName, path: '/pages/contentDetails/contentDetails?UserId=' + UserId + '&ProductId=' + this.ProductId };}}, computed: { isOpenid: function isOpenid() {this.phoneNumber = uni.getStorageSync('phoneNumber');
       this.openid = uni.getStorageSync('openid');
       if (this.openid == '') {
+        return true;
+      }
+      return false;
+    },
+    isUserId: function isUserId() {
+      if (uni.getStorageSync('UserId')) {
         return true;
       }
       return false;
@@ -401,6 +442,9 @@ __webpack_require__.r(__webpack_exports__);
 
   onLoad: function onLoad(options) {
     this.ProductId = options.ProductId;
+    if (options.UserId) {
+      uni.setStorageSync('ReferralUserId', options.UserId);
+    }
     // if (this.ProductId != undefined) {
     // 获取详情内容
     this.GetProductByID();

@@ -1,6 +1,4 @@
 {
   "navigationBarTitleText": "权利声明",
-  "usingComponents": {
-    "share-button": "/components/shareButton/shareButton"
-  }
+  "usingComponents": {}
 }

@@ -5,13 +5,13 @@
           v-for="(item, index) in tabsList"
           :key="index">
       <view class="list-left">
-        <view class="left-title">{{item.ProductName}}</view>
+        <view class="left-title">{{ item.ProductName }}</view>
         <view class="left-content">
           <image :src="item.ThumbnailUrl60"></image>
           <view class="content-text">
             <!-- <view>10人团</view> -->
-            <view>{{item.OpenDate}} 出发</view>
-            <view class="price">¥{{item.MinShowPrice}}</view>
+            <view>{{ item.OpenDate }} 出发</view>
+            <view class="price">¥{{ item.Amount }}</view>
           </view>
         </view>
       </view>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { GetProductOrderListByPage } from '../api/agreement'
 export default {
   data () {
     return {
@@ -38,22 +39,20 @@ export default {
   },
   methods: {
     // 获取订单数据
-    GetProductOrderListByPage () {
-      this.$http
-        .post('/api/WeiXinApplet.ashx', {
-          action: 'GetProductOrderListByPage',
-          OrderStatus: 2,
-          userID: uni.getStorageSync('UserId'),
-        })
-        .then((res) => {
-          console.log(res)
-          if (res.data.status == true) {
-            res.data.Data.Data.forEach((item, index) => {
-              item.OpenDate = item.OpenDate.split(' ')[0]
-            })
-            this.tabsList = res.data.Data.Data
-          }
-        })
+    getOrderList () {
+      var result = {
+        action: 'GetProductOrderListByPage',
+        OrderStatus: 1,
+        userID: uni.getStorageSync('UserId'),
+      }
+      GetProductOrderListByPage(result).then((res) => {
+        if (res.data.status == true) {
+          res.data.Data.Data.forEach((item, index) => {
+            item.OpenDate = item.OpenDate.split(' ')[0]
+          })
+          this.tabsList = res.data.Data.Data
+        }
+      })
     },
     // 去图文详情页面
     goCalendar () {
@@ -64,7 +63,7 @@ export default {
   },
   onLoad () {
     // 获取订单数据
-    this.GetProductOrderListByPage()
+    this.getOrderList()
   },
   computed: {
     isFlag () {

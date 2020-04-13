@@ -5,3 +5,39 @@ import {
 export const GetSysContentByID = (params) => {
   return http.post('/api/WeiXinApplet.ashx', params)
 }
+// 获取订单的数据
+export const GetProductOrderListByPage = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取订单详情的接口
+export const GetOrderDetails = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取游客信息
+export const GetProductOrderUserList = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取订单预订人详情内容
+export const getOrderReservationsDetails = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 退款接口
+export const RefundOrder = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取订单总额
+export const GetOrderAmount = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取退款金额
+export const GetRefundOrderAmount = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取退款规则
+export const GetRefundRules = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}
+// 获取推荐列表
+export const GetReferralUserResultsByPage = (params) => {
+  return http.post('/api/WeiXinApplet.ashx', params)
+}

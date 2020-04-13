@@ -160,19 +160,103 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
-    return {};
-
+    return {
+      // 控制发送以及剩余时间的切换显示
+      isLogin: true,
+      // 定时器命名
+      timer: "",
+      // 倒计时内容
+      num: 60,
+      // 公司名称
+      companyName: '',
+      // 姓名
+      uname: '',
+      // 电话
+      phone: '' };
 
   },
   methods: {
     // 去确认订单页面
     goConfirmationOrder: function goConfirmationOrder() {
-      uni.navigateTo({
-        url: '/pages/confirmationOrder/confirmationOrder' });
+      if (this.companyName != '' && this.uname != '' && this.phone.length == 11) {
+        uni.showToast({
+          title: '通过',
+          duration: 2000,
+          icon: 'none',
+          mask: true });
 
+      } else if (this.companyName == '') {
+        uni.showToast({
+          title: '公司名不能为空',
+          duration: 2000,
+          icon: 'none',
+          mask: true });
+
+      } else if (this.uname == '') {
+        uni.showToast({
+          title: '姓名不能为空',
+          duration: 2000,
+          icon: 'none',
+          mask: true });
+
+      } else if (this.phone.length != 11) {
+        uni.showToast({
+          title: '请输入十一位的手机号码',
+          duration: 2000,
+          icon: 'none',
+          mask: true });
+
+      }
+      // uni.navigateTo({
+      //   url: '/pages/confirmationOrder/confirmationOrder'
+      // })
+    },
+    // 获取验证码
+    getCode: function getCode() {
+      this.isLogin = false;
+      this.countDown();
+    },
+    // 倒计时效果
+    countDown: function countDown() {var _this = this;
+      // 获取倒计时的初始值
+      var time = this.num;
+      // 为定时器命名
+      this.timer = setInterval(function () {
+        // 每隔一秒 num 就减一 实现同步
+        time--;
+        // 然后把 num 存进 data, 让用户知道时间在倒记着
+        _this.num = time;
+        if (time == 0) {
+          clearInterval(_this.timer);
+          // 当时间为 0 的时候 隐藏定时器的内容 显示发送的内容 并且为定时器重新赋值
+          _this.isLogin = true;
+          _this.num = 60;
+        }
+      }, 1000);
     },
     // 拨打号码
     goMakePhoneCall: function goMakePhoneCall() {

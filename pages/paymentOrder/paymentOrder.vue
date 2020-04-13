@@ -3,7 +3,7 @@
   <view>
     <view class="head">
       <view>应付金额</view>
-      <view class="num">¥498</view>
+      <view class="num">¥{{Amount}}</view>
     </view>
     <view class="footer"
           @click="goPaymentResult">微信支付</view>
@@ -15,7 +15,9 @@ export default {
   data () {
     return {
       // 支付凭证
-      PayVoucherNumber: ''
+      PayVoucherNumber: '',
+      // 订单总额
+      Amount: ''
     }
   },
   methods: {
@@ -44,21 +46,27 @@ export default {
             }
           },
           fail: (err) => {
-            uni.reLaunch({
-              url: '/pages/orderList/orderList?active=' + 0
-            })
+            uni.showToast({
+              title: '支付失败',
+              duration: 2000,
+              icon: 'none',
+              mask: true,
+              success: () => {
+                setTimeout(() => {
+                  uni.reLaunch({
+                    url: '/pages/orderList/orderList?active=' + 0
+                  })
+                }, 1500)
+              }
+            });
           }
         });
       })
-      // uni.reLaunch({
-      //   url: '/pages/paymentResult/paymentResult'
-      // });
     }
   },
   onLoad (options) {
-    console.log(options)
     this.PayVoucherNumber = options.PayVoucherNumber
-    console.log(this.PayVoucherNumber)
+    this.Amount = options.Amount
   }
 }
 </script>

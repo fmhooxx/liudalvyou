@@ -1,36 +1,39 @@
 <template>
   <!-- 知识产权声明 -->
-  <view>
-    11
+  <view class="box">
+    <rich-text :nodes=content
+               style="font-size: 30rpx;"></rich-text>
   </view>
 </template>
 
 <script>
 import { GetSysContentByID } from '../api/agreement'
 export default {
-  data() {
+  data () {
     return {
       content: '',
     }
   },
   methods: {
-    getAgreement() {
+    getAgreement () {
       var result = {
         action: 'GetSysContentByID',
-        ID: 3,
+        ID: 4,
       }
       GetSysContentByID(result).then((res) => {
-        if (res.data.status == true) {
-          this.content = res.data.Data
-          console.log(this.content)
-        }
+        this.content = res.data.Data.Contents
       })
     },
   },
-  onLoad() {
+  onLoad () {
     this.getAgreement()
   },
 }
 </script>
 
-<style></style>
+<style>
+.box {
+  padding: 30rpx;
+  background-color: #fff;
+}
+</style>

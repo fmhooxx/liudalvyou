@@ -96,7 +96,7 @@ http.interceptor.response((response) => {
     uni.hideLoading();
   } else {
     uni.showToast({
-      title: '网络出错,请;联系管理员',
+      title: '网络出错;请联系管理员',
       duration: 2000,
       icon: 'none',
       mask: true

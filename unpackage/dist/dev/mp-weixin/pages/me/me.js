@@ -95,7 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   login: function() {
-    return __webpack_require__.e(/*! import() | components/login/login */ "components/login/login").then(__webpack_require__.bind(null, /*! @/components/login/login.vue */ 243))
+    return __webpack_require__.e(/*! import() | components/login/login */ "components/login/login").then(__webpack_require__.bind(null, /*! @/components/login/login.vue */ 252))
   }
 }
 var render = function() {
@@ -135,7 +135,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var login = function login() {__webpack_require__.e(/*! require.ensure | components/login/login */ "components/login/login").then((function () {return resolve(__webpack_require__(/*! ../../components/login/login */ 243));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var login = function login() {__webpack_require__.e(/*! require.ensure | components/login/login */ "components/login/login").then((function () {return resolve(__webpack_require__(/*! ../../components/login/login */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -221,6 +221,16 @@ __webpack_require__.r(__webpack_exports__);
         this.$refs.login.loginOpen();
       }
     },
+    // 去推荐列表页面
+    goRecommend: function goRecommend() {
+      if (uni.getStorageSync('openid')) {
+        uni.navigateTo({
+          url: '/pages/recommendList/recommendList' });
+
+      } else {
+        this.$refs.login.loginOpen();
+      }
+    },
     // 去用户协议与声明页面
     goAgreement: function goAgreement() {
       uni.navigateTo({
@@ -242,7 +252,6 @@ __webpack_require__.r(__webpack_exports__);
               mask: true });
 
             _this.nickName = '';
-            console.log(_this.nickName);
           } else if (res.cancel) {
           }
         } });
@@ -253,21 +262,6 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: '/pages/setUp/setUp' });
 
-    },
-    // 分享
-    goShare: function goShare() {
-      if (uni.getStorageSync('UserId')) {
-        uni.share({
-          provider: "weixin",
-          title: '分享',
-          href: '/pages/me/me?UserId=' + uni.getStorageSync('UserId'),
-          success: function success(res) {
-            console.log('成功', res);
-          } });
-
-      } else {
-        this.$refs.popup.open();
-      }
     } },
 
   computed: {

@@ -132,6 +132,11 @@
             "style": {
                 "navigationBarTitleText": "权利声明"
             }
+        }, {
+            "path": "pages/recommendList/recommendList",
+            "style": {
+                "navigationBarTitleText": "推荐"
+            }
         }
     ],
     "globalStyle": {

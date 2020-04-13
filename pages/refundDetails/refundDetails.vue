@@ -3,18 +3,18 @@
   <view class="confirmation-order">
     <view class="order-head">
       <!-- 头部区域 -->
-      <view class="head">宁波象山: 一日豪华游 东方不老岛、海山仙子岛，享受自然原原生态</view>
+      <view class="head">{{orderDetails.ProductName}}</view>
       <view class="order-common order-num">
         退款原因:
-        <text class="reason">阿水答复哈是的撒很大斯达舒阿点哈偶很多事打电话你说的等哈的还是爱德华萨达萨达撒萨达萨达撒发生过大点击</text>
+        <text class="reason">{{orderDetails.RefundReason}}</text>
       </view>
       <view class="order-common">
         申请时间:
-        <text>{{time}}</text>
+        <text>{{orderDetails.ApplyRefundTime}}</text>
       </view>
       <view class="order-common">
         退款金额:
-        <text>¥299</text>
+        <text>¥{{refundAmount}}</text>
       </view>
     </view>
     <!-- 预定人信息 -->
@@ -22,23 +22,26 @@
       <view class="order-title">预订人信息</view>
       <view class="order-content">
         <text>预订人</text>
-        <text class="common-text">雄登康</text>
+        <text class="common-text">{{orderDetails.Contact}}</text>
       </view>
       <view class="order-content">
         <text>手机号</text>
-        <text class="common-text">17812345689</text>
+        <text class="common-text">{{orderDetails.ContactPhone}}</text>
       </view>
     </view>
     <!-- 游客信息 -->
     <view class="order-head">
       <view class="order-title">游客信息</view>
-      <view class="order-content">
-        <text>姓名</text>
-        <text class="common-text">雄登康(成人)</text>
-      </view>
-      <view class="order-content">
-        <text>身份证</text>
-        <text class="common-text">342425178564852115</text>
+      <view v-for="(item, index) in tourist"
+            :key="index">
+        <view class="order-content">
+          <text>姓名</text>
+          <text class="common-text">{{item.UserName}}</text>
+        </view>
+        <view class="order-content">
+          <text>身份证</text>
+          <text class="common-text">{{item.IDCard}}</text>
+        </view>
       </view>
     </view>
     <!-- 退款进程 -->
@@ -47,65 +50,76 @@
       <view class="refun-footer-state">退款中</view>
     </view>
     <view class="shelter"></view>
-    <view class="next">
-      <view class="next-one">
+    <view class="next"
+          @click="goContact">
+      <!-- <view class="next-one">
         <image src="/static/images/zixun.png"></image>
-      </view>
+      </view> -->
       <view style="line-height: 50rpx;">联系客服</view>
     </view>
   </view>
 </template>
 
 <script>
+import { GetProductOrderUserList, getOrderReservationsDetails } from '../api/agreement'
 export default {
   data () {
     return {
-      // 当前的时间、日期
-      time: null,
-      // 支付凭证
-      voucherNumber: ""
+      // 订单 id
+      OrderID: '',
+      // 订单详情
+      orderDetails: '',
+      // 游客信息
+      tourist: '',
+      // 退款金额
+      refundAmount: ''
     };
   },
   methods: {
-    // 去支付订单页面
-    goPaymentOrder () {
-      uni.navigateTo({
-        url: "/pages/paymentOrder/paymentOrder"
+    // 获取当前游客的数据
+    getOrder () {
+      var result = {
+        action: 'GetProductOrderUserList',
+        userID: uni.getStorageSync('UserId'),
+        OrderID: this.OrderID
+      }
+      GetProductOrderUserList(result).then(res => {
+        console.log(res)
+        if (res.data.status == true) {
+          this.tourist = res.data.Data
+        }
+      })
+    },
+    // 获取订单预订人详情内容
+    getOrderDetails () {
+      var result = {
+        action: 'GetProductOrderListByPage',
+        userID: uni.getStorageSync('UserId'),
+        OrderID: this.OrderID
+      }
+      getOrderReservationsDetails(result).then(res => {
+        console.log(res)
+        if (res.data.status == true) {
+          this.orderDetails = res.data.Data.Data[0]
+        }
+      })
+    },
+    // 去客服页面
+    goContact () {
+      uni.switchTab({
+        url: '/pages/contact/contact'
       });
-    },
-    // 获取当前的日期
-    getTime () {
-      var date = new Date(),
-        year = date.getFullYear(),
-        month = date.getMonth() + 1,
-        day = date.getDate(),
-        hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours(),
-        minute =
-          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(),
-        second =
-          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      month >= 1 && month <= 9 ? (month = "0" + month) : "";
-      day >= 0 && day <= 9 ? (day = "0" + day) : "";
-      var timer =
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
-      this.time = timer;
-
-      return timer;
-    },
+    }
   },
   onLoad (options) {
-    this.voucherNumber = options.voucherNumber;
-    this.getTime();
+    this.OrderID = options.OrderID
+    this.refundAmount = options.refundAmount
+    if (this.OrderID != undefined) {
+      // 获取当前游客的数据
+      this.getOrder(),
+        // 获取订单预订人详情内容
+        this.getOrderDetails()
+    }
   }
 };
 </script>

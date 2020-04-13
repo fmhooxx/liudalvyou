@@ -27,7 +27,8 @@
     "pages/agreementService/agreementService",
     "pages/agreementPrivacy/agreementPrivacy",
     "pages/agreementKnowledge/agreementKnowledge",
-    "pages/agreementRight/agreementRight"
+    "pages/agreementRight/agreementRight",
+    "pages/recommendList/recommendList"
   ],
   "subPackages": [],
   "window": {
@@ -69,5 +70,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap20.json"
+  "sitemapLocation": "sitemap21.json"
 }

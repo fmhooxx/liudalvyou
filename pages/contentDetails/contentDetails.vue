@@ -32,7 +32,7 @@
             v-for="(item, index) in tripIntroduce"
             :key="index">
         <view class="place">{{item.Name}}</view>
-        <view>集合地点: <text>{{item.jiheshijian}}</text></view>
+        <view>集合时间: <text>{{item.jiheshijian}}</text></view>
         <view>集合地点: <text>{{item.jihedidian}}</text></view>
         <view>具体行程:</view>
         <view>{{item.jutixingcheng}}</view>
@@ -73,7 +73,8 @@
       <view class="notice-title">购买须知</view>
       <view class="cost-contain">退订政策</view>
       <view class="cost-content">
-        <view>{{details.tuidingzhengce}}</view>
+        <view v-for="(item, index) in refundRule"
+              :key="index">{{index + 1}}、{{item.Contentss}}</view>
         <!-- <view>1.在行程开始前7天以外取消订单，退还费用100%；</view>
 				<view>2.在行程开始前3天以外7天以内取消，退还费用50%；</view>
 				<view>3.在行程开始前3天以内取消订单，费用不予退还。</view>
@@ -123,10 +124,19 @@
               @click="goLogin">去登录</view>
       </view>
     </uniPopup>
+    <!-- 分享区域 -->
+    <view class="share-button">
+      <button class="btn"
+              open-type="share">
+        <image class="img"
+               src="/static/images/share.png"></image>
+      </button>
+    </view>
   </view>
 </template>
 
 <script>
+import { GetRefundRules } from '../api/agreement'
 import uniPopup from "@/components/uni-popup/uni-popup.vue"
 export default {
   components: {
@@ -145,7 +155,9 @@ export default {
       // 图文详情
       details: '',
       // 行程介绍
-      tripIntroduce: ''
+      tripIntroduce: '',
+      // 退订规则
+      refundRule: ''
     }
   },
   methods: {
@@ -157,7 +169,8 @@ export default {
           var code = res.code
           this.$http.post('/api/WeiXinApplet.ashx', {
             action: "Login",
-            code: code
+            code: code,
+            ReferralUserId: uni.getStorageSync('ReferralUserId')
           }).then(res => {
             if (res.data.status == 'true') {
               uni.setStorageSync('openid', res.data.openid)
@@ -226,14 +239,21 @@ export default {
         action: 'GetProductByID',
         productId: this.ProductId
       }).then(res => {
-        // console.log(res)
+        console.log(res)
         if (res.data.status == true) {
           this.details = res.data.Data
           this.MaxShowPrice = res.data.Data.MaxShowPrice
-          this.textVal = res.data.Data.Description
-          console.log(this.textVal)
           // 线路特色
-          // this.textVal = res.data.Data.Description
+          this.textVal = res.data.Data.Description
+          // 获取退款规则
+          var refundRulesGroupID = res.data.Data.RefundRulesGroupID
+          var result = {
+            action: 'GetRefundRules',
+            RefundRulesGroupID: refundRulesGroupID
+          }
+          GetRefundRules(result).then(res => {
+            this.refundRule = res.data.Data
+          })
         }
       })
     },
@@ -243,7 +263,7 @@ export default {
         action: 'GetProductTripByProductID',
         productId: this.ProductId
       }).then(res => {
-        // console.log(res)
+        console.log(res)
         if (res.data.status == true) {
           this.tripIntroduce = res.data.Data.Data
         }
@@ -256,6 +276,21 @@ export default {
       });
     }
   },
+  // 分享
+  onShareAppMessage (res) {
+    var UserId = uni.getStorageSync('UserId')
+    if (res.from === 'button') {// 来自页面内分享按钮
+      return {
+        title: this.details.ProductName,
+        path: '/pages/contentDetails/contentDetails?UserId=' + UserId + '&ProductId=' + this.ProductId
+      }
+    } else {
+      return {
+        title: this.details.ProductName,
+        path: '/pages/contentDetails/contentDetails?UserId=' + UserId + '&ProductId=' + this.ProductId
+      }
+    }
+  },
   computed: {
     isOpenid () {
       this.phoneNumber = uni.getStorageSync('phoneNumber')
@@ -264,10 +299,19 @@ export default {
         return true
       }
       return false
+    },
+    isUserId () {
+      if (uni.getStorageSync('UserId')) {
+        return true
+      }
+      return false
     }
   },
   onLoad (options) {
     this.ProductId = options.ProductId
+    if (options.UserId) {
+      uni.setStorageSync('ReferralUserId', options.UserId)
+    }
     // if (this.ProductId != undefined) {
     // 获取详情内容
     this.GetProductByID()
@@ -315,9 +359,9 @@ export default {
 /* 订单相关信息 */
 .order-box {
   width: 100%;
-  height: 254rpx;
   margin-bottom: 16rpx;
   background-color: #fff;
+  box-sizing: border-box;
   padding: 26rpx 48rpx 24rpx;
 }
 
@@ -531,5 +575,23 @@ export default {
 
 .common {
   text-align: center;
+}
+.share-button {
+  position: fixed;
+  top: 30%;
+  right: 10%;
+}
+.btn {
+  width: 60rpx;
+  height: 60rpx;
+  padding: 0;
+}
+.img {
+  width: 100%;
+  height: 100%;
+}
+.btn::after {
+  width: 0;
+  height: 0;
 }
 </style>

@@ -3,25 +3,23 @@
   <view>
     <!-- 头部区域 -->
     <view class="head-box">
-      <view class="head-title">
-        宁波象山：一日豪华游 东方不老岛、海 山仙子国，享受自然原生态
-      </view>
+      <view class="head-title">{{orderDetails.ProductName}}</view>
       <view class="head-content">
         <view>
           订单编号:
-          <text>202003260000</text>
+          <text>{{orderDetails.OrderID}}</text>
         </view>
         <view>
-          下单编号:
-          <text>2020-03-26 14:00</text>
+          下单时间:
+          <text>{{orderDetails.AddedDate}}</text>
         </view>
         <view>
           出发日期:
-          <text>2020-03-28</text>
+          <text>{{orderDetails.OpenDate}}</text>
         </view>
         <view>
           商品编号:
-          <text>2345678</text>
+          <text>{{orderDetails.chanpingbianhao}}</text>
         </view>
       </view>
     </view>
@@ -32,7 +30,20 @@
                 placeholder-class="placeholder-refund"
                 auto-height
                 v-model="refundText" />
-      </view>
+      <!-- <view class="refund-box"
+            @click="choice">
+        <view class="refund-reason">
+          <view>请选择退款原因</view>
+          <image :class="isFlag == true ? 'clickRotate':''"
+                 src="../../static/images/right-arrow.png"></image>
+        </view>
+        <view></view>
+      </view> -->
+    </view>
+    <!-- 退款规则 -->
+    <view class="refund-rule">
+      <view v-for="(item, index) in refundRule" :key="index">{{index+1}}、{{item.Contentss}}</view>
+    </view>
     <!-- 退款金额 -->
     <view class="refund-price">
       <view class="refund-common">退款金额</view>
@@ -43,46 +54,67 @@
         </view>
         <view class="total">
           合计
-          <text>¥299</text>
+          <text>¥{{refundAmount}}</text>
         </view>
       </view>
     </view>
     <!-- 固定定位区域 -->
     <view class="location-copy"></view>
     <view class="location">
-      <button class="location-one" @click="goContact">
+      <button class="location-one"
+              @click="goContact">
         <view style="height: 28rpx;">
           <image src="/static/images/zixun.png"></image>
         </view>
         <view>咨询</view>
       </button>
-      <button class="location-two" @click="refund">立即退款</button>
+      <button class="location-two"
+              @click="refund">立即退款</button>
     </view>
   </view>
 </template>
 
 <script>
+import { GetOrderDetails, RefundOrder, GetRefundOrderAmount, GetRefundRules } from '../api/agreement'
 export default {
   data () {
     return {
       // 退款原因
       refundText: '',
+      // 订单详情页面
+      orderDetails: '',
+      // 订单 id
+      OrderID: '',
+      // 退款 id
+      RefundRulesGroupID: '',
+      // 退款总额,
+      refundAmount: '',
+      // 退订规则
+      refundRule: ''
     }
   },
   methods: {
     refund () {
-      uni.showModal({
-        content: '是否确定退款?',
-        confirmColor: '#4EB4A0',
-        success: (res) => {
-          if (res.confirm) {
-            uni.navigateTo({
-              url: '/pages/refundDetails/refundDetails',
-            })
-          } else if (res.cancel) {
-          }
-        },
-      })
+      if (this.refundText != '') {
+        uni.showModal({
+          content: '是否确定退款?',
+          confirmColor: '#4EB4A0',
+          success: (res) => {
+            if (res.confirm) {
+              this.getRefund()
+            } else if (res.cancel) {
+
+            }
+          },
+        })
+      } else {
+        uni.showToast({
+          title: '请输入退款原因',
+          duration: 2000,
+          icon: 'none',
+          mask: true
+        });
+      }
     },
     // 去客服页面
     goContact () {
@@ -90,7 +122,73 @@ export default {
         url: '/pages/contact/contact',
       })
     },
+    // 退款接口
+    getRefund () {
+      var result = {
+        action: 'RefundOrder',
+        OrderID: this.OrderID,
+        RefundReason: this.refundText,
+        UserID: uni.getStorageSync('UserId')
+      }
+      RefundOrder(result).then(res => {
+        if (res.data.status == 'true') {
+          uni.navigateTo({
+            url: '/pages/refundDetails/refundDetails?OrderID=' + this.OrderID + '&refundAmount=' + this.refundAmount,
+          })
+        }
+      })
+    },
+    // 获取订单中的数据
+    getOrder () {
+      var result = {
+        action: 'GetProductOrderListByPage',
+        OrderID: this.OrderID,
+        userID: uni.getStorageSync('UserId'),
+      }
+      GetOrderDetails(result).then(res => {
+        res.data.Data.Data.forEach((item, index) => {
+          item.OpenDate = item.OpenDate.split(' ')[0]
+        })
+        this.orderDetails = res.data.Data.Data[0]
+      })
+    },
+    // 获取退款金额
+    getRefundAmount () {
+      var result = {
+        action: 'GetRefundOrderAmount',
+        userID: uni.getStorageSync('UserId'),
+        OrderID: this.OrderID,
+      }
+      GetRefundOrderAmount(result).then(res => {
+        if (res.data.status == 'true') {
+          this.refundAmount = res.data.refundAmount
+        }
+      })
+    },
+    // 获取退款规则接口
+    getRule () {
+      var result = {
+        action: 'GetRefundRules',
+        RefundRulesGroupID: this.RefundRulesGroupID
+      }
+      GetRefundRules(result).then(res => {
+        this.refundRule = res.data.Data
+      })
+    }
   },
+  onLoad (options) {
+    console.log(options)
+    this.OrderID = options.OrderID
+    this.RefundRulesGroupID = options.RefundRulesGroupID
+    if (this.OrderID != undefined) {
+      // 获取订单中的数据
+      this.getOrder(),
+        // 获取退款金额
+        this.getRefundAmount()
+    }
+    // 获取退款规则接口
+    this.getRule()
+  }
 }
 </script>
 
@@ -121,6 +219,9 @@ export default {
   color: #818181;
   margin: 8rpx 0;
 }
+.head-content text {
+  margin-left: 10rpx;
+}
 /* 退款原因区域 */
 .refund {
   background-color: #fff;
@@ -143,6 +244,43 @@ export default {
   border-radius: 10rpx;
   border: 1rpx solid #bfbfbf;
   padding: 10rpx 0 10rpx 15rpx;
+}
+/* 退款原因 */
+.refund-box {
+  padding: 10rpx 15rpx 10rpx 15rpx;
+  margin-top: 20rpx;
+  width: 508rpx;
+  height: 50rpx;
+  border: 1rpx solid #979797;
+  /* box-sizing: border-box; */
+}
+.refund-reason {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.refund-reason image {
+  width: 24rpx;
+  height: 24rpx;
+  transform: rotate(90deg);
+  transition: all 1s;
+}
+.refund-reason view {
+  line-height: 50rpx;
+  font-size: 28rpx;
+  color: #c1c1c1;
+}
+.clickRotate {
+  transform: rotate(270deg) !important;
+  transition: all 1s;
+}
+/* 退款规则 */
+.refund-rule {
+  font-size: 28rpx;
+  color: #797979;
+  background-color: #fff;
+  margin: 4rpx 0;
+  padding: 19rpx 0 20rpx 50rpx;
 }
 /* 退款金额 */
 .refund-price {

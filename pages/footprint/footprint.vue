@@ -5,17 +5,17 @@
           v-for="(item, index) in tabsList"
           :key="index">
       <view class="list-left">
-        <view class="left-title">{{item.ProductName}}</view>
+        <view class="left-title">{{ item.ProductName }}</view>
         <view class="left-content">
           <image :src="item.ThumbnailUrl60"></image>
           <view class="content-text">
             <!-- <view>10人团</view> -->
-            <view>{{item.OpenDate}} 出发</view>
-            <view>编号: <text>{{item.chanpingbianhao}}</text></view>
+            <view>{{ item.OpenDate }} 出发</view>
+            <view>编号: <text>{{ item.chanpingbianhao }}</text></view>
           </view>
         </view>
       </view>
-      <view class="price">¥{{item.MinShowPrice}}</view>
+      <view class="price">¥{{ item.Amount }}</view>
     </view>
     <view class="footer"
           v-if="isFlag">
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { GetProductOrderListByPage } from '../api/agreement'
 export default {
   data () {
     return {
@@ -34,33 +35,31 @@ export default {
   },
   methods: {
     // 获取订单数据
-    GetProductOrderListByPage () {
-      this.$http
-        .post('/api/WeiXinApplet.ashx', {
-          action: 'GetProductOrderListByPage',
-          OrderStatus: 2,
-          userID: uni.getStorageSync('UserId'),
-        })
-        .then((res) => {
-          console.log(res)
-          if (res.data.status == true) {
-            res.data.Data.Data.forEach((item, index) => {
-              item.OpenDate = item.OpenDate.split(' ')[0]
-            })
-            this.tabsList = res.data.Data.Data
-          }
-        })
-    },
-    // 去图文详情页面
-    goCalendar () {
-      uni.navigateTo({
-        url: '/pages/calendar/calendar',
+    getOrderList () {
+      var result = {
+        action: 'GetProductOrderListByPage',
+        OrderStatus: 2,
+        userID: uni.getStorageSync('UserId'),
+      }
+      GetProductOrderListByPage(result).then((res) => {
+        if (res.data.status == true) {
+          res.data.Data.Data.forEach((item, index) => {
+            item.OpenDate = item.OpenDate.split(' ')[0]
+          })
+          this.tabsList = res.data.Data.Data
+        }
       })
     },
+    // 去图文详情页面
+    // goCalendar() {
+    //   uni.navigateTo({
+    //     url: '/pages/calendar/calendar',
+    //   })
+    // },
   },
   onLoad () {
     // 获取订单数据
-    this.GetProductOrderListByPage()
+    this.getOrderList()
   },
   computed: {
     isFlag () {
@@ -72,7 +71,6 @@ export default {
   },
 }
 </script>
-
 
 <style>
 .list {

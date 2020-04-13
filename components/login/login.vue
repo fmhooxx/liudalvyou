@@ -1,6 +1,7 @@
 <template>
   <view>
-    <uniPopup ref="popup" type="center">
+    <uniPopup ref="popup"
+              type="center">
       <view class="popup">
         <view class="popup-title">您还未登录</view>
         <view class="popup-text">登录后可享受完整服务</view>
@@ -9,7 +10,9 @@
         </view>
         <view class="popup-content">
           <view @click="loginClose">暂不登录</view>
-          <button class="btn" open-type="getUserInfo" @getuserinfo="goLogin">
+          <button class="btn"
+                  open-type="getUserInfo"
+                  @getuserinfo="goLogin">
             立即登录
           </button>
         </view>
@@ -24,20 +27,20 @@ export default {
   components: {
     uniPopup,
   },
-  data() {
+  data () {
     return {}
   },
   methods: {
     // 打开弹窗
-    loginOpen() {
+    loginOpen () {
       this.$refs.popup.open()
     },
     // 关闭弹窗
-    loginClose() {
+    loginClose () {
       this.$refs.popup.close()
     },
     // 登录
-    goLogin() {
+    goLogin () {
       uni.login({
         provider: 'weixin',
         success: (res) => {
@@ -46,7 +49,7 @@ export default {
             .post('/api/WeiXinApplet.ashx', {
               action: 'Login',
               code: code,
-              // ReferralUserId: uni.getStorageSync('UserId')
+              ReferralUserId: uni.getStorageSync('ReferralUserId')
             })
             .then((res) => {
               console.log(res)
@@ -68,7 +71,7 @@ export default {
         },
       })
     },
-    getUser() {
+    getUser () {
       uni.getUserInfo({
         provider: 'weixin',
         success: (res) => {

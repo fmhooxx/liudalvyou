@@ -173,12 +173,12 @@ var _default =
       // 首页数据
       list: [],
       swiperImg: [
-      '../../static/images/index-1.jfif',
-      '../../static/images/index-2.jfif',
-      '../../static/images/index-3.jfif',
-      '../../static/images/index-4.jfif',
-      '../../static/images/index-5.jfif',
-      '../../static/images/index-6.jfif'] };
+      '../../static/images/index-1.jpg',
+      '../../static/images/index-2.jpg',
+      '../../static/images/index-3.jpg',
+      '../../static/images/index-4.png',
+      '../../static/images/index-5.jpg',
+      '../../static/images/index-6.jpg'] };
 
 
   },

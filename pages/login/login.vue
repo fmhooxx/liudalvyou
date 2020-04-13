@@ -41,7 +41,7 @@
                 v-if="isLogin"
                 @click="getCode">获取验证码</view>
           <view class="num"
-                v-else>{{ num }}秒重新获取</view>
+                v-else>{{ num }}秒后重新获取</view>
         </view>
         <button class="btn"
                 @click="determine">登录</button>
@@ -164,7 +164,8 @@ export default {
                 var code = res.code
                 this.$http.post('/api/WeiXinApplet.ashx', {
                   action: "Login",
-                  code: code
+                  code: code,
+                  ReferralUserId: uni.getStorageSync('ReferralUserId')
                 }).then(res => {
                   console.log(res)
                   if (res.data.status == 'true') {

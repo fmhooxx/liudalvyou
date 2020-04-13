@@ -19,8 +19,8 @@
       <view @click="goTrip">我的行程</view>
       <view @click="goFootprint">我的足迹</view>
       <view @click="goAgreement">用户协议</view>
+      <view @click="goRecommend">推荐列表</view>
       <view @click="goSetUp">设置</view>
-      <view @click="goShare">分享</view>
     </view>
     <view class="sign-out"
           @click="signOut"
@@ -84,6 +84,16 @@ export default {
         this.$refs.login.loginOpen()
       }
     },
+    // 去推荐列表页面
+    goRecommend () {
+      if (uni.getStorageSync('openid')) {
+        uni.navigateTo({
+          url: '/pages/recommendList/recommendList'
+        });
+      } else {
+        this.$refs.login.loginOpen()
+      }
+    },
     // 去用户协议与声明页面
     goAgreement () {
       uni.navigateTo({
@@ -105,7 +115,6 @@ export default {
               mask: true
             });
             this.nickName = ''
-            console.log(this.nickName)
           } else if (res.cancel) {
           }
         }
@@ -117,21 +126,6 @@ export default {
         url: '/pages/setUp/setUp'
       });
     },
-    // 分享
-    goShare () {
-      if (uni.getStorageSync('UserId')) {
-        uni.share({
-          provider: "weixin",
-          title: '分享',
-          href: '/pages/me/me?UserId=' + uni.getStorageSync('UserId'),
-          success: res => {
-            console.log('成功', res)
-          }
-        })
-      } else {
-        this.$refs.popup.open()
-      }
-    }
   },
   computed: {
     isnickName () {
@@ -206,79 +200,4 @@ export default {
 }
 
 /* 登录的弹框 */
-.popup {
-  /* width: 500rpx;
-		height: 550rpx; */
-  width: 440rpx;
-  height: 465rpx;
-  border-radius: 10rpx;
-  background-color: #fff;
-  padding: 34rpx 33rpx;
-  box-sizing: border-box;
-}
-
-.popup view {
-  text-align: center;
-}
-
-.popup-img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 25rpx;
-}
-
-.popup-img image {
-  width: 180rpx;
-  height: 180rpx;
-  border-radius: 50%;
-}
-
-.popup-title {
-  font-size: 30rpx;
-  color: #3b3b3b;
-}
-
-.popup-text {
-  font-size: 26rpx;
-  color: #a0a0a0;
-  margin: 20rpx 0 40rpx 0;
-}
-
-.popup-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.btn {
-  padding: 0;
-  line-height: 58rpx;
-  color: #fff;
-  background-color: #4eb4a0;
-  font-size: 30rpx;
-  width: 160rpx;
-  height: 58rpx;
-  line-height: 58rpx;
-  text-align: center;
-  border-radius: 30rpx;
-  border: 1rpx solid #4eb4a0;
-}
-
-.btn::after {
-  width: 0;
-  height: 0;
-}
-
-.popup-content :nth-child(1) {
-  color: #626262;
-  background-color: #fff;
-  font-size: 30rpx;
-  width: 160rpx;
-  height: 58rpx;
-  line-height: 58rpx;
-  text-align: center;
-  border-radius: 30rpx;
-  border: 1rpx solid #d7d7d7;
-}
 </style>
